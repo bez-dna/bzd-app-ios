@@ -1,6 +1,6 @@
 import XCTest
 
-final class bezdnaUITestsLaunchTests: XCTestCase {
+final class BezdnaUITestsLaunchTests: XCTestCase {
 
   override class var runsForEachTargetApplicationUIConfiguration: Bool {
     true

@@ -2,7 +2,7 @@ import SwiftData
 import SwiftUI
 
 @main
-struct bezdnaApp: App {
+struct BezdnaApp: App {
   var sharedModelContainer: ModelContainer = {
     let schema = Schema([
       Item.self
