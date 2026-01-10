@@ -74,6 +74,7 @@
 				69424C572F11666B0072A033 /* bezdnaUITests */,
 				69424C3E2F1166690072A033 /* Products */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
 		};
 		69424C3E2F1166690072A033 /* Products */ = {

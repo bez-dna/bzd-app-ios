@@ -1,19 +1,15 @@
 import SwiftUI
 
 struct UsersView: View {
-  @Environment(AppNav.self) var nav
+  @Environment(AppState.self) private var state
 
   var body: some View {
     VStack {
       Text("USERS")
-
-      Button("TO MESSAGES") {
-        nav.flow = .messages
-      }
     }
   }
 }
 
 #Preview {
-  UsersView().environment(AppNav())
+  UsersView().environment(AppState())
 }

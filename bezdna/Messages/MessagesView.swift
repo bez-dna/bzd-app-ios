@@ -1,22 +1,28 @@
 import SwiftUI
 
 struct MessagesView: View {
-  @Environment(AppNav.self) private var nav
+  @Environment(AppState.self) private var state
   @State private var txt = ""
 
   var body: some View {
     VStack {
-      Text("MESSAGES")
-
-      Button("TO USERS") {
-        nav.flow = .users
+      if (!state.isAuth) {
+        Text("AUTH PLEASE")
+        
+        Button("TO AUTH") {
+          state.nav.flow = .auth
+        }
+      } else {
+        Text("MESSAGES")
+        
+        Button("TO USERS") {
+          state.nav.flow = .main
+        }
       }
-
-      TextField("QQ", text: $txt)
     }
   }
 }
 
 #Preview {
-  MessagesView().environment(AppNav())
+  MessagesView().environment(AppState())
 }

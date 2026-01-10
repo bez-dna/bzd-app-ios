@@ -1,25 +1,14 @@
 import SwiftUI
 
 struct AuthView: View {
-  var body: some View {
-    VStack {
-      Text("AUTH")
-    }
-  }
-}
+  @State private var store = AuthStore.shared
 
-struct ColorDetail: View {
-  var color: Color
-  var text: String
-
+  
   var body: some View {
-    VStack {
-      Text(text)
-      color
-    }
+    JoinView()
   }
 }
 
 #Preview {
-  AuthView()
+  AuthView().environment(AppState())
 }
