@@ -7,7 +7,7 @@ struct AppView: View {
     switch state.nav.flow {
     case .auth:
       AuthView()
-      
+
     case .main:
       MessagesView()
     }

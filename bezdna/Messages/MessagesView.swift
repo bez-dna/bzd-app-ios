@@ -6,15 +6,15 @@ struct MessagesView: View {
 
   var body: some View {
     VStack {
-      if (!state.isAuth) {
+      if !state.isAuth {
         Text("AUTH PLEASE")
-        
+
         Button("TO AUTH") {
           state.nav.flow = .auth
         }
       } else {
         Text("MESSAGES")
-        
+
         Button("TO USERS") {
           state.nav.flow = .main
         }

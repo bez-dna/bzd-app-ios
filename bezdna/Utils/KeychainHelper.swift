@@ -2,17 +2,17 @@ import Foundation
 import Security
 
 final class KeychainHelper {
-    static let shared = KeychainHelper()
-//    private init() {}
+  static let shared = KeychainHelper()
+  //    private init() {}
 
-    func save(token: String) {
-    }
+  func save(token: String) {
+  }
 
-    func load() -> String? {
-        return nil
-    }
+  func load() -> String? {
+    return nil
+  }
 
-    func remove() {
-        
-    }
+  func remove() {
+
+  }
 }

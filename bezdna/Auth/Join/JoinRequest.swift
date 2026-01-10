@@ -1,6 +1,6 @@
 import Foundation
 
-struct JoinRequest : APIRequest {
+struct JoinRequest: APIRequest {
   typealias APIResponse = JoinResponseModel
 
   var method: HTTPMethod { .POST }
@@ -15,18 +15,18 @@ struct JoinRequest : APIRequest {
   }
 
   func decode(d: JSONDecoder, data: Data) throws -> APIResponse {
-    return try d.decode(JoinResponseModel.self, from: data);
+    return try d.decode(JoinResponseModel.self, from: data)
   }
 }
 
-struct JoinRequestModel : Encodable {
+struct JoinRequestModel: Encodable {
   let phoneNumber: String
 }
 
-struct JoinResponseModel : Decodable {
+struct JoinResponseModel: Decodable {
   let verification: Verification
 
-  struct Verification : Decodable {
+  struct Verification: Decodable {
     let verificationId: String
   }
 }

@@ -6,7 +6,7 @@ class APIClient {
   let jsonDecoder: JSONDecoder
   static let shared = APIClient()
 
-  init (){
+  init() {
     let jsonEncoder = JSONEncoder()
     jsonEncoder.keyEncodingStrategy = .convertToSnakeCase
 
