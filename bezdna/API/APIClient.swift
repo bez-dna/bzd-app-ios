@@ -31,7 +31,7 @@ class APIClient {
 
     var urlReq = URLRequest(url: url)
     urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
-    urlReq.httpMethod = req.method.rawValue
+    urlReq.httpMethod = req.method.rawValue.uppercased()
     urlReq.httpBody = try req.encode(e: self.jsonEncoder)
 
     let (data, _) = try await urlSession.data(for: urlReq)
