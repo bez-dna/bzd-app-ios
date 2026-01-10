@@ -1,5 +1,5 @@
 enum AppFlow {
-    case auth
-    case users
-    case messages
+  case auth
+  case users
+  case messages
 }

@@ -1,7 +1,7 @@
-import SwiftUI
 import Combine
+import SwiftUI
 
 @Observable
 class AppNav {
-    var flow: AppFlow = .messages
+  var flow: AppFlow = .messages
 }
