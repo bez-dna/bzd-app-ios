@@ -15,10 +15,12 @@ struct BezdnaApp: App {
       fatalError("Could not create ModelContainer: \(error)")
     }
   }()
+    
+@State private var nav = AppNav()
 
   var body: some Scene {
     WindowGroup {
-      ContentView()
+        AppView().environment(nav)
     }
     .modelContainer(sharedModelContainer)
   }
