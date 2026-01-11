@@ -1,21 +1,19 @@
 import Foundation
 
-struct JoinRequest: APIRequest {
-  typealias APIResponse = JoinResponseModel
+struct JoinApiRequest: ApiRequest {
+  typealias ApiResponse = JoinResponseModel
 
   var method: HTTPMethod { .post }
   var path: String { "/auth/join" }
 
   let model: JoinRequestModel
 
-  func encode(e: JSONEncoder) throws -> Data? {
-    let data = try e.encode(self.model)
-
-    return data
+  func encode() throws -> Data {
+    return try ApiCodec.shared.encode(self.model)
   }
 
-  func decode(d: JSONDecoder, data: Data) throws -> APIResponse {
-    return try d.decode(JoinResponseModel.self, from: data)
+  func decode(_ data: Data) throws -> ApiResponse {
+    return try ApiCodec.shared.decode(data)
   }
 }
 

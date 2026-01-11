@@ -8,7 +8,11 @@ struct JoinView: View {
 
     Button("ENTER") {
       Task {
-        try await store.join()
+        do {
+          try await store.join()
+        } catch {
+          print(error)
+        }
       }
     }
   }
