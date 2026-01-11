@@ -1,7 +1,7 @@
 import Foundation
 import Security
 
-final class KeychainTokenStorage : TokenStorage {
+final class KeychainTokenStorage: TokenStorage {
   var key: String { "jwt" }
 
   static let shared = KeychainTokenStorage()

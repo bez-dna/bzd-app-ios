@@ -11,7 +11,8 @@ final class CompleteStore {
   }
 
   func complete(_ verificationId: UUID) async throws -> CompleteResponseModel {
-    let req = CompleteApiRequest(model: CompleteRequestModel(verificationId: verificationId, code: model.code))
+    let req = CompleteApiRequest(
+      model: CompleteRequestModel(verificationId: verificationId, code: model.code))
 
     return try await api.complete(req: req)
   }

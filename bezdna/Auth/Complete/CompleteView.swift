@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CompleteView : View {
+struct CompleteView: View {
   private let verificationId: UUID
   private let onComplete: (_ token: String) -> Void
 
@@ -25,5 +25,5 @@ struct CompleteView : View {
 }
 
 #Preview {
-  CompleteView(UUID.init()) { token in print(token)}
+  CompleteView(UUID.init()) { token in print(token) }
 }
