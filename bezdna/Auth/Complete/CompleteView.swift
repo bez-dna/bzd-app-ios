@@ -25,5 +25,5 @@ struct CompleteView: View {
 }
 
 #Preview {
-  CompleteView(UUID.init())
+  CompleteView(UUID.init()).environment(AppState())
 }
