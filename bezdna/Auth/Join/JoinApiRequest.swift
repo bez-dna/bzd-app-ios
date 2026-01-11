@@ -23,8 +23,9 @@ struct JoinRequestModel: Encodable {
 
 struct JoinResponseModel: Decodable {
   let verification: Verification
+  let isNew: Bool
 
   struct Verification: Decodable {
-    let verificationId: String
+    let verificationId: UUID
   }
 }

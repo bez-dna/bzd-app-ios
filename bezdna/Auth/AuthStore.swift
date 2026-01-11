@@ -3,20 +3,18 @@ import SwiftUI
 
 @Observable
 final class AuthStore {
-  private var token: String? = nil
+  var token: String? = nil
+  private let storage: TokenStorage = UserDefaultsTokenStorage()
 
   static let shared = AuthStore()
 
   init() {
-    self.token = KeychainHelper.shared.load()
+    self.token = storage.load()
   }
 
-  func display() -> String? {
-    return token
-  }
-
-  func save(token: String) {
+  func save(_ token: String) {
     self.token = token
-    KeychainHelper.shared.save(token: token)
+
+    storage.save(token)
   }
 }

@@ -2,18 +2,17 @@ import SwiftUI
 
 @Observable
 final class JoinStore {
-  var phoneNumber: String = "79991112233"
+  var model: JoinModel = JoinModel()
+
   @ObservationIgnored let api: AuthApi
 
   init(api: AuthApi = AuthApiImpl()) {
     self.api = api
   }
 
-  func join() async throws {
-    let req = JoinApiRequest(model: JoinRequestModel(phoneNumber: self.phoneNumber))
+  func join() async throws -> JoinResponseModel {
+    let req = JoinApiRequest(model: JoinRequestModel(phoneNumber: model.phoneNumber))
 
-    let res = try await api.join(req: req)
-
-    print(res.verification.verificationId)
+    return try await api.join(req: req)
   }
 }

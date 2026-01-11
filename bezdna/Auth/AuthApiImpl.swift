@@ -5,4 +5,9 @@ struct AuthApiImpl: AuthApi {
     let data = try await api.request(req: req)
     return try req.decode(data)
   }
+
+  func complete(req: CompleteApiRequest) async throws -> CompleteResponseModel {
+    let data = try await api.request(req: req)
+    return try req.decode(data)
+  }
 }
