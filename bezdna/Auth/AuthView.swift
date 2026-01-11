@@ -2,7 +2,6 @@ import SwiftUI
 
 struct AuthView: View {
   @Environment(AppState.self) private var state
-  @State private var store = AuthStore.shared
   @State private var flow: AuthFlow = .join
 
   var body: some View {
@@ -14,11 +13,7 @@ struct AuthView: View {
         }
 
       case .complete(let verificationId):
-        CompleteView(verificationId) { token in
-          store.save(token)
-          state.isAuth = true
-          state.nav.flow = .main
-        }
+        CompleteView(verificationId)
       }
     }
   }

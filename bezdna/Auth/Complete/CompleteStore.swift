@@ -12,7 +12,7 @@ final class CompleteStore {
 
   func complete(_ verificationId: UUID) async throws -> CompleteResponseModel {
     let req = CompleteApiRequest(
-      model: CompleteRequestModel(verificationId: verificationId, code: model.code))
+      model: CompleteRequestModel(verificationId: verificationId, code: model.code, name: model.name))
 
     return try await api.complete(req: req)
   }

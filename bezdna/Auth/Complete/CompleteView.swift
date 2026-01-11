@@ -1,14 +1,14 @@
 import SwiftUI
 
 struct CompleteView: View {
+  @Environment(AppState.self) private var state
+
   private let verificationId: UUID
-  private let onComplete: (_ token: String) -> Void
 
   @State private var store = CompleteStore()
 
-  init(_ verificationId: UUID, onComplete: @escaping (_ token: String) -> Void) {
+  init(_ verificationId: UUID) {
     self.verificationId = verificationId
-    self.onComplete = onComplete
   }
 
   var body: some View {
@@ -17,13 +17,14 @@ struct CompleteView: View {
     Button("ENTER") {
       Task {
         let model = try await store.complete(self.verificationId)
+        try await state.auth.update(model.jwt)
 
-        onComplete(model.jwt)
+        state.nav.flow = .main
       }
     }
   }
 }
 
 #Preview {
-  CompleteView(UUID.init()) { token in print(token) }
+  CompleteView(UUID.init())
 }

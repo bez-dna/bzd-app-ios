@@ -6,7 +6,7 @@ struct JoinView: View {
   let onComplete: (UUID) -> Void
 
   var body: some View {
-    TextField("PHONE", text: $store.model.phoneNumber)
+    TextField("PHONE", text: $store.model.phoneNumber).keyboardType(.phonePad)
 
     Button("ENTER") {
       Task {

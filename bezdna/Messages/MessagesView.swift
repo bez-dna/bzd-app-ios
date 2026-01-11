@@ -2,7 +2,6 @@ import SwiftUI
 
 struct MessagesView: View {
   @Environment(AppState.self) private var state
-  @State private var store = AuthStore.shared
   @State private var txt = ""
 
   var body: some View {

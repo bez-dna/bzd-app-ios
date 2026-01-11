@@ -10,4 +10,9 @@ struct AuthApiImpl: AuthApi {
     let data = try await api.request(req: req)
     return try req.decode(data)
   }
+
+  func me(req: MeApiRequest) async throws -> MeResponseModel {
+    let data = try await api.request(req: req)
+    return try req.decode(data)
+  }
 }

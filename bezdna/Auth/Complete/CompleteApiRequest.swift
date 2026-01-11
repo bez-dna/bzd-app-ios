@@ -8,7 +8,7 @@ struct CompleteApiRequest: ApiRequest {
 
   let model: CompleteRequestModel
 
-  func encode() throws -> Data {
+  func encode() throws -> Data? {
     return try ApiCodec.shared.encode(self.model)
   }
 
@@ -20,6 +20,7 @@ struct CompleteApiRequest: ApiRequest {
 struct CompleteRequestModel: Encodable {
   let verificationId: UUID
   let code: String
+  let name: String?
 }
 
 struct CompleteResponseModel: Decodable {
