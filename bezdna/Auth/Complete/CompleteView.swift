@@ -1,10 +1,9 @@
 import SwiftUI
 
 struct CompleteView: View {
-  @Environment(AppState.self) private var state
-
   private let verificationId: UUID
 
+  @Environment(AppState.self) private var state
   @State private var store = CompleteStore()
 
   init(_ verificationId: UUID) {
