@@ -18,7 +18,7 @@ struct MeApiRequest: ApiRequest {
 struct MeResponseModel: Decodable {
   let user: User?
 
-  struct User : Decodable {
+  struct User: Decodable {
     let userId: UUID
   }
 }
