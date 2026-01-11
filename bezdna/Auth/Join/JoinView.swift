@@ -3,12 +3,16 @@ import SwiftUI
 struct JoinView: View {
   @State private var store = JoinStore()
 
+  let onComplete: (UUID) -> Void
+
   var body: some View {
-    TextField("PHONE", text: $store.phoneNumber)
+    TextField("PHONE", text: $store.model.phoneNumber)
 
     Button("ENTER") {
       Task {
-        try await store.join()
+        let model = try await store.join()
+
+        onComplete(model.verification.verificationId)
       }
     }
   }
