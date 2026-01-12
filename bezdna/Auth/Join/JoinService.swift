@@ -1,13 +1,14 @@
 import SwiftUI
 
 @Observable
-final class JoinStore {
+final class JoinService {
   var model: JoinModel = JoinModel()
 
-  @ObservationIgnored let api: AuthApi
+  @ObservationIgnored
+  private let api: AuthApi
 
-  init(api: AuthApi = AuthApiImpl()) {
-    self.api = api
+  init(_ api: ApiClient) {
+    self.api = AuthApiImpl(api)
   }
 
   func join() async throws -> JoinResponseModel {

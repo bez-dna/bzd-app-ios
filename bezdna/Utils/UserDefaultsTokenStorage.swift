@@ -1,14 +1,29 @@
 import Foundation
 
 final class UserDefaultsTokenStorage: TokenStorage {
-  var key: String { "jwt" }
+  var tokenKey: String { "jwt" }
+  var userKey: String { "user" }
 
-  func save(_ token: String) {
-    UserDefaults.standard.set(token, forKey: self.key)
+  func saveToken(_ token: String) throws {
+    UserDefaults.standard.set(token, forKey: tokenKey)
   }
 
-  func load() -> String? {
-    UserDefaults.standard.string(forKey: self.key)
+  func saveUser(_ user: AppModel.User) throws {
+    UserDefaults.standard.set(try JSONEncoder().encode(user), forKey: userKey)
   }
 
+
+  func load() throws -> (String?, AppModel.User?)  {
+    let token = UserDefaults.standard.string(forKey: tokenKey)
+
+    var user: AppModel.User? = nil
+    if let data = UserDefaults.standard.data(forKey: userKey) {
+      user = try JSONDecoder().decode(AppModel.User.self, from: data)
+    }
+
+    debugPrint(token ?? "-")
+    debugPrint(user ?? "-")
+
+    return (token, user)
+  }
 }

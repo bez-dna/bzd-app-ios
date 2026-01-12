@@ -1,13 +1,14 @@
 import SwiftUI
 
 @Observable
-final class CompleteStore {
+final class CompleteService {
   var model: CompleteModel = CompleteModel()
 
-  @ObservationIgnored let api: AuthApi
+  @ObservationIgnored
+  private let api: AuthApi
 
-  init(api: AuthApi = AuthApiImpl()) {
-    self.api = api
+  init(_ api: ApiClient) {
+    self.api = AuthApiImpl(api)
   }
 
   func complete(_ verificationId: UUID) async throws -> CompleteResponseModel {

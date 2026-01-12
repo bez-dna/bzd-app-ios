@@ -7,9 +7,10 @@ struct BezdnaApp: App {
   var body: some Scene {
     WindowGroup {
       AppView().environment(state).task {
-        do {
-          try await state.auth.load()
-        } catch {}
+//        do {
+//          debugPrint(state.authService)
+//          try await state.authService.loadUser()
+//        } catch {}
       }
     }
   }

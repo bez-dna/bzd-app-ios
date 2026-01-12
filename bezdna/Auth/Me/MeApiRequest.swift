@@ -20,5 +20,8 @@ struct MeResponseModel: Decodable {
 
   struct User: Decodable {
     let userId: UUID
+    let name: String
+    let abbr: String
+    let color: String
   }
 }
