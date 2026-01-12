@@ -2,6 +2,6 @@ import SwiftUI
 
 @Observable
 class CompleteModel {
-  var code: String = "1111"
+  var code: String = ""
   var name: String = "Unknown User"
 }
