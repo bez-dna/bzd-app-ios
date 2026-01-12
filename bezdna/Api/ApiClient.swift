@@ -6,6 +6,7 @@ enum HTTPHeader: String {
     case contentType = "Content-Type"
 }
 
+@Observable
 class ApiClient {
   private let appModel: AppModel
   private let urlSession: URLSession = .shared

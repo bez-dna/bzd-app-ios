@@ -21,9 +21,6 @@ final class UserDefaultsTokenStorage: TokenStorage {
       user = try JSONDecoder().decode(AppModel.User.self, from: data)
     }
 
-    debugPrint(token ?? "-")
-    debugPrint(user ?? "-")
-
     return (token, user)
   }
 }
