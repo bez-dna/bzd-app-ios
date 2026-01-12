@@ -19,7 +19,7 @@ final class AppState {
     self.authService = authService
   }
 
-  func isAuth () -> Bool {
+  func isAuth() -> Bool {
     return model.user != nil
   }
 }

@@ -11,14 +11,6 @@ struct AuthView: View {
   }
 
   var body: some View {
-    VStack {
-      if state.isAuth() {
-        Text("AUTH")
-      } else {
-        Text("NO USER")
-      }
-    }
-
     Group {
       switch flow {
       case .join:

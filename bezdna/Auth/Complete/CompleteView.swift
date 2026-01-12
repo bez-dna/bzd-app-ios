@@ -25,7 +25,7 @@ struct CompleteView: View {
         let res = try await service.complete(self.verificationId)
         try await auth.updateToken(res.jwt)
 
-//        state.nav.flow = .main
+        state.nav.flow = .main
       }
     }
   }

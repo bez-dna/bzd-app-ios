@@ -6,5 +6,5 @@ protocol TokenStorage {
 
   func saveUser(_ user: AppModel.User) throws
 
-  func load()  throws -> (String?, AppModel.User?) 
+  func load() throws -> (String?, AppModel.User?)
 }

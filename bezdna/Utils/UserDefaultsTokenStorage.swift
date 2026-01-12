@@ -12,8 +12,7 @@ final class UserDefaultsTokenStorage: TokenStorage {
     UserDefaults.standard.set(try JSONEncoder().encode(user), forKey: userKey)
   }
 
-
-  func load() throws -> (String?, AppModel.User?)  {
+  func load() throws -> (String?, AppModel.User?) {
     let token = UserDefaults.standard.string(forKey: tokenKey)
 
     var user: AppModel.User? = nil

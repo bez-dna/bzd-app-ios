@@ -2,8 +2,8 @@ import Foundation
 import SwiftUI
 
 enum HTTPHeader: String {
-    case authorization = "Authorization"
-    case contentType = "Content-Type"
+  case authorization = "Authorization"
+  case contentType = "Content-Type"
 }
 
 @Observable

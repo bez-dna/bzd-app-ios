@@ -23,7 +23,8 @@ final class AuthService {
     let res = try await api.me(req: MeApiRequest())
 
     if let user = res.user {
-      let user = AppModel.User(userId: user.userId, name: user.name, abbr: user.name, color: user.color)
+      let user = AppModel.User(
+        userId: user.userId, name: user.name, abbr: user.name, color: user.color)
       try storage.saveUser(user)
       appModel.user = user
     }

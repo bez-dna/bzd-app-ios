@@ -1,1 +1,1 @@
-final class KeychainTokenStorage{}
+final class KeychainTokenStorage {}
