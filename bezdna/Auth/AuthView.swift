@@ -1,29 +1,30 @@
 import SwiftUI
 
 struct AuthView: View {
-  @Environment(AppState.self) private var state
-  @State private var store = AuthStore.shared
-  @State private var flow: AuthFlow = .join
+  private let state: AppState
+
+  @State
+  private var flow: AuthFlow = .join
+
+  init(_ state: AppState) {
+    self.state = state
+  }
 
   var body: some View {
     Group {
       switch flow {
       case .join:
-        JoinView { verificationId in
+        JoinView(state) { verificationId in
           flow = .complete(verificationId)
         }
 
       case .complete(let verificationId):
-        CompleteView(verificationId) { token in
-          store.save(token)
-          state.isAuth = true
-          state.nav.flow = .main
-        }
+        CompleteView(state, verificationId)
       }
     }
   }
 }
 
 #Preview {
-  AuthView().environment(AppState())
+  AuthView(AppState())
 }

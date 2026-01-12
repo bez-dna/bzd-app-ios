@@ -1,9 +1,19 @@
 import Foundation
+import SwiftUI
 
+enum HTTPHeader: String {
+  case authorization = "Authorization"
+  case contentType = "Content-Type"
+}
+
+@Observable
 class ApiClient {
+  private let appModel: AppModel
   private let urlSession: URLSession = .shared
 
-  static let shared = ApiClient()
+  init(with appModel: AppModel) {
+    self.appModel = appModel
+  }
 
   func request(req: any ApiRequest) async throws -> Data {
     var urlComp = URLComponents()
@@ -19,7 +29,12 @@ class ApiClient {
     }
 
     var urlReq = URLRequest(url: url)
-    urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+    urlReq.setValue("application/json", forHTTPHeaderField: HTTPHeader.contentType.rawValue)
+
+    if let token = appModel.token {
+      urlReq.setValue("Bearer \(token)", forHTTPHeaderField: HTTPHeader.authorization.rawValue)
+    }
+
     urlReq.httpMethod = req.method.rawValue.uppercased()
     urlReq.httpBody = try req.encode()
 

@@ -1,12 +1,13 @@
 import SwiftUI
 
 struct AppView: View {
-  @Environment(AppState.self) private var state
+  @Environment(AppState.self)
+  private var state
 
   var body: some View {
     switch state.nav.flow {
     case .auth:
-      AuthView()
+      AuthView(state)
 
     case .main:
       MessagesView()

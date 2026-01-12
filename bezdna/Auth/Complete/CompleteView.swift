@@ -2,28 +2,35 @@ import SwiftUI
 
 struct CompleteView: View {
   private let verificationId: UUID
-  private let onComplete: (_ token: String) -> Void
+  private let auth: AuthService
 
-  @State private var store = CompleteStore()
+  @State
+  private var service: CompleteService
 
-  init(_ verificationId: UUID, onComplete: @escaping (_ token: String) -> Void) {
+  @Bindable
+  private var state: AppState
+
+  init(_ state: AppState, _ verificationId: UUID) {
+    self.service = CompleteService(state.api)
+    self.state = state
+    self.auth = state.authService
     self.verificationId = verificationId
-    self.onComplete = onComplete
   }
 
   var body: some View {
-    TextField("CODE", text: $store.model.code)
+    TextField("CODE", text: $service.model.code)
 
     Button("ENTER") {
       Task {
-        let model = try await store.complete(self.verificationId)
+        let res = try await service.complete(self.verificationId)
+        try await auth.updateToken(res.jwt)
 
-        onComplete(model.jwt)
+        state.nav.flow = .main
       }
     }
   }
 }
 
 #Preview {
-  CompleteView(UUID.init()) { token in print(token) }
+  CompleteView(AppState(), UUID.init())
 }

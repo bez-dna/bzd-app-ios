@@ -8,7 +8,7 @@ struct JoinApiRequest: ApiRequest {
 
   let model: JoinRequestModel
 
-  func encode() throws -> Data {
+  func encode() throws -> Data? {
     return try ApiCodec.shared.encode(self.model)
   }
 
