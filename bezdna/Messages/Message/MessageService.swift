@@ -17,7 +17,7 @@ final class MessageService {
       return
     }
 
-    let res = try await api.get_message_messages(
+    let res = try await api.getMessageMessages(
       req: GetMessageMessagesRequest(
         model.messageId, GetMessageMessagesRequestModel(cursorMessageId: model.cursorMessageId)))
 

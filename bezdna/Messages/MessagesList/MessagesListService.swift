@@ -13,7 +13,7 @@ final class MessagesListService {
   }
 
   func load() async throws {
-    let res = try await api.get_user_messages(req: GetUserMessagesRequest())
+    let res = try await api.getUserMessages(req: GetUserMessagesRequest())
 
     model.messages = res.messages
   }

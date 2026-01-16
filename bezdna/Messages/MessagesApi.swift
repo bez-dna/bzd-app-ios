@@ -1,6 +1,6 @@
 protocol MessagesApi {
-  func get_user_messages(req: GetUserMessagesRequest) async throws -> GetUserMessagesResponseModel
+  func getUserMessages(req: GetUserMessagesRequest) async throws -> GetUserMessagesResponseModel
 
-  func get_message_messages(req: GetMessageMessagesRequest) async throws
+  func getMessageMessages(req: GetMessageMessagesRequest) async throws
     -> GetMessageMessagesResponseModel
 }
