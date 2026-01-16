@@ -10,8 +10,10 @@ protocol ApiRequest {
 
   var method: HTTPMethod { get }
   var path: String { get }
+  var queryItems: [URLQueryItem]? { get }
 
   func encode() throws -> Data?
 
   func decode(_ data: Data) throws -> ApiResponse
+
 }

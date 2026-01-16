@@ -5,6 +5,7 @@ struct JoinApiRequest: ApiRequest {
 
   var method: HTTPMethod { .post }
   var path: String { "/auth/join" }
+  var queryItems: [URLQueryItem]?
 
   let model: JoinRequestModel
 
