@@ -21,7 +21,6 @@ struct MessageView: View {
     ScrollViewReader { proxy in
       ScrollView {
         LazyVStack {
-
           Color.clear
             .frame(height: 0)
             .background(.green)
@@ -44,12 +43,11 @@ struct MessageView: View {
         }
       }
       .onChange(of: model.messages.count) {
-          proxy.scrollTo(BottomAnchor(), anchor: .bottom)
-        }
+        proxy.scrollTo(BottomAnchor(), anchor: .bottom)
+      }
     }
   }
 }
-
 
 struct MessageBubble: View {
   let message: GetMessageMessagesResponseModel.Message
@@ -63,7 +61,7 @@ struct MessageBubble: View {
   var body: some View {
     Text(message.text)
 
-    Button ("-> ") {
+    Button("-> ") {
       print("BTN")
       onPress()
     }
@@ -73,6 +71,5 @@ struct MessageBubble: View {
 struct BottomAnchor: Hashable {}
 
 #Preview {
- MessageView(AppState(), UUID.init())
-
+  MessageView(AppState(), UUID.init())
 }

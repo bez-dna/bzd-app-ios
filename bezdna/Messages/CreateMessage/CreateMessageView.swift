@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CreateMessageView : View {
+struct CreateMessageView: View {
   @State private var text = ""
 
   var body: some View {

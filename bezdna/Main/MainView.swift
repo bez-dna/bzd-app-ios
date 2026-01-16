@@ -13,9 +13,9 @@ struct MainView: View {
 
   var body: some View {
     NavigationStack(path: $nav.main) {
-//      Button("USERS") {
-//        nav.main.append(MainRoute.users)
-//      }
+      //      Button("USERS") {
+      //        nav.main.append(MainRoute.users)
+      //      }
 
       MessagesListView(state).navigationDestination(for: MainRoute.self) { route in
         switch route {

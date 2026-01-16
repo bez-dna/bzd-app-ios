@@ -9,13 +9,12 @@ class GetMessageMessagesRequest: ApiRequest {
   var path: String { "/messages/\(messageId)/messages" }
   var queryItems: [URLQueryItem]?
 
-
   init(_ messageId: UUID, _ model: GetMessageMessagesRequestModel) {
     self.messageId = messageId
     self.model = model
 
     if let cursorMessageId = model.cursorMessageId {
-      self.queryItems = [URLQueryItem(name: "cursor_message_id", value: cursorMessageId.uuidString) ]
+      self.queryItems = [URLQueryItem(name: "cursor_message_id", value: cursorMessageId.uuidString)]
     }
 
   }
