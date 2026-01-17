@@ -3,9 +3,18 @@ import Foundation
 class GetUserMessagesRequest: ApiRequest {
   typealias ApiResponse = GetUserMessagesResponseModel
 
+  let model: GetUserMessagesRequestModel
   var method: HTTPMethod { .get }
   var path: String { "/messages" }
   var queryItems: [URLQueryItem]?
+
+  init(_ model: GetUserMessagesRequestModel) {
+    self.model = model
+
+    if let cursorMessageId = model.cursorMessageId {
+      queryItems = [URLQueryItem(name: "cursor_message_id", value: cursorMessageId.uuidString)]
+    }
+  }
 
   func encode() throws -> Data? {
     nil
@@ -22,6 +31,7 @@ struct GetUserMessagesRequestModel: Encodable {
 
 struct GetUserMessagesResponseModel: Decodable {
   let messages: [Message]
+  let cursorMessageId: UUID?
 
   struct Message: Decodable {
     let messageId: UUID

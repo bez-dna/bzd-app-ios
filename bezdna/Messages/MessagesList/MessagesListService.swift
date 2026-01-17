@@ -13,8 +13,18 @@ final class MessagesListService {
   }
 
   func load() async throws {
-    let res = try await api.getUserMessages(req: GetUserMessagesRequest())
+    if model.lastCursorMessageId {
+      return
+    }
 
-    model.messages = res.messages
+
+    let res = try await api.getUserMessages(req: GetUserMessagesRequest( GetUserMessagesRequestModel(cursorMessageId: model.cursorMessageId)))
+
+    model.messages.append(contentsOf: res.messages)
+    model.cursorMessageId = res.cursorMessageId
+
+    if res.cursorMessageId == nil {
+      model.lastCursorMessageId = true
+    }
   }
 }
