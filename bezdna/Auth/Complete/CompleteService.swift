@@ -2,7 +2,7 @@ import SwiftUI
 
 @Observable
 final class CompleteService {
-  var model: CompleteModel = CompleteModel()
+  var model: CompleteModel = .init()
 
   @ObservationIgnored
   private let api: AuthApi
@@ -14,7 +14,8 @@ final class CompleteService {
   func complete(_ verificationId: UUID) async throws -> CompleteResponseModel {
     let req = CompleteApiRequest(
       model: CompleteRequestModel(
-        verificationId: verificationId, code: model.code, name: model.name))
+        verificationId: verificationId, code: model.code, name: model.name,
+      ))
 
     return try await api.complete(req: req)
   }

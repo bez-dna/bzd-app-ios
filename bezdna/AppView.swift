@@ -10,7 +10,7 @@ struct AppView: View {
       AuthView(state)
 
     case .main:
-      MessagesView()
+      MainView(state)
     }
   }
 }

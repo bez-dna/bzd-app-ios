@@ -18,7 +18,7 @@ struct AuthView: View {
           flow = .complete(verificationId)
         }
 
-      case .complete(let verificationId):
+      case let .complete(verificationId):
         CompleteView(state, verificationId)
       }
     }

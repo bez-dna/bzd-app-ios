@@ -9,7 +9,7 @@ struct JoinView: View {
   private let state: AppState
 
   init(_ state: AppState, _ onComplete: @escaping (UUID) -> Void) {
-    self.service = JoinService(state.api)
+    service = JoinService(state.api)
     self.onComplete = onComplete
     self.state = state
   }

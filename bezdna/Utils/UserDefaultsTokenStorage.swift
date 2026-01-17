@@ -9,7 +9,7 @@ final class UserDefaultsTokenStorage: TokenStorage {
   }
 
   func saveUser(_ user: AppModel.User) throws {
-    UserDefaults.standard.set(try JSONEncoder().encode(user), forKey: userKey)
+    try UserDefaults.standard.set(JSONEncoder().encode(user), forKey: userKey)
   }
 
   func load() throws -> (String?, AppModel.User?) {

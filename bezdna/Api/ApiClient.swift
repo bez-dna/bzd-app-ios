@@ -24,8 +24,12 @@ class ApiClient {
 
     urlComp.path = "/api" + req.path
 
-    guard let url = urlComp.url else {
+    guard var url = urlComp.url else {
       throw URLError(.badURL)
+    }
+
+    if let queryItems = req.queryItems {
+      url = url.appending(queryItems: queryItems)
     }
 
     var urlReq = URLRequest(url: url)

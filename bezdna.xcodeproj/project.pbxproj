@@ -6,6 +6,10 @@
 	objectVersion = 90;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		69768A192F1BC06C00FF42DA /* .swiftformat in Resources */ = {isa = PBXBuildFile; fileRef = 69768A182F1BC06A00FF42DA /* .swiftformat */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		69424C4B2F11666B0072A033 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -27,6 +31,7 @@
 		69424C3D2F1166690072A033 /* bezdna.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = bezdna.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		69424C4A2F11666B0072A033 /* bezdnaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bezdnaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		69424C542F11666B0072A033 /* bezdnaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = bezdnaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		69768A182F1BC06A00FF42DA /* .swiftformat */ = {isa = PBXFileReference; lastKnownFileType = text; path = .swiftformat; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -69,6 +74,7 @@
 		69424C342F1166690072A033 = {
 			isa = PBXGroup;
 			children = (
+				69768A182F1BC06A00FF42DA /* .swiftformat */,
 				69424C3F2F1166690072A033 /* bezdna */,
 				69424C4D2F11666B0072A033 /* bezdnaTests */,
 				69424C572F11666B0072A033 /* bezdnaUITests */,
@@ -199,6 +205,7 @@
 		69424C3B2F1166690072A033 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			files = (
+				69768A192F1BC06C00FF42DA /* .swiftformat in Resources */,
 			);
 		};
 		69424C482F11666B0072A033 /* Resources */ = {
@@ -399,7 +406,7 @@
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -437,7 +444,7 @@
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -462,7 +469,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bezdna.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/bezdna";
 			};
@@ -488,7 +495,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/bezdna.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/bezdna";
 			};
@@ -513,7 +520,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = bezdna;
 			};
@@ -538,7 +545,7 @@
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = 1;
 				TEST_TARGET_NAME = bezdna;
 			};

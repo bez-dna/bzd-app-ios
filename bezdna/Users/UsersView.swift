@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct UsersView: View {
-  @Environment(AppState.self) private var state
-
   var body: some View {
     VStack {
       Text("USERS")
@@ -11,5 +9,5 @@ struct UsersView: View {
 }
 
 #Preview {
-  UsersView().environment(AppState())
+  UsersView()
 }

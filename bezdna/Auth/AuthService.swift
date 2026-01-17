@@ -8,7 +8,7 @@ final class AuthService {
   private let api: AuthApi
 
   init(_ appModel: AppModel, _ api: ApiClient) {
-    self.storage = UserDefaultsTokenStorage()
+    storage = UserDefaultsTokenStorage()
 
     let (token, user) = (try? storage.load()) ?? (nil, nil)
 
@@ -24,7 +24,8 @@ final class AuthService {
 
     if let user = res.user {
       let user = AppModel.User(
-        userId: user.userId, name: user.name, abbr: user.name, color: user.color)
+        userId: user.userId, name: user.name, abbr: user.name, color: user.color,
+      )
       try storage.saveUser(user)
       appModel.user = user
     }
@@ -34,6 +35,6 @@ final class AuthService {
     try storage.saveToken(token)
     appModel.token = token
 
-    try await self.loadUser()
+    try await loadUser()
   }
 }
