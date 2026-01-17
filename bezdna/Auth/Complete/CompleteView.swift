@@ -11,9 +11,9 @@ struct CompleteView: View {
   private var state: AppState
 
   init(_ state: AppState, _ verificationId: UUID) {
-    self.service = CompleteService(state.api)
+    service = CompleteService(state.api)
     self.state = state
-    self.auth = state.authService
+    auth = state.authService
     self.verificationId = verificationId
   }
 
@@ -22,7 +22,7 @@ struct CompleteView: View {
 
     Button("ENTER") {
       Task {
-        let res = try await service.complete(self.verificationId)
+        let res = try await service.complete(verificationId)
         try await auth.updateToken(res.jwt)
 
         state.nav.flow = .main
@@ -32,5 +32,5 @@ struct CompleteView: View {
 }
 
 #Preview {
-  CompleteView(AppState(), UUID.init())
+  CompleteView(AppState(), UUID())
 }

@@ -24,7 +24,7 @@ struct CreateMessageView: View {
   }
 }
 
-//struct MessageTextView: UIViewRepresentable {
+// struct MessageTextView: UIViewRepresentable {
 //  @Binding
 //  private var text: String
 //
@@ -35,7 +35,7 @@ struct CreateMessageView: View {
 //  func updateUIView(_ uiView: UIViewType, context: Context) {
 //    uiView.text = text
 //  }
-//}
+// }
 
 #Preview {
   CreateMessageView()

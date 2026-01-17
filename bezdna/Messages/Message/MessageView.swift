@@ -12,8 +12,8 @@ struct MessageView: View {
   init(_ state: AppState, _ messageId: UUID) {
     let model = MessageModel(messageId)
 
-    self.service = MessageService(state.api, model)
-    self.nav = state.nav
+    service = MessageService(state.api, model)
+    nav = state.nav
     self.model = model
   }
 
@@ -71,5 +71,5 @@ struct MessageBubble: View {
 struct BottomAnchor: Hashable {}
 
 #Preview {
-  MessageView(AppState(), UUID.init())
+  MessageView(AppState(), UUID())
 }

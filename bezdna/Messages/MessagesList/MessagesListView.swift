@@ -14,8 +14,8 @@ struct MessagesListView: View {
     let model = MessagesListModel()
 
     self.state = state
-    self.nav = state.nav
-    self.service = MessagesListService(state.api, model)
+    nav = state.nav
+    service = MessagesListService(state.api, model)
     self.model = model
   }
 
@@ -25,7 +25,6 @@ struct MessagesListView: View {
         List(model.messages, id: \.messageId) { message in
           Button(message.text) {
             nav.main.append(MainRoute.message(messageId: message.messageId))
-
           }
         }
       } else {

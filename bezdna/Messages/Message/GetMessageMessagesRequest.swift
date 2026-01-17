@@ -14,9 +14,8 @@ class GetMessageMessagesRequest: ApiRequest {
     self.model = model
 
     if let cursorMessageId = model.cursorMessageId {
-      self.queryItems = [URLQueryItem(name: "cursor_message_id", value: cursorMessageId.uuidString)]
+      queryItems = [URLQueryItem(name: "cursor_message_id", value: cursorMessageId.uuidString)]
     }
-
   }
 
   func encode() throws -> Data? {
@@ -24,7 +23,7 @@ class GetMessageMessagesRequest: ApiRequest {
   }
 
   func decode(_ data: Data) throws -> ApiResponse {
-    return try ApiCodec.shared.decode(data)
+    try ApiCodec.shared.decode(data)
   }
 }
 

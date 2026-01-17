@@ -15,5 +15,4 @@ protocol ApiRequest {
   func encode() throws -> Data?
 
   func decode(_ data: Data) throws -> ApiResponse
-
 }

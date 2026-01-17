@@ -10,11 +10,11 @@ struct JoinApiRequest: ApiRequest {
   let model: JoinRequestModel
 
   func encode() throws -> Data? {
-    return try ApiCodec.shared.encode(self.model)
+    try ApiCodec.shared.encode(model)
   }
 
   func decode(_ data: Data) throws -> ApiResponse {
-    return try ApiCodec.shared.decode(data)
+    try ApiCodec.shared.decode(data)
   }
 }
 

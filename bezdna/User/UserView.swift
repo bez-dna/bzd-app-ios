@@ -15,5 +15,5 @@ struct UserView: View {
 }
 
 #Preview {
-  UserView(UUID.init())
+  UserView(UUID())
 }
