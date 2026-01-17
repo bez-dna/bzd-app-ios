@@ -19,11 +19,11 @@ struct MainView: View {
 
       MessagesListView(state).navigationDestination(for: MainRoute.self) { route in
         switch route {
-        case let .message(messageId):
+        case .message(let messageId):
           MessageView(state, messageId)
         case .users:
           UsersView()
-        case let .user(userId):
+        case .user(let userId):
           UserView(userId)
         }
       }
