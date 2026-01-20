@@ -40,7 +40,9 @@ struct MessageView: View {
           }
 
           Group {
-            CreateMessageView(state)
+            CreateMessageView(state, model.messageId) { messageId in
+              print(messageId)
+            }
           }.id(BottomAnchor()).padding(.horizontal, 16).padding(.bottom, 16)
         }
       }

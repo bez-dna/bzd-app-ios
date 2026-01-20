@@ -65,7 +65,9 @@ struct MessagesList: View {
       ScrollView {
         LazyVStack {
           Group {
-            CreateMessageView(state)
+            CreateMessageView(state, nil) { messageId in
+              nav.main.append(MainRoute.message(messageId: messageId))
+            }
           }.padding(.horizontal, 16).padding(.bottom, 16)
 
           ForEach(model.messages, id: \.messageId) { message in
