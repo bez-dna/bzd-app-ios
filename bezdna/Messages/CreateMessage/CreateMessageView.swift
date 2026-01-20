@@ -24,7 +24,6 @@ struct CreateMessageView: View {
         Task {
           do {
             let res = try await service.save()
-            debugPrint(res)
           } catch {
             print(error)
           }
