@@ -2,7 +2,7 @@ import SwiftUI
 
 @Observable
 final class JoinService {
-  var model: JoinModel = JoinModel()
+  var model: JoinModel = .init()
 
   @ObservationIgnored
   private let api: AuthApi

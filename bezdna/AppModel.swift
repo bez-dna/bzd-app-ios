@@ -1,9 +1,9 @@
 import SwiftUI
 
 @Observable
-class AppModel {
-  var token: String? = nil
-  var user: User? = nil
+final class AppModel {
+  var token: String?
+  var user: User?
 
   struct User: Codable {
     let userId: UUID

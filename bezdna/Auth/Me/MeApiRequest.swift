@@ -5,13 +5,14 @@ struct MeApiRequest: ApiRequest {
 
   var method: HTTPMethod { .get }
   var path: String { "/auth/me" }
+  var queryItems: [URLQueryItem]?
 
   func encode() throws -> Data? {
-    return nil
+    nil
   }
 
   func decode(_ data: Data) throws -> ApiResponse {
-    return try ApiCodec.shared.decode(data)
+    try ApiCodec.shared.decode(data)
   }
 }
 

@@ -10,4 +10,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: xcrun swift-format lint --recursive --parallel --strict .
+      # - run: xcrun swift-format lint --recursive --parallel --strict .
+      - run: swiftformat --lint .

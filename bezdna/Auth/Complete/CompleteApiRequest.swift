@@ -5,15 +5,16 @@ struct CompleteApiRequest: ApiRequest {
 
   var method: HTTPMethod { .post }
   var path: String { "/auth/complete" }
+  var queryItems: [URLQueryItem]?
 
   let model: CompleteRequestModel
 
   func encode() throws -> Data? {
-    return try ApiCodec.shared.encode(self.model)
+    try ApiCodec.shared.encode(model)
   }
 
   func decode(_ data: Data) throws -> ApiResponse {
-    return try ApiCodec.shared.decode(data)
+    try ApiCodec.shared.decode(data)
   }
 }
 
