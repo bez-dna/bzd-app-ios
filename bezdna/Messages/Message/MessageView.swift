@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct MessageView: View {
+  private var state: AppState
   private let service: MessageService
 
   @State
@@ -15,6 +16,7 @@ struct MessageView: View {
     service = MessageService(state.api, model)
     nav = state.nav
     self.model = model
+    self.state = state
   }
 
   var body: some View {
@@ -38,7 +40,7 @@ struct MessageView: View {
           }
 
           Group {
-            CreateMessageView()
+            CreateMessageView(state)
           }.id(BottomAnchor()).padding(.horizontal, 16).padding(.bottom, 16)
         }
       }

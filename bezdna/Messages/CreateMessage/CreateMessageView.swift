@@ -1,11 +1,19 @@
 import SwiftUI
 
 struct CreateMessageView: View {
-  @State private var text = ""
+  @State
+  private var service: CreateMessageService
+
+  init(_ state: AppState) {
+    service = .init(with: state.api)
+  }
 
   var body: some View {
+    @Bindable
+    var model = service.model
+
     ZStack(alignment: .bottomTrailing) {
-      TextEditor(text: $text)
+      TextEditor(text: $model.text)
         .scrollContentBackground(.hidden)
         .background(.input)
         .cornerRadius(19)
@@ -13,7 +21,15 @@ struct CreateMessageView: View {
         .frame(minHeight: 38)
 
       Button {
-        print("send:", text)
+        Task {
+          do {
+            let res = try await service.save()
+            debugPrint(res)
+          } catch {
+            print(error)
+          }
+
+        }
       } label: {
         Image(systemName: "arrow.right.circle.fill")
           .font(.system(size: 30))
@@ -24,19 +40,6 @@ struct CreateMessageView: View {
   }
 }
 
-// struct MessageTextView: UIViewRepresentable {
-//  @Binding
-//  private var text: String
-//
-//  func makeUIView(context: Context) -> UITextView {
-//    return UITextView()
-//  }
-//
-//  func updateUIView(_ uiView: UIViewType, context: Context) {
-//    uiView.text = text
-//  }
-// }
-
 #Preview {
-  CreateMessageView()
+  CreateMessageView(AppState())
 }

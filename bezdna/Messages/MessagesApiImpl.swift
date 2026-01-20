@@ -16,4 +16,10 @@ class MessagesApiImpl: MessagesApi {
     let data = try await api.request(req: req)
     return try req.decode(data)
   }
+
+  func createMessage(req: CreateMessageRequest) async throws -> CreateMessageResponseModel {
+    let data = try await api.request(req: req)
+    debugPrint(data)
+    return try req.decode(data)
+  }
 }

@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-class AppModel {
+final class AppModel {
   var token: String?
   var user: User?
 

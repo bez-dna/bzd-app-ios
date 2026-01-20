@@ -3,4 +3,6 @@ protocol MessagesApi {
 
   func getMessageMessages(req: GetMessageMessagesRequest) async throws
     -> GetMessageMessagesResponseModel
+
+  func createMessage(req: CreateMessageRequest) async throws -> CreateMessageResponseModel
 }

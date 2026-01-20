@@ -24,7 +24,7 @@ struct MessagesListView: View {
   var body: some View {
     VStack {
       if state.isAuth() {
-        MessagesList(service: service, model: model, nav: nav)
+        MessagesList(state: state, service: service, model: model, nav: nav)
       } else {
         Button("AUTH PLEASE") {
           nav.flow = .auth
@@ -42,6 +42,8 @@ struct MessagesListView: View {
 }
 
 struct MessagesList : View {
+  private let state: AppState
+
   @Bindable
   private var service: MessagesListService
 
@@ -51,10 +53,11 @@ struct MessagesList : View {
   @Bindable
   private var nav: AppNav
 
-  init(service: MessagesListService, model: MessagesListModel, nav: AppNav) {
+  init(state: AppState, service: MessagesListService, model: MessagesListModel, nav: AppNav) {
     self.service = service
     self.model = model
     self.nav = nav
+    self.state = state
   }
 
   var body: some View {
@@ -63,7 +66,7 @@ struct MessagesList : View {
         LazyVStack {
 
           Group {
-            CreateMessageView()
+            CreateMessageView(state)
           }.padding(.horizontal, 16).padding(.bottom, 16)
 
           ForEach(model.messages, id: \.messageId) { message in
