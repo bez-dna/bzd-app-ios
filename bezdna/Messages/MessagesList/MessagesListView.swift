@@ -41,7 +41,7 @@ struct MessagesListView: View {
   }
 }
 
-struct MessagesList : View {
+struct MessagesList: View {
   private let state: AppState
 
   @Bindable
@@ -61,10 +61,9 @@ struct MessagesList : View {
   }
 
   var body: some View {
-    ScrollViewReader { proxy in
+    ScrollViewReader { _ in
       ScrollView {
         LazyVStack {
-
           Group {
             CreateMessageView(state)
           }.padding(.horizontal, 16).padding(.bottom, 16)

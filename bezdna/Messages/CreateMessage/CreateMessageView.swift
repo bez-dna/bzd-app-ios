@@ -28,7 +28,6 @@ struct CreateMessageView: View {
           } catch {
             print(error)
           }
-
         }
       } label: {
         Image(systemName: "arrow.right.circle.fill")

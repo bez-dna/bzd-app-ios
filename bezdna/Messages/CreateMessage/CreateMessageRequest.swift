@@ -1,6 +1,6 @@
 import Foundation
 
-struct CreateMessageRequest : ApiRequest {
+struct CreateMessageRequest: ApiRequest {
   typealias ApiResponse = CreateMessageResponseModel
 
   var method: HTTPMethod { .post }

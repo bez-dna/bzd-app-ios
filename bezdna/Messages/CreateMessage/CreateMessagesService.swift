@@ -13,8 +13,8 @@ final class CreateMessageService {
 
   func save() async throws -> CreateMessageResponseModel {
     let req: CreateMessageRequest = .init(
-        model: .init(text: model.text, code: model.code.uuidString),
-      )
+      model: .init(text: model.text, code: model.code.uuidString),
+    )
 
     let res = try await api.createMessage(req: req)
 
