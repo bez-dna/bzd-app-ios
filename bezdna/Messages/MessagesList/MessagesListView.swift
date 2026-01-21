@@ -63,11 +63,15 @@ struct MessagesList: View {
   var body: some View {
     ScrollViewReader { _ in
       ScrollView {
-        LazyVStack {
-          Group {
-            CreateMessageView(state, nil) { messageId in
-              nav.main.append(MainRoute.message(messageId: messageId))
-            }
+        LazyVStack(spacing: 0) {
+          if let user = state.model.user {
+            MessagesListUser(user: user) {
+              nav.main.append(MainRoute.users)
+            }.padding(.horizontal, 16).padding(.bottom, 8)
+          }
+
+          CreateMessageView(state: state, messageId: nil) { messageId in
+            nav.main.append(MainRoute.message(messageId: messageId))
           }.padding(.horizontal, 16).padding(.bottom, 16)
 
           ForEach(model.messages, id: \.messageId) { message in
@@ -78,7 +82,6 @@ struct MessagesList: View {
 
           Color.clear
             .frame(height: 0)
-            .background(.green)
             .onAppear {
               Task {
                 try await service.load()

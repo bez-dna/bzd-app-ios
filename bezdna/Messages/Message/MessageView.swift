@@ -1,25 +1,25 @@
 import SwiftUI
 
 struct MessageView: View {
-  private var state: AppState
+  private let state: AppState
   private let service: MessageService
 
-  @State
-  private var model: MessageModel
+//  @State
+//  private var model: MessageModel
 
-  @Bindable
-  private var nav: AppNav
-
-  init(_ state: AppState, _ messageId: UUID) {
-    let model = MessageModel(messageId)
-
-    service = MessageService(state.api, model)
-    nav = state.nav
-    self.model = model
+  init(state: AppState, messageId: UUID) {
     self.state = state
+
+    service = MessageService(api: state.api, messageId: messageId)
   }
 
   var body: some View {
+    @Bindable
+    var nav = state.nav
+
+    @Bindable
+    var model = service.model
+
     ScrollViewReader { proxy in
       ScrollView {
         LazyVStack {
@@ -40,7 +40,7 @@ struct MessageView: View {
           }
 
           Group {
-            CreateMessageView(state, model.messageId) { messageId in
+            CreateMessageView(state: state, messageId: service.messageId) { messageId in
               print(messageId)
             }
           }.id(BottomAnchor()).padding(.horizontal, 16).padding(.bottom, 16)
@@ -75,5 +75,5 @@ struct MessageBubble: View {
 struct BottomAnchor: Hashable {}
 
 #Preview {
-  MessageView(AppState(), UUID())
+  MessageView(state: AppState(), messageId: UUID())
 }

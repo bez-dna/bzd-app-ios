@@ -2,14 +2,17 @@ import SwiftUI
 
 @Observable
 final class MessageService {
-  private let model: MessageModel
+  let model: MessageModel = .init()
+
+  @ObservationIgnored
+  let messageId: UUID
 
   @ObservationIgnored
   private let api: MessagesApiImpl
 
-  init(_ api: ApiClient, _ model: MessageModel) {
+  init(api: ApiClient, messageId: UUID) {
     self.api = MessagesApiImpl(api)
-    self.model = model
+    self.messageId = messageId
   }
 
   func load() async throws {
@@ -19,7 +22,7 @@ final class MessageService {
 
     let res = try await api.getMessageMessages(
       req: GetMessageMessagesRequest(
-        model.messageId, GetMessageMessagesRequestModel(cursorMessageId: model.cursorMessageId),
+        messageId: messageId, model: GetMessageMessagesRequestModel(cursorMessageId: model.cursorMessageId),
       ))
 
     model.messages.append(contentsOf: res.messages)

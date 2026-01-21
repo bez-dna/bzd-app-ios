@@ -6,7 +6,7 @@ struct CreateMessageView: View {
 
   private let onCreate: (UUID) -> Void
 
-  init(_ state: AppState, _ messageId: UUID?, _ onCreate: @escaping (UUID) -> Void) {
+  init(state: AppState, messageId: UUID?, onCreate: @escaping (UUID) -> Void) {
     service = .init(api: state.api, messageId: messageId)
     self.onCreate = onCreate
   }
@@ -44,5 +44,5 @@ struct CreateMessageView: View {
 }
 
 #Preview {
-  CreateMessageView(AppState(), UUID()) { messageId in print(messageId) }
+  CreateMessageView(state: AppState(), messageId: nil) { messageId in print(messageId) }
 }

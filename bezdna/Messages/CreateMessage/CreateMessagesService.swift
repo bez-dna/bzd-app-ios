@@ -3,6 +3,8 @@ import SwiftUI
 @Observable
 final class CreateMessageService {
   var model: CreateMessageModel = .init()
+
+  @ObservationIgnored
   private let messageId: UUID?
 
   @ObservationIgnored
