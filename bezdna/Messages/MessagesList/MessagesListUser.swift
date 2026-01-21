@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MessagesListUser : View {
+struct MessagesListUser: View {
   private let user: AppModel.User
   private let onClick: () -> Void
 
@@ -10,7 +10,7 @@ struct MessagesListUser : View {
   }
 
   var body: some View {
-    HStack{
+    HStack {
       Spacer()
 
       Button {
