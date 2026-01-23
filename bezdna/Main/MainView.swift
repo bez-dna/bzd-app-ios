@@ -18,7 +18,7 @@ struct MainView: View {
         case let .message(messageId):
           MessageView(state: state, messageId: messageId)
         case .users:
-          UsersView()
+          UsersListView(state: state)
         case let .user(userId):
           UserView(userId)
         }
