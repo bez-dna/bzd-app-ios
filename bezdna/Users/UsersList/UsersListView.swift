@@ -3,14 +3,83 @@ import SwiftUI
 struct UsersListView : View {
   private var state: AppState
 
+  @State
+  private var service: UsersListService
+
   init(state: AppState) {
     self.state = state
+    self.service = .init(api: state.api)
   }
 
   var body: some View {
-    UsersContactsView(state: state)
+    ScrollViewReader { _ in
+      ScrollView {
+        LazyVStack(spacing: 0) {
+          UsersList(service: service, nav: state.nav)
+
+          UsersContactsView(state: state)
+        }
+      }
+    }.task {
+      do {
+        try await service.load()
+
+      } catch {
+        print(error)
+      }
+    }
   }
-  
+}
+
+struct UsersList : View {
+  @Bindable
+  private var service: UsersListService
+
+  @Bindable
+  private var nav: AppNav
+
+  init(service: UsersListService, nav: AppNav) {
+    self.service = service
+    self.nav = nav
+  }
+
+  var body: some View {
+    @Bindable
+    var model = service.model
+
+    ForEach(model.users, id: \.userId) { user in
+      UserListBubble(user) { userId in
+        nav.main.append(MainRoute.user(userId: userId))
+      }.padding(.horizontal, 16).padding(.bottom, 8)
+    }
+  }
+}
+
+struct UserListBubble: View {
+  private let user: GetUsersResponseModel.User
+  private let onPress: (_ userId: UUID) -> Void
+
+  init(_ user: GetUsersResponseModel.User, _ onPress: @escaping (_ userId: UUID) -> Void) {
+    self.user = user
+    self.onPress = onPress
+  }
+
+  var body: some View {
+    Button {
+      onPress(user.userId)
+    } label: {
+      HStack {
+        ZStack {
+          Rectangle().fill(Color.init(hex: user.color)).cornerRadius(20)
+          Text(user.abbr)
+        }.frame(width: 40, height: 40)
+
+        Text(user.name).lineLimit(1)
+
+        Spacer()
+      }
+    }.buttonStyle(.plain)
+  }
 }
 
 #Preview {

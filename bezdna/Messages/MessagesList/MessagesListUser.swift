@@ -15,10 +15,11 @@ struct MessagesListUser: View {
 
       Button {
         onClick()
-      } label: { ZStack {
-        Rectangle().fill(.gray).cornerRadius(20)
-        Text(user.abbr)
-      }.frame(width: 40, height: 40)
+      } label: {
+        ZStack {
+          Rectangle().fill(.gray).cornerRadius(20)
+          Text(user.abbr)
+        }.frame(width: 40, height: 40)
       }
     }
   }
