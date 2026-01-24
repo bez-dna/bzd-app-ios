@@ -6,25 +6,18 @@ struct MessagesListView: View {
   @State
   private var service: MessagesListService
 
-  @State
-  private var model: MessagesListModel
-
-  @Bindable
-  private var nav: AppNav
-
-  init(_ state: AppState) {
-    let model = MessagesListModel()
-
-    nav = state.nav
-    service = MessagesListService(state.api, model)
-    self.model = model
+  init(state: AppState) {
+    self.service = .init(api: state.api)
     self.state = state
   }
 
   var body: some View {
+    @Bindable
+    var nav = state.nav
+
     VStack {
       if state.isAuth() {
-        MessagesList(state: state, service: service, model: model, nav: nav)
+        MessagesList(state: state, service: service)
       } else {
         Button("AUTH PLEASE") {
           nav.flow = .auth
@@ -47,20 +40,18 @@ struct MessagesList: View {
   @Bindable
   private var service: MessagesListService
 
-  @Bindable
-  private var model: MessagesListModel
-
-  @Bindable
-  private var nav: AppNav
-
-  init(state: AppState, service: MessagesListService, model: MessagesListModel, nav: AppNav) {
+  init(state: AppState, service: MessagesListService) {
     self.service = service
-    self.model = model
-    self.nav = nav
     self.state = state
   }
 
   var body: some View {
+    @Bindable
+    var model = service.model
+
+    @Bindable
+    var nav = state.nav
+
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
@@ -74,9 +65,20 @@ struct MessagesList: View {
             nav.main.append(MainRoute.message(messageId: messageId))
           }.padding(.horizontal, 16).padding(.bottom, 16)
 
-          ForEach(model.messages, id: \.messageId) { message in
-            MessageListBubble(message) { messageId in
-              nav.main.append(MainRoute.message(messageId: messageId))
+
+            ForEach(model.messages, id: \.messageId) { message in
+              MessageListBubble(message) { messageId in
+                nav.main.append(MainRoute.message(messageId: messageId))
+              }
+            }
+
+            if model.isLoading {
+              ProgressView().padding(.top, 16)
+            }
+
+          if model.isInit && !model.isLoading && model.messages.isEmpty {
+            MessageListEmpty() {
+              nav.main.append(MainRoute.users)
             }
           }
 
@@ -87,6 +89,7 @@ struct MessagesList: View {
                 try await service.load()
               }
             }
+
         }
       }
     }
@@ -95,7 +98,7 @@ struct MessagesList: View {
 
 struct MessageListBubble: View {
   private let message: GetUserMessagesResponseModel.Message
-  let onPress: (_ messageId: UUID) -> Void
+  private let onPress: (_ messageId: UUID) -> Void
 
   init(_ message: GetUserMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
     self.message = message
@@ -111,6 +114,43 @@ struct MessageListBubble: View {
   }
 }
 
+struct MessageListEmpty : View {
+  private let onPress: () -> Void
+
+  init(onPress: @escaping () -> Void) {
+    self.onPress = onPress
+  }
+
+
+  var body: some View {
+    HStack {
+      Text(AppI18n.Messages.List.empty)
+        .multilineTextAlignment(.center)
+        .font(.system(size: AppSettings.Font.middle))
+        .padding(.vertical, AppSettings.Padding.y * 4)
+        .padding(.horizontal, AppSettings.Padding.x * 2)
+    }
+
+    Button {
+      onPress()
+    } label: {
+      HStack {
+        Text(AppI18n.Messages.List.contacts).colorInvert().font(.system(size: 14, weight: .bold))
+
+        Image(systemName: "person.2.fill")
+          .font(.system(size: 16))
+          .colorInvert()
+          .frame(height: 30)
+      }
+    }.buttonStyle(.plain)
+      .padding(.leading, AppSettings.Padding.x)
+      .padding(.trailing, AppSettings.Padding.y)
+      .background(.submit)
+      .frame(height: 30)
+      .clipShape(RoundedRectangle(cornerRadius: 15))
+  }
+}
+
 #Preview {
-  MessagesListView(AppState())
+  MessagesListView(state: AppState())
 }

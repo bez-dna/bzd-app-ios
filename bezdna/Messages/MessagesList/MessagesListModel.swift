@@ -2,6 +2,8 @@ import SwiftUI
 
 @Observable
 final class MessagesListModel {
+  var isInit: Bool = false
+  var isLoading: Bool = false
   var messages: [GetUserMessagesResponseModel.Message] = []
   var cursorMessageId: UUID?
   var lastCursorMessageId: Bool = false

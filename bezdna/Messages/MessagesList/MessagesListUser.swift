@@ -16,11 +16,9 @@ struct MessagesListUser: View {
       Button {
         onClick()
       } label: {
-        ZStack {
-          Rectangle().fill(.gray).cornerRadius(20)
-          Text(user.abbr)
-        }.frame(width: 40, height: 40)
-      }
+        Image(systemName: "person.2.circle.fill")
+          .font(.system(size: 40))
+      }.buttonStyle(.plain)
     }
   }
 }

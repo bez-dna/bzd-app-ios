@@ -2,19 +2,24 @@ import SwiftUI
 
 @Observable
 final class MessagesListService {
-  private let model: MessagesListModel
+  var model: MessagesListModel = .init()
 
   @ObservationIgnored
-  private let api: MessagesApiImpl
+  private let api: MessagesApi
 
-  init(_ api: ApiClient, _ model: MessagesListModel) {
+  init(api: ApiClient) {
     self.api = MessagesApiImpl(api)
-    self.model = model
   }
 
   func load() async throws {
     if model.lastCursorMessageId {
       return
+    }
+
+    model.isLoading = true
+    defer {
+      model.isLoading = false
+      model.isInit = true
     }
 
     let res = try await api.getUserMessages(req: GetUserMessagesRequest(GetUserMessagesRequestModel(cursorMessageId: model.cursorMessageId)))

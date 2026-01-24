@@ -12,12 +12,19 @@ struct UsersListView : View {
   }
 
   var body: some View {
+    @Bindable
+    var model = service.model
+
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
           UsersList(service: service, nav: state.nav)
 
-          UsersContactsView(state: state)
+          if model.isLoading {
+            ProgressView().padding(.top, 16)
+          } else {
+            UsersContactsView(state: state)
+          }
         }
       }
     }.task {
@@ -71,10 +78,10 @@ struct UserListBubble: View {
       HStack {
         ZStack {
           Rectangle().fill(Color.init(hex: user.color)).cornerRadius(20)
-          Text(user.abbr)
+          Text(user.abbr).font(.system(size: 14, weight: .bold))
         }.frame(width: 40, height: 40)
 
-        Text(user.name).lineLimit(1)
+        Text(user.name).lineLimit(1).font(.system(size: 16, weight: .medium))
 
         Spacer()
       }
