@@ -4,8 +4,11 @@ struct CreateMessageView: View {
   @State
   private var service: CreateMessageService
 
-  init(_ state: AppState) {
-    service = .init(with: state.api)
+  private let onCreate: (UUID) -> Void
+
+  init(state: AppState, messageId: UUID?, onCreate: @escaping (UUID) -> Void) {
+    service = .init(api: state.api, messageId: messageId)
+    self.onCreate = onCreate
   }
 
   var body: some View {
@@ -24,6 +27,8 @@ struct CreateMessageView: View {
         Task {
           do {
             let res = try await service.save()
+
+            onCreate(res.message.messageId)
           } catch {
             print(error)
           }
@@ -39,5 +44,5 @@ struct CreateMessageView: View {
 }
 
 #Preview {
-  CreateMessageView(AppState())
+  CreateMessageView(state: AppState(), messageId: nil) { messageId in print(messageId) }
 }

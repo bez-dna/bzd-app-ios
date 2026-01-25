@@ -13,16 +13,12 @@ struct MainView: View {
 
   var body: some View {
     NavigationStack(path: $nav.main) {
-      //      Button("USERS") {
-      //        nav.main.append(MainRoute.users)
-      //      }
-
-      MessagesListView(state).navigationDestination(for: MainRoute.self) { route in
+      MessagesListView(state: state).navigationDestination(for: MainRoute.self) { route in
         switch route {
         case let .message(messageId):
-          MessageView(state, messageId)
+          MessageView(state: state, messageId: messageId)
         case .users:
-          UsersView()
+          UsersListView(state: state)
         case let .user(userId):
           UserView(userId)
         }

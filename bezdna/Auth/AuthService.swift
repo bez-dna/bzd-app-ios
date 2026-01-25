@@ -24,7 +24,7 @@ final class AuthService {
 
     if let user = res.user {
       let user = AppModel.User(
-        userId: user.userId, name: user.name, abbr: user.name, color: user.color,
+        userId: user.userId, name: user.name, abbr: user.abbr, color: user.color,
       )
       try storage.saveUser(user)
       appModel.user = user

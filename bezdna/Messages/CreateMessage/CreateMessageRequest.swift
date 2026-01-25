@@ -20,6 +20,7 @@ struct CreateMessageRequest: ApiRequest {
 struct CreateMessageRequestModel: Encodable {
   let text: String
   let code: String
+  let messageId: UUID?
 }
 
 struct CreateMessageResponseModel: Decodable {

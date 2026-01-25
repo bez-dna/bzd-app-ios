@@ -1,0 +1,6 @@
+messages.list.empty = "Where are not messages yet, start posting ☝️ \n or find friends in contacts 👇";
+messages.list.contacts = "Contacts";
+
+users.contacts.new = "TBD: Send contacts to service and find someone..";
+users.contacts.button = "Sync";
+users.contacts.denied = "TBD: App cant get contacts..";

@@ -9,7 +9,7 @@ class GetMessageMessagesRequest: ApiRequest {
   var path: String { "/messages/\(messageId)/messages" }
   var queryItems: [URLQueryItem]?
 
-  init(_ messageId: UUID, _ model: GetMessageMessagesRequestModel) {
+  init(messageId: UUID, model: GetMessageMessagesRequestModel) {
     self.messageId = messageId
     self.model = model
 
