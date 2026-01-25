@@ -1,6 +1,6 @@
 import Foundation
 
-struct CreateContactsRequest : ApiRequest {
+struct CreateContactsRequest: ApiRequest {
   typealias ApiResponse = CreateContactsResponseModel
 
   var method: HTTPMethod { .post }
@@ -18,7 +18,7 @@ struct CreateContactsRequest : ApiRequest {
   }
 }
 
-struct CreateContactsRequestModel : Encodable {
+struct CreateContactsRequestModel: Encodable {
   let contacts: [Contact]
 
   struct Contact: Encodable {
@@ -28,4 +28,4 @@ struct CreateContactsRequestModel : Encodable {
   }
 }
 
-struct CreateContactsResponseModel : Decodable {}
+struct CreateContactsResponseModel: Decodable {}

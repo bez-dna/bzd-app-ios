@@ -1,9 +1,9 @@
-import SwiftUI
 import Contacts
+import SwiftUI
 
 @Observable
 final class UsersContactsService {
-//  var model: UsersContactsModel = .init()
+  var model: UsersContactsModel
 
   @ObservationIgnored
   private let api: UsersApi
@@ -14,23 +14,30 @@ final class UsersContactsService {
   init(api: ApiClient, store: ContactStoreImpl = .init()) {
     self.api = UsersApiImpl(with: api)
     self.store = store
+    model = .init(status: store.getStatus())
+  }
+
+  func status() -> ContactStoreStatus {
+    store.getStatus()
   }
 
   func sync() async throws {
     let granted = try await store.requestPermission()
 
+    print("SYNC")
+
     if granted {
       let contacts = try store.fetchContacts().flatMap { contact in
-        contact.phoneNumbers.map {phoneNumber in
-          return CreateContactsRequestModel.Contact(
+        contact.phoneNumbers.map { phoneNumber in
+          CreateContactsRequestModel.Contact(
             name: "\(contact.givenName) \(contact.familyName)",
             phoneNumber: phoneNumber.value.stringValue,
-            deviceContactId: contact.identifier
+            deviceContactId: contact.identifier,
           )
         }
       }
 
-      let _ = try await api.createContacts(req: .init(model: .init(contacts: contacts)))
+      _ = try await api.createContacts(req: .init(model: .init(contacts: contacts)))
     }
   }
 }

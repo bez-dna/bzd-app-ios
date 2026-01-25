@@ -1,6 +1,6 @@
 import Foundation
 
-struct GetUsersRequest : ApiRequest {
+struct GetUsersRequest: ApiRequest {
   typealias ApiResponse = GetUsersResponseModel
 
   var method: HTTPMethod { .get }
@@ -16,10 +16,10 @@ struct GetUsersRequest : ApiRequest {
   }
 }
 
-struct GetUsersResponseModel : Decodable {
+struct GetUsersResponseModel: Decodable {
   let users: [User]
 
-  struct User : Decodable {
+  struct User: Decodable {
     let userId: UUID
     let name: String
     let abbr: String

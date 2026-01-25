@@ -1,4 +1,4 @@
-final class UsersApiImpl : UsersApi {
+final class UsersApiImpl: UsersApi {
   private let api: ApiClient
 
   init(with api: ApiClient) {

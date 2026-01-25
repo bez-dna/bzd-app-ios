@@ -7,7 +7,7 @@ struct MessagesListView: View {
   private var service: MessagesListService
 
   init(state: AppState) {
-    self.service = .init(api: state.api)
+    service = .init(api: state.api)
     self.state = state
   }
 
@@ -65,19 +65,18 @@ struct MessagesList: View {
             nav.main.append(MainRoute.message(messageId: messageId))
           }.padding(.horizontal, 16).padding(.bottom, 16)
 
-
-            ForEach(model.messages, id: \.messageId) { message in
-              MessageListBubble(message) { messageId in
-                nav.main.append(MainRoute.message(messageId: messageId))
-              }
+          ForEach(model.messages, id: \.messageId) { message in
+            MessageListBubble(message) { messageId in
+              nav.main.append(MainRoute.message(messageId: messageId))
             }
+          }
 
-            if model.isLoading {
-              ProgressView().padding(.top, 16)
-            }
+          if model.isLoading {
+            ProgressView().padding(.top, 16)
+          }
 
-          if model.isInit && !model.isLoading && model.messages.isEmpty {
-            MessageListEmpty() {
+          if model.isInit, !model.isLoading, model.messages.isEmpty {
+            MessageListEmpty {
               nav.main.append(MainRoute.users)
             }
           }
@@ -89,7 +88,6 @@ struct MessagesList: View {
                 try await service.load()
               }
             }
-
         }
       }
     }
@@ -114,13 +112,12 @@ struct MessageListBubble: View {
   }
 }
 
-struct MessageListEmpty : View {
+struct MessageListEmpty: View {
   private let onPress: () -> Void
 
   init(onPress: @escaping () -> Void) {
     self.onPress = onPress
   }
-
 
   var body: some View {
     HStack {
@@ -135,7 +132,7 @@ struct MessageListEmpty : View {
       onPress()
     } label: {
       HStack {
-        Text(AppI18n.Messages.List.contacts).colorInvert().font(.system(size: 14, weight: .bold))
+        Text(AppI18n.Messages.List.contacts).colorInvert().font(.system(size: AppSettings.Font.button, weight: .bold))
 
         Image(systemName: "person.2.fill")
           .font(.system(size: 16))

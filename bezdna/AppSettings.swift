@@ -9,6 +9,7 @@ enum AppSettings {
   }
 
   enum Font {
+    static let button: CGFloat = 14
     static let middle: CGFloat = 24
   }
 

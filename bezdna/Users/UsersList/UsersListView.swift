@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UsersListView : View {
+struct UsersListView: View {
   private var state: AppState
 
   @State
@@ -8,12 +8,16 @@ struct UsersListView : View {
 
   init(state: AppState) {
     self.state = state
-    self.service = .init(api: state.api)
+    service = .init(api: state.api)
   }
 
   var body: some View {
     @Bindable
     var model = service.model
+
+    // Нужно доделать разные кейсы получения доступа к контактам и списком контактов.
+    // Основная идея в том чтобы никогда не было пустого экрана, должны быть подсказки что сделать чтобы найти контакты.
+    // Это важно потому что в этом суть приложения.
 
     ScrollViewReader { _ in
       ScrollView {
@@ -38,7 +42,7 @@ struct UsersListView : View {
   }
 }
 
-struct UsersList : View {
+struct UsersList: View {
   @Bindable
   private var service: UsersListService
 
@@ -77,7 +81,7 @@ struct UserListBubble: View {
     } label: {
       HStack {
         ZStack {
-          Rectangle().fill(Color.init(hex: user.color)).cornerRadius(20)
+          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
           Text(user.abbr).font(.system(size: 14, weight: .bold))
         }.frame(width: 40, height: 40)
 
