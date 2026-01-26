@@ -56,7 +56,7 @@ struct MessagesList: View {
       ScrollView {
         LazyVStack(spacing: 0) {
           if let user = state.model.user {
-            MessagesListUser(user: user) {
+            MessagesListUserView(user: user) {
               nav.main.append(MainRoute.users)
             }.padding(.horizontal, 16).padding(.bottom, 8)
           }

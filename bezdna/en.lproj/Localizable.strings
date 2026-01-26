@@ -4,3 +4,7 @@ messages.list.contacts = "Contacts";
 users.contacts.new = "TBD: Send contacts to service and find someone..";
 users.contacts.button = "Sync";
 users.contacts.denied = "TBD: App cant get contacts..";
+
+users.list.empty = "Where are not users yet";
+users.list.me = "it's you ✌️";
+users.list.logout = "Logout";

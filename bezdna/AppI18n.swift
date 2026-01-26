@@ -14,5 +14,11 @@ enum AppI18n {
       static let button = String(localized: "users.contacts.button")
       static let denied = String(localized: "users.contacts.denied")
     }
+
+    enum List {
+      static let empty = String(localized: "users.list.empty")
+      static let me = String(localized: "users.list.me")
+      static let logout = String(localized: "users.list.logout")
+    }
   }
 }

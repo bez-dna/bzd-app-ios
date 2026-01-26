@@ -11,10 +11,10 @@ struct UsersContactsView: View {
   var body: some View {
     let status = service.model.status
 
-    if status == .new {
-      UsersContactsNewView(service: service)
-    } else if status == .denied {
+    if status == .denied {
       UsersContactsDeniedView()
+    } else {
+      UsersContactsNewView(service: service)
     }
   }
 }

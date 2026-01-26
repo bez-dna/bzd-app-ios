@@ -22,7 +22,17 @@ struct UsersListView: View {
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
+          if let user = state.model.user {
+            UsersListUserView(user: user) {
+              print("LOGOUT")
+            }.padding(.horizontal, 16).padding(.bottom, 8)
+          }
+
           UsersList(service: service, nav: state.nav)
+
+          if model.isInit, !model.isLoading, model.users.isEmpty {
+            UsersListEmpty()
+          }
 
           if model.isLoading {
             ProgressView().padding(.top, 16)
@@ -90,6 +100,15 @@ struct UserListBubble: View {
         Spacer()
       }
     }.buttonStyle(.plain)
+  }
+}
+
+struct UsersListEmpty: View {
+  var body: some View {
+    Text(AppI18n.Users.List.empty)
+      .multilineTextAlignment(.center)
+      .padding(.vertical, AppSettings.Padding.y * 4)
+      .padding(.horizontal, AppSettings.Padding.x * 2)
   }
 }
 
