@@ -63,11 +63,17 @@ struct MessagesList: View {
 
           CreateMessageView(state: state, messageId: nil) { messageId in
             nav.main.append(MainRoute.message(messageId: messageId))
-          }.padding(.horizontal, 16).padding(.bottom, 16)
+          }
+          .padding(.horizontal, AppSettings.Padding.x)
+          .padding(.bottom, 16)
 
-          ForEach(model.messages, id: \.messageId) { message in
-            MessageListBubble(message) { messageId in
-              nav.main.append(MainRoute.message(messageId: messageId))
+          ForEach(model.messages.messageIds, id: \.self) { messageId in
+            if let message = model.messages.messages[messageId] {
+              MessageListBubble(message) { messageId in
+                nav.main.append(MainRoute.message(messageId: messageId))
+              }
+              .padding(.horizontal, AppSettings.Padding.x)
+              .padding(.bottom, AppSettings.Padding.y * 2)
             }
           }
 
@@ -75,7 +81,7 @@ struct MessagesList: View {
             ProgressView().padding(.top, 16)
           }
 
-          if model.isInit, !model.isLoading, model.messages.isEmpty {
+          if model.isInit, !model.isLoading, model.messages.messageIds.isEmpty {
             MessageListEmpty {
               nav.main.append(MainRoute.users)
             }
@@ -83,6 +89,7 @@ struct MessagesList: View {
 
           Color.clear
             .frame(height: 0)
+//            .background(.blue)
             .onAppear {
               Task {
                 try await service.load()
@@ -104,11 +111,34 @@ struct MessageListBubble: View {
   }
 
   var body: some View {
+    let user = message.user
+
     Button {
       onPress(message.messageId)
     } label: {
-      Text(message.text)
+      HStack(spacing: 0) {
+          ZStack {
+            Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
+            Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
+          }
+          .frame(width: 40, height: 40)
+          .padding(.trailing, AppSettings.Padding.y)
+
+          VStack(alignment: .leading, spacing: 0) {
+            Text(user.name)
+              .lineLimit(1)
+              .font(.system(size: AppSettings.Font.s, weight: .medium))
+              .padding(.bottom, 2)
+
+            Text(message.text)
+              .font(.system(size: AppSettings.Font.main))
+          }
+
+
+          Spacer()
+        }
     }
+    .buttonStyle(.plain)
   }
 }
 

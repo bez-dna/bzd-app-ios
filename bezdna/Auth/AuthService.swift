@@ -32,9 +32,15 @@ final class AuthService {
   }
 
   func updateToken(_ token: String) async throws {
-    try storage.saveToken(token)
+    storage.saveToken(token)
     appModel.token = token
 
     try await loadUser()
+  }
+
+  func removeToken() {
+    storage.removeTokenAndUser()
+    appModel.token = nil
+    appModel.user = nil
   }
 }

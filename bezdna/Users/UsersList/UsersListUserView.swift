@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UsersListUserView : View {
+struct UsersListUserView: View {
   private let user: AppModel.User
   private let onLogout: () -> Void
 
@@ -23,7 +23,6 @@ struct UsersListUserView : View {
           .lineLimit(1)
           .font(.system(size: AppSettings.Font.s))
           .foregroundStyle(.secondary)
-
       }
 
       Spacer()

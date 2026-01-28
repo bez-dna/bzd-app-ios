@@ -15,6 +15,13 @@ struct UsersListView: View {
     @Bindable
     var model = service.model
 
+    @Bindable
+    var authService = state.authService
+
+    @Bindable
+    var nav = state.nav
+
+
     // Нужно доделать разные кейсы получения доступа к контактам и списком контактов.
     // Основная идея в том чтобы никогда не было пустого экрана, должны быть подсказки что сделать чтобы найти контакты.
     // Это важно потому что в этом суть приложения.
@@ -24,7 +31,9 @@ struct UsersListView: View {
         LazyVStack(spacing: 0) {
           if let user = state.model.user {
             UsersListUserView(user: user) {
-              print("LOGOUT")
+              authService.removeToken()
+              nav.main.removeLast(nav.main.count)
+              // В теории должен немного моргнуть UI, ну и ладно :)
             }.padding(.horizontal, 16).padding(.bottom, 8)
           }
 

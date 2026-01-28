@@ -2,7 +2,9 @@ protocol TokenStorage {
   var tokenKey: String { get }
   var userKey: String { get }
 
-  func saveToken(_ token: String) throws
+  func removeTokenAndUser()
+
+  func saveToken(_ token: String)
 
   func saveUser(_ user: AppModel.User) throws
 
