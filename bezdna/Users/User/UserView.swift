@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UserView : View {
+struct UserView: View {
   private var state: AppState
 
   @State
@@ -90,26 +90,25 @@ struct UserMessagesBubbleView: View {
       onPress(message.messageId)
     } label: {
       HStack(alignment: .top, spacing: 0) {
-          ZStack {
-            Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
-            Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
-          }
-          .frame(width: 40, height: 40)
-          .padding(.trailing, AppSettings.Padding.y)
-
-          VStack(alignment: .leading, spacing: 0) {
-            Text(user.name)
-              .lineLimit(1)
-              .font(.system(size: AppSettings.Font.s, weight: .bold))
-              .padding(.bottom, 2)
-
-            Text(message.text)
-              .font(.system(size: AppSettings.Font.main))
-          }
-
-
-          Spacer()
+        ZStack {
+          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
+          Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
         }
+        .frame(width: 40, height: 40)
+        .padding(.trailing, AppSettings.Padding.y)
+
+        VStack(alignment: .leading, spacing: 0) {
+          Text(user.name)
+            .lineLimit(1)
+            .font(.system(size: AppSettings.Font.s, weight: .bold))
+            .padding(.bottom, 2)
+
+          Text(message.text)
+            .font(.system(size: AppSettings.Font.main))
+        }
+
+        Spacer()
+      }
     }
     .buttonStyle(.plain)
   }
@@ -129,7 +128,7 @@ struct UserUserView: View {
         Text(user.abbr).font(.system(size: AppSettings.Font.main, weight: .bold))
       }.frame(width: 60, height: 60)
 
-        Text(user.name).lineLimit(1).font(.system(size: AppSettings.Font.middle, weight: .bold))
+      Text(user.name).lineLimit(1).font(.system(size: AppSettings.Font.middle, weight: .bold))
     }
   }
 }

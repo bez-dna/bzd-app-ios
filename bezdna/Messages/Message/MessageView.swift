@@ -30,13 +30,6 @@ struct MessageView: View {
 
           MessageMessagesView(service: service, nav: state.nav)
 
-//          ForEach(model.messages.reversed(), id: \.messageId) { message in
-//            MessageBubble(message) {
-//              print("NAV")
-//              nav.main.append(MainRoute.message(messageId: message.messageId))
-//            }
-//          }
-
           Group {
             CreateMessageView(state: state, messageId: service.messageId) { messageId in
               print(messageId)
@@ -57,7 +50,7 @@ struct MessageView: View {
   }
 }
 
-struct MessageMessagesView : View {
+struct MessageMessagesView: View {
   @Bindable
   private var service: MessageService
 
@@ -101,49 +94,29 @@ struct MessageMessagesBubbleView: View {
       onPress(message.messageId)
     } label: {
       HStack(alignment: .top, spacing: 0) {
-          ZStack {
-            Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
-            Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
-          }
-          .frame(width: 40, height: 40)
-          .padding(.trailing, AppSettings.Padding.y)
-
-          VStack(alignment: .leading, spacing: 0) {
-            Text(user.name)
-              .lineLimit(1)
-              .font(.system(size: AppSettings.Font.s, weight: .bold))
-              .padding(.bottom, 2)
-
-            Text(message.text)
-              .font(.system(size: AppSettings.Font.main))
-          }
-
-
-          Spacer()
+        ZStack {
+          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
+          Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
         }
+        .frame(width: 40, height: 40)
+        .padding(.trailing, AppSettings.Padding.y)
+
+        VStack(alignment: .leading, spacing: 0) {
+          Text(user.name)
+            .lineLimit(1)
+            .font(.system(size: AppSettings.Font.s, weight: .bold))
+            .padding(.bottom, 2)
+
+          Text(message.text)
+            .font(.system(size: AppSettings.Font.main))
+        }
+
+        Spacer()
+      }
     }
     .buttonStyle(.plain)
   }
 }
-
-//struct MessageBubble: View {
-//  let message: GetMessageMessagesResponseModel.Message
-//  let onPress: () -> Void
-//
-//  init(_ message: GetMessageMessagesResponseModel.Message, _ onPress: @escaping () -> Void) {
-//    self.message = message
-//    self.onPress = onPress
-//  }
-//
-//  var body: some View {
-//    Text(message.text)
-//
-//    Button("-> ") {
-//      print("BTN")
-//      onPress()
-//    }
-//  }
-//}
 
 struct BottomAnchor: Hashable {}
 

@@ -116,26 +116,25 @@ struct MessageListBubble: View {
       onPress(message.messageId)
     } label: {
       HStack(spacing: 0) {
-          ZStack {
-            Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
-            Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
-          }
-          .frame(width: 40, height: 40)
-          .padding(.trailing, AppSettings.Padding.y)
-
-          VStack(alignment: .leading, spacing: 0) {
-            Text(user.name)
-              .lineLimit(1)
-              .font(.system(size: AppSettings.Font.s, weight: .medium))
-              .padding(.bottom, 2)
-
-            Text(message.text)
-              .font(.system(size: AppSettings.Font.main))
-          }
-
-
-          Spacer()
+        ZStack {
+          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
+          Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
         }
+        .frame(width: 40, height: 40)
+        .padding(.trailing, AppSettings.Padding.y)
+
+        VStack(alignment: .leading, spacing: 0) {
+          Text(user.name)
+            .lineLimit(1)
+            .font(.system(size: AppSettings.Font.s, weight: .medium))
+            .padding(.bottom, 2)
+
+          Text(message.text)
+            .font(.system(size: AppSettings.Font.main))
+        }
+
+        Spacer()
+      }
     }
     .buttonStyle(.plain)
   }

@@ -5,7 +5,7 @@ final class UserModel {
   var isLoading: Loading = .init()
   var cursorMessageId: UUID?
   var lastCursorMessageId: Bool = false
-  
+
   var user: GetUserResponseModel.User?
   var messages: MessagesStore = .init()
 

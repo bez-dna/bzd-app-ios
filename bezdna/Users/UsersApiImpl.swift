@@ -28,5 +28,4 @@ final class UsersApiImpl: UsersApi {
     let data = try await api.request(req: req)
     return try req.decode(data)
   }
-
 }
