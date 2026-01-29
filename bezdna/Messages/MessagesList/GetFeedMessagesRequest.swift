@@ -1,14 +1,14 @@
 import Foundation
 
-class GetUserMessagesRequest: ApiRequest {
-  typealias ApiResponse = GetUserMessagesResponseModel
+class GetFeedMessagesRequest: ApiRequest {
+  typealias ApiResponse = GetFeedMessagesResponseModel
 
-  let model: GetUserMessagesRequestModel
+  let model: GetFeedMessagesRequestModel
   var method: HTTPMethod { .get }
   var path: String { "/messages" }
   var queryItems: [URLQueryItem]?
 
-  init(_ model: GetUserMessagesRequestModel) {
+  init(_ model: GetFeedMessagesRequestModel) {
     self.model = model
 
     if let cursorMessageId = model.cursorMessageId {
@@ -25,11 +25,11 @@ class GetUserMessagesRequest: ApiRequest {
   }
 }
 
-struct GetUserMessagesRequestModel: Encodable {
+struct GetFeedMessagesRequestModel: Encodable {
   let cursorMessageId: UUID?
 }
 
-struct GetUserMessagesResponseModel: Decodable {
+struct GetFeedMessagesResponseModel: Decodable {
   let messages: [Message]
   let cursorMessageId: UUID?
 

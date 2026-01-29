@@ -5,7 +5,7 @@ class MessagesApiImpl: MessagesApi {
     self.api = api
   }
 
-  func getFeedMessages(req: GetUserMessagesRequest) async throws -> GetUserMessagesResponseModel {
+  func getFeedMessages(req: GetFeedMessagesRequest) async throws -> GetFeedMessagesResponseModel {
     let data = try await api.request(req: req)
     return try req.decode(data)
   }

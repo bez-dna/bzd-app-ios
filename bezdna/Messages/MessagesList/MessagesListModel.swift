@@ -8,17 +8,17 @@ final class MessagesListModel {
   var lastCursorMessageId: Bool = false
   var messages: MessagesStore = .init()
 
-  var messagesList: [GetUserMessagesResponseModel.Message] {
-    messages.messageIds.compactMap { messageId in
-      messages.messages[messageId]
-    }
-  }
+//  var messagesList: [GetFeedMessagesResponseModel.Message] {
+//    messages.messageIds.compactMap { messageId in
+//      messages.messages[messageId]
+//    }
+//  }
 
   struct MessagesStore {
-    var messages: [UUID: GetUserMessagesResponseModel.Message] = [:]
+    var messages: [UUID: GetFeedMessagesResponseModel.Message] = [:]
     var messageIds: [UUID] = []
 
-    func append(_ batchMessages: [GetUserMessagesResponseModel.Message]) -> Self {
+    func append(_ batchMessages: [GetFeedMessagesResponseModel.Message]) -> Self {
       var newMessages = messages
       var newMessageIds = messageIds
 

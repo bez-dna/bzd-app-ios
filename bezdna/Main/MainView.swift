@@ -20,7 +20,7 @@ struct MainView: View {
         case .users:
           UsersListView(state: state)
         case let .user(userId):
-          UserView(userId)
+          UserView(state: state, userId: userId)
         }
       }
     }

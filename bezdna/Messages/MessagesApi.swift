@@ -1,5 +1,5 @@
 protocol MessagesApi {
-  func getFeedMessages(req: GetUserMessagesRequest) async throws -> GetUserMessagesResponseModel
+  func getFeedMessages(req: GetFeedMessagesRequest) async throws -> GetFeedMessagesResponseModel
 
   func getMessageMessages(req: GetMessageMessagesRequest) async throws
     -> GetMessageMessagesResponseModel

@@ -89,7 +89,6 @@ struct MessagesList: View {
 
           Color.clear
             .frame(height: 0)
-//            .background(.blue)
             .onAppear {
               Task {
                 try await service.load()
@@ -102,10 +101,10 @@ struct MessagesList: View {
 }
 
 struct MessageListBubble: View {
-  private let message: GetUserMessagesResponseModel.Message
+  private let message: GetFeedMessagesResponseModel.Message
   private let onPress: (_ messageId: UUID) -> Void
 
-  init(_ message: GetUserMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
+  init(_ message: GetFeedMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
     self.message = message
     self.onPress = onPress
   }
