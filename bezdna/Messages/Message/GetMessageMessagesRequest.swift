@@ -38,5 +38,13 @@ struct GetMessageMessagesResponseModel: Decodable {
   struct Message: Decodable {
     let messageId: UUID
     let text: String
+    let user: User
+
+    struct User: Decodable {
+      let userId: UUID
+      let name: String
+      let abbr: String
+      let color: String
+    }
   }
 }

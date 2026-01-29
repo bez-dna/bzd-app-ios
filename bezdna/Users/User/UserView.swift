@@ -34,13 +34,13 @@ struct UserView : View {
                 try await service.loadMessages()
               }
             }
-        }.task {
-          do {
-            try await service.loadUser()
-          } catch {
-            print(error)
-          }
         }
+      }
+    }.task {
+      do {
+        try await service.loadUser()
+      } catch {
+        print(error)
       }
     }
   }
