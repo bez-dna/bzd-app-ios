@@ -1,9 +1,8 @@
+@testable import bezdna
 import Testing
 
-@testable import bezdna
-
 struct AuthStoreTests {
-  @Test func sdsdf() throws {
+  @Test func sdsdf() {
     #expect("1" == "1")
   }
 }

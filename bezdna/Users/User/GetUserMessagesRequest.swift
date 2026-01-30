@@ -5,8 +5,14 @@ struct GetUserMessagesRequest: ApiRequest {
 
   let userId: UUID
   let model: GetUserMessagesRequestModel
-  var method: HTTPMethod { .get }
-  var path: String { "/users/\(userId)/messages" }
+  var method: HTTPMethod {
+    .get
+  }
+
+  var path: String {
+    "/users/\(userId)/messages"
+  }
+
   var queryItems: [URLQueryItem]?
 
   init(userId: UUID, model: GetUserMessagesRequestModel) {

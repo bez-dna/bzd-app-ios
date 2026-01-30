@@ -3,8 +3,14 @@ import Foundation
 struct GetUsersRequest: ApiRequest {
   typealias ApiResponse = GetUsersResponseModel
 
-  var method: HTTPMethod { .get }
-  var path: String { "/users" }
+  var method: HTTPMethod {
+    .get
+  }
+
+  var path: String {
+    "/users"
+  }
+
   var queryItems: [URLQueryItem]?
 
   func encode() throws -> Data? {

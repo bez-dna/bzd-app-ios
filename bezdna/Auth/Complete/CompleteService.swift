@@ -15,7 +15,8 @@ final class CompleteService {
     let req = CompleteApiRequest(
       model: CompleteRequestModel(
         verificationId: verificationId, code: model.code, name: model.name,
-      ))
+      ),
+    )
 
     return try await api.complete(req: req)
   }

@@ -5,7 +5,6 @@ import SwiftUI
 final class AppState {
   let model: AppModel = .init()
   let authService: AuthService
-//  let nav: AppNav = .init()
   let api: ApiClient
 
   // Не очень нравится этот класс после того как сюда приехал ApiClient,

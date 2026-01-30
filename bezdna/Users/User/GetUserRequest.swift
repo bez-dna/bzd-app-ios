@@ -4,8 +4,14 @@ struct GetUserRequest: ApiRequest {
   typealias ApiResponse = GetUserResponseModel
 
   let userId: UUID
-  var method: HTTPMethod { .get }
-  var path: String { "/users/\(userId)" }
+  var method: HTTPMethod {
+    .get
+  }
+
+  var path: String {
+    "/users/\(userId)"
+  }
+
   var queryItems: [URLQueryItem]?
 
   init(userId: UUID) {

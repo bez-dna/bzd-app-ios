@@ -10,7 +10,7 @@ final class BezdnaUITestsLaunchTests: XCTestCase {
   }
 
   @MainActor
-  func testLaunch() throws {
+  func testLaunch() {
     let app = XCUIApplication()
     app.launch()
 

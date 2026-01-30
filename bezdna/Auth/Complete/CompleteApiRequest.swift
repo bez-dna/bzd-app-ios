@@ -3,8 +3,14 @@ import Foundation
 struct CompleteApiRequest: ApiRequest {
   typealias ApiResponse = CompleteResponseModel
 
-  var method: HTTPMethod { .post }
-  var path: String { "/auth/complete" }
+  var method: HTTPMethod {
+    .post
+  }
+
+  var path: String {
+    "/auth/complete"
+  }
+
   var queryItems: [URLQueryItem]?
 
   let model: CompleteRequestModel

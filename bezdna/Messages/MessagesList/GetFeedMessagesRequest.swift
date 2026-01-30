@@ -4,8 +4,14 @@ class GetFeedMessagesRequest: ApiRequest {
   typealias ApiResponse = GetFeedMessagesResponseModel
 
   let model: GetFeedMessagesRequestModel
-  var method: HTTPMethod { .get }
-  var path: String { "/messages" }
+  var method: HTTPMethod {
+    .get
+  }
+
+  var path: String {
+    "/messages"
+  }
+
   var queryItems: [URLQueryItem]?
 
   init(_ model: GetFeedMessagesRequestModel) {

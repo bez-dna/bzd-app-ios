@@ -5,8 +5,14 @@ class GetMessageMessagesRequest: ApiRequest {
 
   let messageId: UUID
   let model: GetMessageMessagesRequestModel
-  var method: HTTPMethod { .get }
-  var path: String { "/messages/\(messageId)/messages" }
+  var method: HTTPMethod {
+    .get
+  }
+
+  var path: String {
+    "/messages/\(messageId)/messages"
+  }
+
   var queryItems: [URLQueryItem]?
 
   init(messageId: UUID, model: GetMessageMessagesRequestModel) {

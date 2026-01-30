@@ -3,8 +3,14 @@ import Foundation
 struct CreateContactsRequest: ApiRequest {
   typealias ApiResponse = CreateContactsResponseModel
 
-  var method: HTTPMethod { .post }
-  var path: String { "/contacts" }
+  var method: HTTPMethod {
+    .post
+  }
+
+  var path: String {
+    "/contacts"
+  }
+
   var queryItems: [URLQueryItem]?
 
   let model: CreateContactsRequestModel
