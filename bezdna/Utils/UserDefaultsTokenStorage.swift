@@ -1,10 +1,20 @@
 import Foundation
 
 final class UserDefaultsTokenStorage: TokenStorage {
-  var tokenKey: String { "jwt" }
-  var userKey: String { "user" }
+  var tokenKey: String {
+    "jwt"
+  }
 
-  func saveToken(_ token: String) throws {
+  var userKey: String {
+    "user"
+  }
+
+  func removeTokenAndUser() {
+    UserDefaults.standard.removeObject(forKey: tokenKey)
+    UserDefaults.standard.removeObject(forKey: userKey)
+  }
+
+  func saveToken(_ token: String) {
     UserDefaults.standard.set(token, forKey: tokenKey)
   }
 

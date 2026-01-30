@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct MessagesListUser: View {
+struct MessagesListUserView: View {
   private let user: AppModel.User
-  private let onClick: () -> Void
+  private let onPress: () -> Void
 
-  init(user: AppModel.User, onClick: @escaping () -> Void) {
+  init(user: AppModel.User, onPress: @escaping () -> Void) {
     self.user = user
-    self.onClick = onClick
+    self.onPress = onPress
   }
 
   var body: some View {
@@ -14,7 +14,7 @@ struct MessagesListUser: View {
       Spacer()
 
       Button {
-        onClick()
+        onPress()
       } label: {
         Image(systemName: "person.2.circle.fill")
           .font(.system(size: 40))

@@ -24,8 +24,6 @@ final class UsersContactsService {
   func sync() async throws {
     let granted = try await store.requestPermission()
 
-    print("SYNC")
-
     if granted {
       let contacts = try store.fetchContacts().flatMap { contact in
         contact.phoneNumbers.map { phoneNumber in

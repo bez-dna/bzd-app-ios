@@ -13,7 +13,10 @@ final class UsersListService {
 
   func load() async throws {
     model.isLoading = true
-    defer { model.isLoading = false }
+    defer {
+      model.isLoading = false
+      model.isInit = true
+    }
 
     let res = try await api.getUsers(req: .init())
 

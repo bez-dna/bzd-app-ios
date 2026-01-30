@@ -1,17 +1,16 @@
 import SwiftUI
 
 struct JoinView: View {
+  let onComplete: (UUID) -> Void
+
   @State
   private var service: JoinService
 
-  let onComplete: (UUID) -> Void
+  init(api: ApiClient, onComplete: @escaping (UUID) -> Void) {
+    let service = JoinService(api)
 
-  private let state: AppState
-
-  init(_ state: AppState, _ onComplete: @escaping (UUID) -> Void) {
-    service = JoinService(state.api)
+    self.service = service
     self.onComplete = onComplete
-    self.state = state
   }
 
   var body: some View {
@@ -27,6 +26,6 @@ struct JoinView: View {
   }
 }
 
-#Preview {
-  JoinView(AppState()) { verificationId in print(verificationId) }
-}
+// #Preview {
+//  JoinView(AppState()) { verificationId in print(verificationId) }
+// }

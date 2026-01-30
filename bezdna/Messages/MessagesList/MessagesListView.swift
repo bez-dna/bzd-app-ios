@@ -1,26 +1,30 @@
 import SwiftUI
 
 struct MessagesListView: View {
-  private var state: AppState
+  @Environment(AppState.self)
+  private var state
 
   @State
   private var service: MessagesListService
 
-  init(state: AppState) {
-    service = .init(api: state.api)
-    self.state = state
+  @Bindable
+  var nav: AppNav
+
+  init(api: ApiClient, nav: AppNav) {
+    let service: MessagesListService = .init(api: api)
+
+    self.service = service
+    self.nav = nav
   }
 
   var body: some View {
-    @Bindable
-    var nav = state.nav
-
     VStack {
       if state.isAuth() {
-        MessagesList(state: state, service: service)
+        MessagesList(service: service, nav: nav)
       } else {
         Button("AUTH PLEASE") {
-          nav.flow = .auth
+          print("TO AUTH")
+//          $nav.flow = .auth
         }
       }
 
@@ -35,39 +39,41 @@ struct MessagesListView: View {
 }
 
 struct MessagesList: View {
-  private let state: AppState
+  @Bindable
+  private(set) var service: MessagesListService
 
   @Bindable
-  private var service: MessagesListService
+  private(set) var nav: AppNav
 
-  init(state: AppState, service: MessagesListService) {
-    self.service = service
-    self.state = state
-  }
+  @Environment(AppState.self)
+  private var state
 
   var body: some View {
     @Bindable
     var model = service.model
 
-    @Bindable
-    var nav = state.nav
-
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
           if let user = state.model.user {
-            MessagesListUser(user: user) {
-              nav.main.append(MainRoute.users)
+            MessagesListUserView(user: user) {
+              nav.path.append(AppRoute.users)
             }.padding(.horizontal, 16).padding(.bottom, 8)
           }
 
           CreateMessageView(state: state, messageId: nil) { messageId in
-            nav.main.append(MainRoute.message(messageId: messageId))
-          }.padding(.horizontal, 16).padding(.bottom, 16)
+            nav.path.append(AppRoute.message(messageId: messageId))
+          }
+          .padding(.horizontal, AppSettings.Padding.x)
+          .padding(.bottom, 16)
 
-          ForEach(model.messages, id: \.messageId) { message in
-            MessageListBubble(message) { messageId in
-              nav.main.append(MainRoute.message(messageId: messageId))
+          ForEach(model.messages.messageIds, id: \.self) { messageId in
+            if let message = model.messages.messages[messageId] {
+              MessageListBubble(message) { messageId in
+                nav.path.append(AppRoute.message(messageId: messageId))
+              }
+              .padding(.horizontal, AppSettings.Padding.x)
+              .padding(.bottom, AppSettings.Padding.y * 2)
             }
           }
 
@@ -75,9 +81,9 @@ struct MessagesList: View {
             ProgressView().padding(.top, 16)
           }
 
-          if model.isInit, !model.isLoading, model.messages.isEmpty {
+          if model.isInit, !model.isLoading, model.messages.messageIds.isEmpty {
             MessageListEmpty {
-              nav.main.append(MainRoute.users)
+              nav.path.append(AppRoute.users)
             }
           }
 
@@ -95,20 +101,42 @@ struct MessagesList: View {
 }
 
 struct MessageListBubble: View {
-  private let message: GetUserMessagesResponseModel.Message
+  private let message: GetFeedMessagesResponseModel.Message
   private let onPress: (_ messageId: UUID) -> Void
 
-  init(_ message: GetUserMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
+  init(_ message: GetFeedMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
     self.message = message
     self.onPress = onPress
   }
 
   var body: some View {
+    let user = message.user
+
     Button {
       onPress(message.messageId)
     } label: {
-      Text(message.text)
+      HStack(spacing: 0) {
+        ZStack {
+          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
+          Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
+        }
+        .frame(width: 40, height: 40)
+        .padding(.trailing, AppSettings.Padding.y)
+
+        VStack(alignment: .leading, spacing: 0) {
+          Text(user.name)
+            .lineLimit(1)
+            .font(.system(size: AppSettings.Font.s, weight: .medium))
+            .padding(.bottom, 2)
+
+          Text(message.text)
+            .font(.system(size: AppSettings.Font.main))
+        }
+
+        Spacer()
+      }
     }
+    .buttonStyle(.plain)
   }
 }
 
@@ -148,6 +176,6 @@ struct MessageListEmpty: View {
   }
 }
 
-#Preview {
-  MessagesListView(state: AppState())
-}
+// #Preview {
+//  MessagesListView(state: AppState())
+// }

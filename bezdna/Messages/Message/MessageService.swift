@@ -15,17 +15,29 @@ final class MessageService {
     self.messageId = messageId
   }
 
-  func load() async throws {
+  func loadMessage() async throws {
+    model.isLoading.message = true
+    defer { model.isLoading.message = false }
+
+    let res = try await api.getMessage(req: .init(messageId: messageId))
+
+    model.message = res.message
+  }
+
+  func loadMessages() async throws {
     if model.lastCursorMessageId {
       return
     }
 
-    let res = try await api.getMessageMessages(
-      req: GetMessageMessagesRequest(
-        messageId: messageId, model: GetMessageMessagesRequestModel(cursorMessageId: model.cursorMessageId),
-      ))
+    model.isLoading.messages = true
+    defer {
+      model.isLoading.messages = false
+//      model.isInit = true
+    }
 
-    model.messages.append(contentsOf: res.messages)
+    let res = try await api.getMessageMessages(req: .init(messageId: messageId, model: .init(cursorMessageId: model.cursorMessageId)))
+
+    model.messages = model.messages.append(res.messages)
     model.cursorMessageId = res.cursorMessageId
 
     if res.cursorMessageId == nil {

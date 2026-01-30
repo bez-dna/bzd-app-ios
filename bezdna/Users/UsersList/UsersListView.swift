@@ -1,14 +1,24 @@
 import SwiftUI
 
 struct UsersListView: View {
-  private var state: AppState
-
   @State
   private var service: UsersListService
 
-  init(state: AppState) {
-    self.state = state
-    service = .init(api: state.api)
+  @Environment(AppState.self)
+  private var state
+
+  @Bindable
+  private var nav: AppNav
+
+  @Bindable
+  private var authService: AuthService
+
+  init(api: ApiClient, nav: AppNav, authService: AuthService) {
+    let service: UsersListService = .init(api: api)
+
+    self.service = service
+    self.nav = nav
+    self.authService = authService
   }
 
   var body: some View {
@@ -22,7 +32,19 @@ struct UsersListView: View {
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
-          UsersList(service: service, nav: state.nav)
+          if let user = state.model.user {
+            UsersListUserView(user: user) {
+              authService.removeToken()
+              nav.path.removeLast(nav.path.count)
+              // В теории должен немного моргнуть UI, ну и ладно :)
+            }.padding(.horizontal, 16).padding(.bottom, 8)
+          }
+
+          UsersList(service: service, nav: nav)
+
+          if model.isInit, !model.isLoading, model.users.isEmpty {
+            UsersListEmpty()
+          }
 
           if model.isLoading {
             ProgressView().padding(.top, 16)
@@ -60,7 +82,7 @@ struct UsersList: View {
 
     ForEach(model.users, id: \.userId) { user in
       UserListBubble(user) { userId in
-        nav.main.append(MainRoute.user(userId: userId))
+        nav.path.append(AppRoute.user(userId: userId))
       }.padding(.horizontal, 16).padding(.bottom, 8)
     }
   }
@@ -93,6 +115,15 @@ struct UserListBubble: View {
   }
 }
 
-#Preview {
-  UsersListView(state: AppState())
+struct UsersListEmpty: View {
+  var body: some View {
+    Text(AppI18n.Users.List.empty)
+      .multilineTextAlignment(.center)
+      .padding(.vertical, AppSettings.Padding.y * 4)
+      .padding(.horizontal, AppSettings.Padding.x * 2)
+  }
 }
+
+// #Preview {
+//  UsersListView(state: AppState())
+// }

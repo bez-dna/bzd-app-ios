@@ -1,17 +1,15 @@
 import SwiftUI
 
-struct MessageView: View {
+struct UserView: View {
   @State
-  private var service: MessageService
-
-  @Environment(AppState.self)
-  private var state
+  private var service: UserService
 
   @Bindable
   private var nav: AppNav
 
-  init(api: ApiClient, nav: AppNav, messageId: UUID) {
-    let service: MessageService = .init(api: api, messageId: messageId)
+  init(api: ApiClient, nav: AppNav, userId: UUID) {
+//    self.state = state
+    let service: UserService = .init(api: api, userId: userId)
 
     self.service = service
     self.nav = nav
@@ -21,32 +19,30 @@ struct MessageView: View {
     @Bindable
     var model = service.model
 
-    ScrollViewReader { proxy in
+//    @Bindable
+//    var nav = state.nav
+
+    ScrollViewReader { _ in
       ScrollView {
         LazyVStack {
+          if let user = model.user {
+            UserUserView(user: user).padding(.horizontal, 16).padding(.bottom, 8)
+          }
+
+          UserMessagesView(service: service, nav: nav)
+
           Color.clear
-            .frame(height: 0)
+            .frame(height: 10)
             .onAppear {
               Task {
                 try await service.loadMessages()
               }
             }
-
-          MessageMessagesView(service: service, nav: nav)
-
-          Group {
-            CreateMessageView(state: state, messageId: service.messageId) { messageId in
-              print(messageId)
-            }
-          }.id(BottomAnchor()).padding(.horizontal, 16).padding(.bottom, 16)
         }
-      }
-      .onChange(of: model.messages.messageIds.count) {
-        proxy.scrollTo(BottomAnchor(), anchor: .bottom)
       }
     }.task {
       do {
-        try await service.loadMessage()
+        try await service.loadUser()
       } catch {
         print(error)
       }
@@ -54,20 +50,25 @@ struct MessageView: View {
   }
 }
 
-struct MessageMessagesView: View {
+struct UserMessagesView: View {
   @Bindable
-  private(set) var service: MessageService
+  private var service: UserService
 
   @Bindable
-  private(set) var nav: AppNav
+  private var nav: AppNav
+
+  init(service: UserService, nav: AppNav) {
+    self.service = service
+    self.nav = nav
+  }
 
   var body: some View {
     @Bindable
     var model = service.model
 
-    ForEach(model.messages.messageIds.reversed(), id: \.self) { messageId in
+    ForEach(model.messages.messageIds, id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
-        MessageMessagesBubbleView(message) { messageId in
+        UserMessagesBubbleView(message) { messageId in
           nav.path.append(AppRoute.message(messageId: messageId))
         }
         .padding(.horizontal, AppSettings.Padding.x)
@@ -77,11 +78,11 @@ struct MessageMessagesView: View {
   }
 }
 
-struct MessageMessagesBubbleView: View {
-  private let message: GetMessageMessagesResponseModel.Message
+struct UserMessagesBubbleView: View {
+  private let message: GetUserMessagesResponseModel.Message
   private let onPress: (_ messageId: UUID) -> Void
 
-  init(_ message: GetMessageMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
+  init(_ message: GetUserMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
     self.message = message
     self.onPress = onPress
   }
@@ -117,8 +118,25 @@ struct MessageMessagesBubbleView: View {
   }
 }
 
-struct BottomAnchor: Hashable {}
+struct UserUserView: View {
+  private let user: GetUserResponseModel.User
+
+  init(user: GetUserResponseModel.User) {
+    self.user = user
+  }
+
+  var body: some View {
+    VStack {
+      ZStack {
+        Rectangle().fill(Color(hex: user.color)).cornerRadius(30)
+        Text(user.abbr).font(.system(size: AppSettings.Font.main, weight: .bold))
+      }.frame(width: 60, height: 60)
+
+      Text(user.name).lineLimit(1).font(.system(size: AppSettings.Font.middle, weight: .bold))
+    }
+  }
+}
 
 // #Preview {
-//  MessageView(state: AppState(), messageId: UUID(uuidString: "019c0a42-186e-7211-83c0-f446997b097b")!)
+//  UserView(state: AppState(), userId: UUID(uuidString: "019c0344-23fc-7682-80d7-521add0d13bd")!)
 // }

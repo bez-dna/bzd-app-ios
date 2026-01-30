@@ -22,9 +22,9 @@ final class MessagesListService {
       model.isInit = true
     }
 
-    let res = try await api.getUserMessages(req: GetUserMessagesRequest(GetUserMessagesRequestModel(cursorMessageId: model.cursorMessageId)))
+    let res = try await api.getFeedMessages(req: GetFeedMessagesRequest(GetFeedMessagesRequestModel(cursorMessageId: model.cursorMessageId)))
 
-    model.messages.append(contentsOf: res.messages)
+    model.messages = model.messages.append(res.messages)
     model.cursorMessageId = res.cursorMessageId
 
     if res.cursorMessageId == nil {

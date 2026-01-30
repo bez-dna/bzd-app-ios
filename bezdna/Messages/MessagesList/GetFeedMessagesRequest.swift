@@ -1,22 +1,20 @@
 import Foundation
 
-class GetMessageMessagesRequest: ApiRequest {
-  typealias ApiResponse = GetMessageMessagesResponseModel
+class GetFeedMessagesRequest: ApiRequest {
+  typealias ApiResponse = GetFeedMessagesResponseModel
 
-  let messageId: UUID
-  let model: GetMessageMessagesRequestModel
+  let model: GetFeedMessagesRequestModel
   var method: HTTPMethod {
     .get
   }
 
   var path: String {
-    "/messages/\(messageId)/messages"
+    "/messages"
   }
 
   var queryItems: [URLQueryItem]?
 
-  init(messageId: UUID, model: GetMessageMessagesRequestModel) {
-    self.messageId = messageId
+  init(_ model: GetFeedMessagesRequestModel) {
     self.model = model
 
     if let cursorMessageId = model.cursorMessageId {
@@ -33,11 +31,11 @@ class GetMessageMessagesRequest: ApiRequest {
   }
 }
 
-struct GetMessageMessagesRequestModel: Encodable {
+struct GetFeedMessagesRequestModel: Encodable {
   let cursorMessageId: UUID?
 }
 
-struct GetMessageMessagesResponseModel: Decodable {
+struct GetFeedMessagesResponseModel: Decodable {
   let messages: [Message]
   let cursorMessageId: UUID?
 

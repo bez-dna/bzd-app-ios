@@ -19,14 +19,10 @@ struct ApiCodec {
   }
 
   func encode(_ value: Encodable) throws -> Data {
-    let data = try jsonEncoder.encode(value)
-
-    return data
+    try jsonEncoder.encode(value)
   }
 
-  func decode<T>(_ data: Data) throws -> T where T: Decodable {
-    let value = try jsonDecoder.decode(T.self, from: data)
-
-    return value
+  func decode<T: Decodable>(_ data: Data) throws -> T {
+    try jsonDecoder.decode(T.self, from: data)
   }
 }

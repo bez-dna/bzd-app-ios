@@ -1,24 +1,24 @@
 import SwiftUI
 
 @Observable
-final class MessageModel {
+final class UserModel {
   var isLoading: Loading = .init()
   var cursorMessageId: UUID?
   var lastCursorMessageId: Bool = false
 
-  var message: GetMessageResponseModel.Message?
+  var user: GetUserResponseModel.User?
   var messages: MessagesStore = .init()
 
   struct Loading {
-    var message: Bool = false
+    var user: Bool = false
     var messages: Bool = false
   }
 
   struct MessagesStore {
-    var messages: [UUID: GetMessageMessagesResponseModel.Message] = [:]
+    var messages: [UUID: GetUserMessagesResponseModel.Message] = [:]
     var messageIds: [UUID] = []
 
-    func append(_ batchMessages: [GetMessageMessagesResponseModel.Message]) -> Self {
+    func append(_ batchMessages: [GetUserMessagesResponseModel.Message]) -> Self {
       var newMessages = messages
       var newMessageIds = messageIds
 

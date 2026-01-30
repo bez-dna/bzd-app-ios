@@ -3,9 +3,18 @@ import Foundation
 struct CreateMessageRequest: ApiRequest {
   typealias ApiResponse = CreateMessageResponseModel
 
-  var method: HTTPMethod { .post }
-  var path: String { "/messages" }
-  var queryItems: [URLQueryItem]? { [] }
+  var method: HTTPMethod {
+    .post
+  }
+
+  var path: String {
+    "/messages"
+  }
+
+  var queryItems: [URLQueryItem]? {
+    []
+  }
+
   let model: CreateMessageRequestModel
 
   func encode() throws -> Data? {

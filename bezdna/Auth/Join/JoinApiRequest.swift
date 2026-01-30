@@ -3,8 +3,14 @@ import Foundation
 struct JoinApiRequest: ApiRequest {
   typealias ApiResponse = JoinResponseModel
 
-  var method: HTTPMethod { .post }
-  var path: String { "/auth/join" }
+  var method: HTTPMethod {
+    .post
+  }
+
+  var path: String {
+    "/auth/join"
+  }
+
   var queryItems: [URLQueryItem]?
 
   let model: JoinRequestModel

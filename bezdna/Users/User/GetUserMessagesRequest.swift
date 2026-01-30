@@ -1,14 +1,22 @@
 import Foundation
 
-class GetUserMessagesRequest: ApiRequest {
+struct GetUserMessagesRequest: ApiRequest {
   typealias ApiResponse = GetUserMessagesResponseModel
 
+  let userId: UUID
   let model: GetUserMessagesRequestModel
-  var method: HTTPMethod { .get }
-  var path: String { "/messages" }
+  var method: HTTPMethod {
+    .get
+  }
+
+  var path: String {
+    "/users/\(userId)/messages"
+  }
+
   var queryItems: [URLQueryItem]?
 
-  init(_ model: GetUserMessagesRequestModel) {
+  init(userId: UUID, model: GetUserMessagesRequestModel) {
+    self.userId = userId
     self.model = model
 
     if let cursorMessageId = model.cursorMessageId {
@@ -36,5 +44,13 @@ struct GetUserMessagesResponseModel: Decodable {
   struct Message: Decodable {
     let messageId: UUID
     let text: String
+    let user: User
+
+    struct User: Decodable {
+      let userId: UUID
+      let name: String
+      let abbr: String
+      let color: String
+    }
   }
 }

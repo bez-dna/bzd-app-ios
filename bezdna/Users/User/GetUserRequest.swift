@@ -1,17 +1,22 @@
 import Foundation
 
-struct GetUsersRequest: ApiRequest {
-  typealias ApiResponse = GetUsersResponseModel
+struct GetUserRequest: ApiRequest {
+  typealias ApiResponse = GetUserResponseModel
 
+  let userId: UUID
   var method: HTTPMethod {
     .get
   }
 
   var path: String {
-    "/users"
+    "/users/\(userId)"
   }
 
   var queryItems: [URLQueryItem]?
+
+  init(userId: UUID) {
+    self.userId = userId
+  }
 
   func encode() throws -> Data? {
     nil
@@ -22,8 +27,8 @@ struct GetUsersRequest: ApiRequest {
   }
 }
 
-struct GetUsersResponseModel: Decodable {
-  let users: [User]
+struct GetUserResponseModel: Decodable {
+  let user: User
 
   struct User: Decodable {
     let userId: UUID
