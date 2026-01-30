@@ -11,7 +11,7 @@ struct MessagesListView: View {
   var nav: AppNav
 
   init(api: ApiClient, nav: AppNav) {
-    let service: MessagesListService  = .init(api: api)
+    let service: MessagesListService = .init(api: api)
 
     self.service = service
     self.nav = nav
@@ -176,6 +176,6 @@ struct MessageListEmpty: View {
   }
 }
 
-//#Preview {
+// #Preview {
 //  MessagesListView(state: AppState())
-//}
+// }

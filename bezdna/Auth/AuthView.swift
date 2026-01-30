@@ -31,5 +31,5 @@ struct AuthView: View {
 }
 
 #Preview {
-  AuthView(){}.environment(AppState())
+  AuthView {}.environment(AppState())
 }

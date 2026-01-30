@@ -119,6 +119,6 @@ struct MessageMessagesBubbleView: View {
 
 struct BottomAnchor: Hashable {}
 
-//#Preview {
+// #Preview {
 //  MessageView(state: AppState(), messageId: UUID(uuidString: "019c0a42-186e-7211-83c0-f446997b097b")!)
-//}
+// }

@@ -26,6 +26,6 @@ struct JoinView: View {
   }
 }
 
-//#Preview {
+// #Preview {
 //  JoinView(AppState()) { verificationId in print(verificationId) }
-//}
+// }

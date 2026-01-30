@@ -12,7 +12,7 @@ struct BezdnaApp: App {
     WindowGroup {
       switch flow {
       case .auth:
-        AuthView() {
+        AuthView {
           flow = .main
         }.environment(state)
 
