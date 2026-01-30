@@ -1,22 +1,26 @@
 import SwiftUI
 
 struct UserView: View {
-  private var state: AppState
-
   @State
   private var service: UserService
 
-  init(state: AppState, userId: UUID) {
-    self.state = state
-    service = .init(api: state.api, userId: userId)
+  @Bindable
+  private var nav: AppNav
+
+  init(api: ApiClient, nav: AppNav, userId: UUID) {
+//    self.state = state
+    let service: UserService = .init(api: api, userId: userId)
+
+    self.service = service
+    self.nav = nav
   }
 
   var body: some View {
     @Bindable
     var model = service.model
 
-    @Bindable
-    var nav = state.nav
+//    @Bindable
+//    var nav = state.nav
 
     ScrollViewReader { _ in
       ScrollView {
@@ -25,7 +29,7 @@ struct UserView: View {
             UserUserView(user: user).padding(.horizontal, 16).padding(.bottom, 8)
           }
 
-          UserMessagesView(service: service, nav: state.nav)
+          UserMessagesView(service: service, nav: nav)
 
           Color.clear
             .frame(height: 10)
@@ -65,7 +69,7 @@ struct UserMessagesView: View {
     ForEach(model.messages.messageIds, id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
         UserMessagesBubbleView(message) { messageId in
-          nav.main.append(MainRoute.message(messageId: messageId))
+          nav.path.append(AppRoute.message(messageId: messageId))
         }
         .padding(.horizontal, AppSettings.Padding.x)
         .padding(.bottom, AppSettings.Padding.y * 2)
@@ -133,6 +137,6 @@ struct UserUserView: View {
   }
 }
 
-#Preview {
-  UserView(state: AppState(), userId: UUID(uuidString: "019c0344-23fc-7682-80d7-521add0d13bd")!)
-}
+//#Preview {
+//  UserView(state: AppState(), userId: UUID(uuidString: "019c0344-23fc-7682-80d7-521add0d13bd")!)
+//}

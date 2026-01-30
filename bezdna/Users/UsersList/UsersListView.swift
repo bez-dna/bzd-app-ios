@@ -1,25 +1,29 @@
 import SwiftUI
 
 struct UsersListView: View {
-  private var state: AppState
-
   @State
   private var service: UsersListService
 
-  init(state: AppState) {
-    self.state = state
-    service = .init(api: state.api)
+  @Environment(AppState.self)
+  private var state
+
+  @Bindable
+  private var nav: AppNav
+
+  @Bindable
+  private var authService: AuthService
+
+  init(api: ApiClient, nav: AppNav, authService: AuthService) {
+    let service: UsersListService = .init(api: api)
+
+    self.service = service
+    self.nav = nav
+    self.authService = authService
   }
 
   var body: some View {
     @Bindable
     var model = service.model
-
-    @Bindable
-    var authService = state.authService
-
-    @Bindable
-    var nav = state.nav
 
     // Нужно доделать разные кейсы получения доступа к контактам и списком контактов.
     // Основная идея в том чтобы никогда не было пустого экрана, должны быть подсказки что сделать чтобы найти контакты.
@@ -31,12 +35,12 @@ struct UsersListView: View {
           if let user = state.model.user {
             UsersListUserView(user: user) {
               authService.removeToken()
-              nav.main.removeLast(nav.main.count)
+              nav.path.removeLast(nav.path.count)
               // В теории должен немного моргнуть UI, ну и ладно :)
             }.padding(.horizontal, 16).padding(.bottom, 8)
           }
 
-          UsersList(service: service, nav: state.nav)
+          UsersList(service: service, nav: nav)
 
           if model.isInit, !model.isLoading, model.users.isEmpty {
             UsersListEmpty()
@@ -78,7 +82,7 @@ struct UsersList: View {
 
     ForEach(model.users, id: \.userId) { user in
       UserListBubble(user) { userId in
-        nav.main.append(MainRoute.user(userId: userId))
+        nav.path.append(AppRoute.user(userId: userId))
       }.padding(.horizontal, 16).padding(.bottom, 8)
     }
   }
@@ -120,6 +124,6 @@ struct UsersListEmpty: View {
   }
 }
 
-#Preview {
-  UsersListView(state: AppState())
-}
+//#Preview {
+//  UsersListView(state: AppState())
+//}

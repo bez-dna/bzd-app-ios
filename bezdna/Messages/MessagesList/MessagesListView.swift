@@ -1,26 +1,30 @@
 import SwiftUI
 
 struct MessagesListView: View {
-  private var state: AppState
+  @Environment(AppState.self)
+  private var state
 
   @State
   private var service: MessagesListService
 
-  init(state: AppState) {
-    service = .init(api: state.api)
-    self.state = state
+  @Bindable
+  var nav: AppNav
+
+  init(api: ApiClient, nav: AppNav) {
+    let service: MessagesListService  = .init(api: api)
+
+    self.service = service
+    self.nav = nav
   }
 
   var body: some View {
-    @Bindable
-    var nav = state.nav
-
     VStack {
       if state.isAuth() {
-        MessagesList(state: state, service: service)
+        MessagesList(service: service, nav: nav)
       } else {
         Button("AUTH PLEASE") {
-          nav.flow = .auth
+          print("TO AUTH")
+//          $nav.flow = .auth
         }
       }
 
@@ -35,34 +39,30 @@ struct MessagesListView: View {
 }
 
 struct MessagesList: View {
-  private let state: AppState
+  @Bindable
+  private(set) var service: MessagesListService
 
   @Bindable
-  private var service: MessagesListService
+  private(set) var nav: AppNav
 
-  init(state: AppState, service: MessagesListService) {
-    self.service = service
-    self.state = state
-  }
+  @Environment(AppState.self)
+  private var state
 
   var body: some View {
     @Bindable
     var model = service.model
-
-    @Bindable
-    var nav = state.nav
 
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
           if let user = state.model.user {
             MessagesListUserView(user: user) {
-              nav.main.append(MainRoute.users)
+              nav.path.append(AppRoute.users)
             }.padding(.horizontal, 16).padding(.bottom, 8)
           }
 
           CreateMessageView(state: state, messageId: nil) { messageId in
-            nav.main.append(MainRoute.message(messageId: messageId))
+            nav.path.append(AppRoute.message(messageId: messageId))
           }
           .padding(.horizontal, AppSettings.Padding.x)
           .padding(.bottom, 16)
@@ -70,7 +70,7 @@ struct MessagesList: View {
           ForEach(model.messages.messageIds, id: \.self) { messageId in
             if let message = model.messages.messages[messageId] {
               MessageListBubble(message) { messageId in
-                nav.main.append(MainRoute.message(messageId: messageId))
+                nav.path.append(AppRoute.message(messageId: messageId))
               }
               .padding(.horizontal, AppSettings.Padding.x)
               .padding(.bottom, AppSettings.Padding.y * 2)
@@ -83,7 +83,7 @@ struct MessagesList: View {
 
           if model.isInit, !model.isLoading, model.messages.messageIds.isEmpty {
             MessageListEmpty {
-              nav.main.append(MainRoute.users)
+              nav.path.append(AppRoute.users)
             }
           }
 
@@ -176,6 +176,6 @@ struct MessageListEmpty: View {
   }
 }
 
-#Preview {
-  MessagesListView(state: AppState())
-}
+//#Preview {
+//  MessagesListView(state: AppState())
+//}

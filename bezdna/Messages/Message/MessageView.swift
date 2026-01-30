@@ -1,19 +1,23 @@
 import SwiftUI
 
 struct MessageView: View {
-  private let state: AppState
-  private let service: MessageService
+  @State
+  private var service: MessageService
 
-  init(state: AppState, messageId: UUID) {
-    self.state = state
+  @Environment(AppState.self)
+  private var state
 
-    service = MessageService(api: state.api, messageId: messageId)
+  @Bindable
+  private var nav: AppNav
+
+  init(api: ApiClient, nav: AppNav, messageId: UUID) {
+    let service: MessageService = .init(api: api, messageId: messageId)
+
+    self.service = service
+    self.nav = nav
   }
 
   var body: some View {
-    @Bindable
-    var nav = state.nav
-
     @Bindable
     var model = service.model
 
@@ -28,7 +32,7 @@ struct MessageView: View {
               }
             }
 
-          MessageMessagesView(service: service, nav: state.nav)
+          MessageMessagesView(service: service, nav: nav)
 
           Group {
             CreateMessageView(state: state, messageId: service.messageId) { messageId in
@@ -52,15 +56,10 @@ struct MessageView: View {
 
 struct MessageMessagesView: View {
   @Bindable
-  private var service: MessageService
+  private(set) var service: MessageService
 
   @Bindable
-  private var nav: AppNav
-
-  init(service: MessageService, nav: AppNav) {
-    self.service = service
-    self.nav = nav
-  }
+  private(set) var nav: AppNav
 
   var body: some View {
     @Bindable
@@ -69,7 +68,7 @@ struct MessageMessagesView: View {
     ForEach(model.messages.messageIds.reversed(), id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
         MessageMessagesBubbleView(message) { messageId in
-          nav.main.append(MainRoute.message(messageId: messageId))
+          nav.path.append(AppRoute.message(messageId: messageId))
         }
         .padding(.horizontal, AppSettings.Padding.x)
         .padding(.bottom, AppSettings.Padding.y * 2)
@@ -120,6 +119,6 @@ struct MessageMessagesBubbleView: View {
 
 struct BottomAnchor: Hashable {}
 
-#Preview {
-  MessageView(state: AppState(), messageId: UUID(uuidString: "019c0a42-186e-7211-83c0-f446997b097b")!)
-}
+//#Preview {
+//  MessageView(state: AppState(), messageId: UUID(uuidString: "019c0a42-186e-7211-83c0-f446997b097b")!)
+//}

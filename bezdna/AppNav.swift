@@ -3,6 +3,5 @@ import SwiftUI
 
 @Observable
 final class AppNav {
-  var flow: AppFlow = .main
-  var main: NavigationPath = .init()
+  var path: NavigationPath = .init()
 }
