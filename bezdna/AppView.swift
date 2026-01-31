@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct AppView: View {
+  private(set) var onAuth: () -> Void
+
   @Environment(AppState.self)
   private var state
 
@@ -9,7 +11,9 @@ struct AppView: View {
 
   var body: some View {
     NavigationStack(path: $nav.path) {
-      MessagesListView(api: state.api, nav: nav).navigationDestination(for: AppRoute.self) { route in
+      MessagesListView(api: state.api, nav: nav) {
+        onAuth()
+      }.navigationDestination(for: AppRoute.self) { route in
         switch route {
         case let .message(messageId):
           MessageView(api: state.api, nav: nav, messageId: messageId)
