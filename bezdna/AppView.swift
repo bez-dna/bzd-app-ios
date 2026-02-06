@@ -33,6 +33,6 @@ enum AppRoute: Hashable {
   case user(userId: UUID)
 }
 
- #Preview {
-   AppView {}.environment(AppState())
- }
+#Preview {
+  AppView {}.environment(AppState())
+}

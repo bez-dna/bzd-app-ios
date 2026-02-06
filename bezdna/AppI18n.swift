@@ -12,11 +12,11 @@ enum AppI18n {
 
   enum Message {
     enum Bubble {
-      static let reply: String = String(localized: "message.bubble.reply")
+      static let reply: String = .init(localized: "message.bubble.reply")
       static func replies(_ count: Int64) -> String {
         String(
           format: String(localized: "message.bubble.replies"),
-          count
+          count,
         )
       }
     }
