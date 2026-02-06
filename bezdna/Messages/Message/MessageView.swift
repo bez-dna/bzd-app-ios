@@ -69,8 +69,8 @@ struct MessageMessagesView: View {
       if let message = model.messages.messages[messageId] {
         if message.messageId == service.messageId {
           SourceMessageBubbleView(model: .init(m: message))
-          .padding(.horizontal, AppSettings.Padding.x)
-          .padding(.bottom, AppSettings.Padding.y * 2)
+            .padding(.horizontal, AppSettings.Padding.x)
+            .padding(.bottom, AppSettings.Padding.y * 2)
         } else {
           MessageBubbleView(model: .init(m: message)) { messageId in
             nav.path.append(AppRoute.message(messageId: messageId))
@@ -91,4 +91,3 @@ struct BottomAnchor: Hashable {}
   MessageView(api: state.api, nav: AppNav(), messageId: UUID(uuidString: "019c0a42-186e-7211-83c0-f446997b097b")!)
     .environment(state)
 }
-

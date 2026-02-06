@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MessageBubbleView : View {
+struct MessageBubbleView: View {
   private let model: MessageBubbleModel
   private let onPress: (UUID) -> Void
 
@@ -66,22 +66,22 @@ struct MessageBubbleView : View {
         Spacer()
 
         if let stream = model.stream {
-            Button {
-              withAnimation {
-                showStream.toggle()
-              }
-            } label: {
-              HStack(spacing: 4) {
-                MessageBubbleUsersView(users: stream.users)
+          Button {
+            withAnimation {
+              showStream.toggle()
+            }
+          } label: {
+            HStack(spacing: 4) {
+              MessageBubbleUsersView(users: stream.users)
 
-                Image(systemName: "chevron.down.circle")
-                  .font(.system(size: 16))
-                  .foregroundStyle(.secondary)
-              }
-              .padding(.horizontal, AppSettings.Padding.y)
-              .frame(height: 30)
-              .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 8))
-            }.buttonStyle(.plain)
+              Image(systemName: "chevron.down.circle")
+                .font(.system(size: 16))
+                .foregroundStyle(.secondary)
+            }
+            .padding(.horizontal, AppSettings.Padding.y)
+            .frame(height: 30)
+            .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 8))
+          }.buttonStyle(.plain)
         }
       }.padding(.leading, 40 + AppSettings.Padding.y)
 
@@ -99,7 +99,7 @@ struct MessageBubbleView : View {
   }
 }
 
-struct MessageBubbleUsersView : View {
+struct MessageBubbleUsersView: View {
   private let users: [MessageBubbleModel.User]
 
   init(users: [MessageBubbleModel.User]) {
@@ -146,16 +146,14 @@ struct MessageBubbleUsersView : View {
   }
 }
 
-
 #Preview {
   Group {
-    MessageBubbleView(model: stub_message(usersCount: 1, messagesCount: 0), onPress: { _ in } )
-    MessageBubbleView(model: stub_message(usersCount: 4, messagesCount: 1), onPress: { _ in } )
-    MessageBubbleView(model: stub_message(usersCount: 2, messagesCount: 7), onPress: { _ in } )
-    MessageBubbleView(model: stub_message(usersCount: 5, messagesCount: 10), onPress: { _ in } )
-    MessageBubbleView(model: stub_message(usersCount: 20, messagesCount: 12), onPress: { _ in } )
+    MessageBubbleView(model: stub_message(usersCount: 1, messagesCount: 0), onPress: { _ in })
+    MessageBubbleView(model: stub_message(usersCount: 4, messagesCount: 1), onPress: { _ in })
+    MessageBubbleView(model: stub_message(usersCount: 2, messagesCount: 7), onPress: { _ in })
+    MessageBubbleView(model: stub_message(usersCount: 5, messagesCount: 10), onPress: { _ in })
+    MessageBubbleView(model: stub_message(usersCount: 20, messagesCount: 12), onPress: { _ in })
   }.padding(.horizontal, AppSettings.Padding.x)
-
 
   Spacer()
 }
@@ -163,62 +161,62 @@ struct MessageBubbleUsersView : View {
 func stub_message(usersCount: Int, messagesCount: Int64) -> MessageBubbleModel {
   let users = [
     GetMessageMessagesResponseModel.Message.User(
-      userId: UUID.init(),
+      userId: UUID(),
       name: "John Doe",
       abbr: "AB",
       color: "#4dba2c4c",
     ),
     GetMessageMessagesResponseModel.Message.User(
-      userId: UUID.init(),
+      userId: UUID(),
       name: "John Doe",
       abbr: "CD",
       color: "#8e4ece4c",
     ),
     GetMessageMessagesResponseModel.Message.User(
-      userId: UUID.init(),
+      userId: UUID(),
       name: "John Doe",
       abbr: "EF",
       color: "#2ad3ed4c",
     ),
     GetMessageMessagesResponseModel.Message.User(
-      userId: UUID.init(),
+      userId: UUID(),
       name: "John Doe",
       abbr: "GH",
       color: "#7c37dd4c",
     ),
     GetMessageMessagesResponseModel.Message.User(
-      userId: UUID.init(),
+      userId: UUID(),
       name: "John Doe",
       abbr: "PO",
       color: "#d085fc4c",
     ),
     GetMessageMessagesResponseModel.Message.User(
-      userId: UUID.init(),
+      userId: UUID(),
       name: "John Doe",
       abbr: "PO",
       color: "#d085fc4c",
     ),
     GetMessageMessagesResponseModel.Message.User(
-      userId: UUID.init(),
+      userId: UUID(),
       name: "John Doe",
       abbr: "PO",
       color: "#d085fc4c",
     ),
     GetMessageMessagesResponseModel.Message.User(
-      userId: UUID.init(),
+      userId: UUID(),
       name: "John Doe",
       abbr: "PO",
       color: "#d085fc4c",
     ),
   ].prefix(usersCount)
 
-  let stream: GetMessageMessagesResponseModel.Message.Stream? = if (messagesCount > 0) {
+  let stream: GetMessageMessagesResponseModel.Message.Stream? = if messagesCount > 0 {
     .init(
-      streamId: UUID.init(),
-      messageId: UUID.init(),
+      streamId: UUID(),
+      messageId: UUID(),
       text: "Suspendisse sed mi nec purus pulvinar bibendum nec et ante. Duis varius viverra nunc, eu ultricies eros semper non. Sed quis suscipit odio, scelerisque euismod sem.",
       messagesCount: messagesCount,
-      users: Array(users)
+      users: Array(users),
     )
   } else {
     nil
@@ -226,15 +224,15 @@ func stub_message(usersCount: Int, messagesCount: Int64) -> MessageBubbleModel {
 
   return MessageBubbleModel(
     m: GetMessageMessagesResponseModel.Message(
-      messageId: UUID.init(),
+      messageId: UUID(),
       text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat eget orci ultrices aliquam. Duis maximus tristique elit vulputate tincidunt\nSecond line\nLast row",
       user: GetMessageMessagesResponseModel.Message.User(
-        userId: UUID.init(),
+        userId: UUID(),
         name: "John Doe",
         abbr: "JD",
-        color: "#ccf9ff4c"
+        color: "#ccf9ff4c",
       ),
-      stream: stream
-    )
+      stream: stream,
+    ),
   )
 }

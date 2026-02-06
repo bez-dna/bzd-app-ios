@@ -28,10 +28,10 @@ struct MessageBubbleModel {
       userId: m.user.userId,
       name: m.user.name,
       abbr: m.user.abbr,
-      color: m.user.color
+      color: m.user.color,
     )
     stream = if let s = m.stream {
-      Stream (
+      Stream(
         streamId: s.streamId,
         messageId: s.messageId,
         text: s.text,
@@ -41,7 +41,7 @@ struct MessageBubbleModel {
             userId: u.userId,
             name: u.name,
             abbr: u.abbr,
-            color: u.color
+            color: u.color,
           )
         },
       )
@@ -57,7 +57,7 @@ struct MessageBubbleModel {
       userId: m.user.userId,
       name: m.user.name,
       abbr: m.user.abbr,
-      color: m.user.color
+      color: m.user.color,
     )
     stream = nil
   }

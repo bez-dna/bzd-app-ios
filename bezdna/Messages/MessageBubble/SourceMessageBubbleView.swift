@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct SourceMessageBubbleView : View {
+struct SourceMessageBubbleView: View {
   private let model: MessageBubbleModel
 
   init(model: MessageBubbleModel) {
@@ -10,7 +10,7 @@ struct SourceMessageBubbleView : View {
   var body: some View {
     let user = model.user
 
-    VStack() {
+    VStack {
       HStack(alignment: .top, spacing: 0) {
         ZStack {
           Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
