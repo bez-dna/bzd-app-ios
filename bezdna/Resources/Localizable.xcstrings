@@ -1,7 +1,7 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "message.bubble.replies %lld" : {
+    "message.bubble.replies" : {
       "extractionState" : "manual",
       "localizations" : {
         "en" : {
@@ -10,13 +10,13 @@
               "one" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld  reply"
+                  "value" : "%lld reply"
                 }
               },
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld  replies"
+                  "value" : "%lld replies"
                 }
               }
             }
@@ -28,13 +28,13 @@
               "few" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld  ответа"
+                  "value" : "%lld ответа"
                 }
               },
               "many" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld  ответов"
+                  "value" : "%lld ответов"
                 }
               },
               "one" : {
@@ -46,7 +46,7 @@
               "other" : {
                 "stringUnit" : {
                   "state" : "translated",
-                  "value" : "%lld  ответа"
+                  "value" : "%lld ответа"
                 }
               }
             }
