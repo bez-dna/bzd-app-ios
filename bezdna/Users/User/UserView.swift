@@ -68,6 +68,11 @@ struct UserMessagesView: View {
 
     ForEach(model.messages.messageIds, id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
+
+        MessageBubbleView(model: .init(m: message)) { messageId in
+          nav.path.append(AppRoute.message(messageId: messageId))
+        }
+
         UserMessagesBubbleView(message) { messageId in
           nav.path.append(AppRoute.message(messageId: messageId))
         }
@@ -137,6 +142,6 @@ struct UserUserView: View {
   }
 }
 
-// #Preview {
-//  UserView(state: AppState(), userId: UUID(uuidString: "019c0344-23fc-7682-80d7-521add0d13bd")!)
-// }
+ #Preview {
+   UserView(api: AppState().api, nav: AppNav(), userId: UUID(uuidString: "019c0344-23fc-7682-80d7-521add0d13bd")!)
+ }
