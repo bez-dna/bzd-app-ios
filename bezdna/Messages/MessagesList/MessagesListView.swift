@@ -1,6 +1,8 @@
 import SwiftUI
 
 struct MessagesListView: View {
+  private let onAuth: () -> Void
+
   @Environment(AppState.self)
   private var state
 
@@ -10,11 +12,12 @@ struct MessagesListView: View {
   @Bindable
   var nav: AppNav
 
-  init(api: ApiClient, nav: AppNav) {
+  init(api: ApiClient, nav: AppNav, onAuth: @escaping () -> Void) {
     let service: MessagesListService = .init(api: api)
 
     self.service = service
     self.nav = nav
+    self.onAuth = onAuth
   }
 
   var body: some View {
@@ -23,11 +26,9 @@ struct MessagesListView: View {
         MessagesList(service: service, nav: nav)
       } else {
         Button("AUTH PLEASE") {
-          print("TO AUTH")
-//          $nav.flow = .auth
+          onAuth()
         }
       }
-
     }.task {
       do {
         try await service.load()

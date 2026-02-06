@@ -1,10 +1,24 @@
-import Foundation
+import SwiftUI
+
+typealias L10nKey = LocalizedStringKey
 
 enum AppI18n {
   enum Messages {
     enum List {
       static let empty = String(localized: "messages.list.empty")
       static let contacts = String(localized: "messages.list.contacts")
+    }
+  }
+
+  enum Message {
+    enum Bubble {
+      static let reply: String = .init(localized: "message.bubble.reply")
+      static func replies(_ count: Int64) -> String {
+        String(
+          format: String(localized: "message.bubble.replies"),
+          count,
+        )
+      }
     }
   }
 

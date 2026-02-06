@@ -17,7 +17,9 @@ struct BezdnaApp: App {
         }.environment(state)
 
       case .main:
-        AppView().environment(state)
+        AppView {
+          flow = .auth
+        }.environment(state)
       }
     }
   }

@@ -67,58 +67,27 @@ struct MessageMessagesView: View {
 
     ForEach(model.messages.messageIds.reversed(), id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
-        MessageMessagesBubbleView(message) { messageId in
-          nav.path.append(AppRoute.message(messageId: messageId))
+        if message.messageId == service.messageId {
+          SourceMessageBubbleView(model: .init(m: message))
+            .padding(.horizontal, AppSettings.Padding.x)
+            .padding(.bottom, AppSettings.Padding.y * 2)
+        } else {
+          MessageBubbleView(model: .init(m: message)) { messageId in
+            nav.path.append(AppRoute.message(messageId: messageId))
+          }
+          .padding(.horizontal, AppSettings.Padding.x)
+          .padding(.bottom, AppSettings.Padding.y * 2)
         }
-        .padding(.horizontal, AppSettings.Padding.x)
-        .padding(.bottom, AppSettings.Padding.y * 2)
       }
     }
-  }
-}
-
-struct MessageMessagesBubbleView: View {
-  private let message: GetMessageMessagesResponseModel.Message
-  private let onPress: (_ messageId: UUID) -> Void
-
-  init(_ message: GetMessageMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
-    self.message = message
-    self.onPress = onPress
-  }
-
-  var body: some View {
-    let user = message.user
-
-    Button {
-      onPress(message.messageId)
-    } label: {
-      HStack(alignment: .top, spacing: 0) {
-        ZStack {
-          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
-          Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
-        }
-        .frame(width: 40, height: 40)
-        .padding(.trailing, AppSettings.Padding.y)
-
-        VStack(alignment: .leading, spacing: 0) {
-          Text(user.name)
-            .lineLimit(1)
-            .font(.system(size: AppSettings.Font.s, weight: .bold))
-            .padding(.bottom, 2)
-
-          Text(message.text)
-            .font(.system(size: AppSettings.Font.main))
-        }
-
-        Spacer()
-      }
-    }
-    .buttonStyle(.plain)
   }
 }
 
 struct BottomAnchor: Hashable {}
 
-// #Preview {
-//  MessageView(state: AppState(), messageId: UUID(uuidString: "019c0a42-186e-7211-83c0-f446997b097b")!)
-// }
+#Preview {
+  let state = AppState()
+
+  MessageView(api: state.api, nav: AppNav(), messageId: UUID(uuidString: "019c0a42-186e-7211-83c0-f446997b097b")!)
+    .environment(state)
+}
