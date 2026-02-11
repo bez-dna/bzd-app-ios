@@ -6,4 +6,11 @@ protocol MessagesApi {
   func getMessageMessages(req: GetMessageMessagesRequest) async throws -> GetMessageMessagesResponseModel
 
   func createMessage(req: CreateMessageRequest) async throws -> CreateMessageResponseModel
+
+  func getMessageTopics(req: GetMessageTopicsRequest) async throws -> GetMessageTopicsResponseModel
+
+  func createMessageTopic(req: CreateMessageTopicRequest) async throws -> CreateMessageTopicResponseModel
+
+  func deleteMessageTopic(req: DeleteMessageTopicRequest) async throws -> DeleteMessageTopicResponseModel
+
 }

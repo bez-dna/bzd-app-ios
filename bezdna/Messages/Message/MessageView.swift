@@ -66,9 +66,12 @@ struct MessageMessagesView: View {
     var model = service.model
 
     ForEach(model.messages.messageIds.reversed(), id: \.self) { messageId in
-      if let message = model.messages.messages[messageId] {
+      if let message = model.messages.messages[messageId], let permissons = model.message?.permissions {
         if message.messageId == service.messageId {
-          SourceMessageBubbleView(model: .init(m: message))
+          SourceMessageBubbleView(
+            model: .init(m: message),
+            permissions: .init(p: permissons)
+          )
             .padding(.horizontal, AppSettings.Padding.x)
             .padding(.bottom, AppSettings.Padding.y * 2)
         } else {
@@ -88,6 +91,6 @@ struct BottomAnchor: Hashable {}
 #Preview {
   let state = AppState()
 
-  MessageView(api: state.api, nav: AppNav(), messageId: UUID(uuidString: "019c0a42-186e-7211-83c0-f446997b097b")!)
+  MessageView(api: state.api, nav: AppNav(), messageId: UUID(uuidString: "019c388a-0793-7263-987c-b47aeb45d188")!)
     .environment(state)
 }

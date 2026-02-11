@@ -29,6 +29,8 @@ struct UserView: View {
             UserUserView(user: user).padding(.horizontal, 16).padding(.bottom, 8)
           }
 
+          UserTopicsView()
+
           UserMessagesView(service: service, nav: nav)
 
           Color.clear
@@ -69,10 +71,6 @@ struct UserMessagesView: View {
     ForEach(model.messages.messageIds, id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
         MessageBubbleView(model: .init(m: message)) { messageId in
-          nav.path.append(AppRoute.message(messageId: messageId))
-        }
-
-        UserMessagesBubbleView(message) { messageId in
           nav.path.append(AppRoute.message(messageId: messageId))
         }
         .padding(.horizontal, AppSettings.Padding.x)

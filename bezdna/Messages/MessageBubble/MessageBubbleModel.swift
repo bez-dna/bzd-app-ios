@@ -21,6 +21,14 @@ struct MessageBubbleModel {
     let color: String
   }
 
+  struct Permissions {
+    let topics: Bool
+
+    init(p: GetMessageResponseModel.Message.Permissions) {
+      topics = p.topics
+    }
+  }
+
   init(m: GetMessageMessagesResponseModel.Message) {
     messageId = m.messageId
     text = m.text

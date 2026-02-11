@@ -12,6 +12,7 @@ enum AppI18n {
 
   enum Message {
     enum Bubble {
+      static let topics: L10nKey = "message.bubble.topics"
       static let reply: String = .init(localized: "message.bubble.reply")
       static func replies(_ count: Int64) -> String {
         String(
@@ -19,6 +20,11 @@ enum AppI18n {
           count,
         )
       }
+    }
+
+    enum Topics {
+      static let create: L10nKey = "message.topics.create"
+      static let delete: L10nKey = "message.topics.delete"
     }
   }
 
@@ -33,6 +39,13 @@ enum AppI18n {
       static let empty = String(localized: "users.list.empty")
       static let me = String(localized: "users.list.me")
       static let logout = String(localized: "users.list.logout")
+    }
+  }
+
+  enum Topics {
+    enum Create {
+      static let placeholder: L10nKey = "topics.create.placeholder"
+      static let button: L10nKey = "topics.create.button"
     }
   }
 }
