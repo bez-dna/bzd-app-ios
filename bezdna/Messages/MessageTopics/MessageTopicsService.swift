@@ -24,13 +24,13 @@ final class MessageTopicsService {
 
   func createMessageTopic(topicId: UUID) async throws {
     _ = try await api.createMessageTopic(
-      req: .init(model: .init(topicId: topicId, messageId: messageId))
+      req: .init(model: .init(topicId: topicId, messageId: messageId)),
     )
   }
 
   func deleteMessageTopic(messageTopicId: UUID) async throws {
     _ = try await api.deleteMessageTopic(
-      req: .init(model: .init(messageTopicId: messageTopicId))
+      req: .init(model: .init(messageTopicId: messageTopicId)),
     )
   }
 }

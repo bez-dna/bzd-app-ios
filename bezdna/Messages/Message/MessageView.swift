@@ -70,10 +70,10 @@ struct MessageMessagesView: View {
         if message.messageId == service.messageId {
           SourceMessageBubbleView(
             model: .init(m: message),
-            permissions: .init(p: permissons)
+            permissions: .init(p: permissons),
           )
-            .padding(.horizontal, AppSettings.Padding.x)
-            .padding(.bottom, AppSettings.Padding.y * 2)
+          .padding(.horizontal, AppSettings.Padding.x)
+          .padding(.bottom, AppSettings.Padding.y * 2)
         } else {
           MessageBubbleView(model: .init(m: message)) { messageId in
             nav.path.append(AppRoute.message(messageId: messageId))

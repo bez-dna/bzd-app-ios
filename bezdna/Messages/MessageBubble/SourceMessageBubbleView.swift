@@ -54,7 +54,6 @@ struct SourceMessageBubbleView: View {
               Text(AppI18n.Message.Bubble.topics)
                 .font(.system(size: AppSettings.Font.s, weight: .semibold))
                 .foregroundStyle(.secondary)
-
             }
           }.buttonStyle(.plain)
             .sheet(isPresented: $showTopics) {
@@ -67,5 +66,3 @@ struct SourceMessageBubbleView: View {
     }
   }
 }
-
-

@@ -12,5 +12,4 @@ protocol MessagesApi {
   func createMessageTopic(req: CreateMessageTopicRequest) async throws -> CreateMessageTopicResponseModel
 
   func deleteMessageTopic(req: DeleteMessageTopicRequest) async throws -> DeleteMessageTopicResponseModel
-
 }

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UserTopicsView : View {
+struct UserTopicsView: View {
   var body: some View {
     VStack {
       Text("TOPICS USERS")
@@ -11,4 +11,3 @@ struct UserTopicsView : View {
     .padding(.bottom, AppSettings.Padding.y * 2)
   }
 }
-

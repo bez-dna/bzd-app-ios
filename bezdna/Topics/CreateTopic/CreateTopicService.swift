@@ -14,8 +14,8 @@ final class CreateTopicService {
   func save() async throws -> CreateTopicResponseModel {
     let res = try await api.createTopic(
       req: .init(
-        model: .init(title: model.title)
-      )
+        model: .init(title: model.title),
+      ),
     )
 
     model = .init()

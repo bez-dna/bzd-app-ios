@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MessageTopicsView : View {
+struct MessageTopicsView: View {
   @State
   private var service: MessageTopicsService
 
@@ -17,7 +17,7 @@ struct MessageTopicsView : View {
     @Bindable
     var model = service.model
 
-    ScrollViewReader { proxy in
+    ScrollViewReader { _ in
       ScrollView {
         LazyVStack {
           ForEach(model.topics, id: \.topicId) { topic in
@@ -68,16 +68,14 @@ struct MessageTopicsView : View {
           }
         }.padding(.horizontal, AppSettings.Padding.x)
           .padding(.vertical, AppSettings.Padding.y * 4)
-
       }
     }.task {
       do {
         try await service.load()
-      }catch {
+      } catch {
         print(error)
       }
     }
-
   }
 }
 

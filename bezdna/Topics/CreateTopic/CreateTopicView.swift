@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct CreateTopicView : View {
+struct CreateTopicView: View {
   @State
   private var service: CreateTopicService
 
@@ -21,8 +21,7 @@ struct CreateTopicView : View {
         .font(.system(size: AppSettings.Font.main))
         .background(RoundedRectangle(cornerRadius: 15).fill(.input))
 
-
-      Button{
+      Button {
         Task {
           let model = try await service.save()
 
@@ -46,5 +45,5 @@ struct CreateTopicView : View {
 #Preview {
   let state = AppState()
 
-  CreateTopicView(api:state.api) {topicId in}
+  CreateTopicView(api: state.api) { _ in }
 }
