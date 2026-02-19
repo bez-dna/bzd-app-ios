@@ -28,6 +28,15 @@ enum AppI18n {
     }
   }
 
+  enum User {
+    enum Topics {
+      static let title: L10nKey = "user.topics.title"
+      static let button: L10nKey = "user.topics.button"
+      static let desc: L10nKey = "user.topics.desc"
+      static let segments: L10nKey = "user.topics.segments"
+    }
+  }
+
   enum Users {
     enum Contacts {
       static let new = String(localized: "users.contacts.new")

@@ -191,6 +191,74 @@
         }
       }
     },
+    "user.topics.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "How it works?"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Как это работает?"
+          }
+        }
+      }
+    },
+    "user.topics.desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TBD: Follow by topics.."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подписавшись на темы, сообщения с ними попадут в основную ленту"
+          }
+        }
+      }
+    },
+    "user.topics.segments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TDB: Subscribed message split by timing and rate"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Можно выбрать в какое время эти сообщения будут попадать в ленту (только в утром или только в выходные), а так же выбрать насколько много их хочется видеть (не больше 1 в день или парочку самых важных в неделю).. но пока это не готово, но уже скоро 😬"
+          }
+        }
+      }
+    },
+    "user.topics.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Subscriptions"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Подписки"
+          }
+        }
+      }
+    },
     "users.contacts.button" : {
       "extractionState" : "manual",
       "localizations" : {

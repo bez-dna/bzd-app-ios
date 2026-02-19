@@ -28,4 +28,19 @@ final class UsersApiImpl: UsersApi {
     let data = try await api.request(req: req)
     return try req.decode(data)
   }
+
+  func getUserTopics(req: GetUserTopicsRequest) async throws -> GetUserTopicsResponseModel {
+    let data = try await api.request(req: req)
+    return try req.decode(data)
+  }
+
+  func createTopicUser(req: CreateTopicUserRequest) async throws -> CreateTopicUserResponseModel {
+    let data = try await api.request(req: req)
+    return try req.decode(data)
+  }
+
+  func deleteTopicUser(req: DeleteTopicUserRequest) async throws -> DeleteTopicUserResponseModel {
+    let data = try await api.request(req: req)
+    return try req.decode(data)
+  }
 }

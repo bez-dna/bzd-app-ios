@@ -82,5 +82,6 @@ struct MessageTopicsView: View {
 #Preview {
   let state = AppState()
 
-  MessageTopicsView(api: state.api, messageId: UUID(uuidString: "019c388a-0793-7263-987c-b47aeb45d188")!).environment(state).padding(.horizontal, AppSettings.Padding.x)
+  MessageTopicsView(api: state.api, messageId: UUID(uuidString: "019c388a-0793-7263-987c-b47aeb45d188")!)
+    .environment(state)
 }
