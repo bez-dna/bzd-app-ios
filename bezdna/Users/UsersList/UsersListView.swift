@@ -124,6 +124,8 @@ struct UsersListEmpty: View {
   }
 }
 
-// #Preview {
-//  UsersListView(state: AppState())
-// }
+#Preview {
+  let state = AppState()
+
+  UsersListView(api: state.api, nav: AppNav(), authService: state.authService).environment(state)
+}

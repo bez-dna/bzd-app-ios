@@ -4,11 +4,13 @@ struct UserView: View {
   @State
   private var service: UserService
 
+  @Environment(AppState.self)
+  private var state
+
   @Bindable
   private var nav: AppNav
 
   init(api: ApiClient, nav: AppNav, userId: UUID) {
-//    self.state = state
     let service: UserService = .init(api: api, userId: userId)
 
     self.service = service
@@ -19,15 +21,16 @@ struct UserView: View {
     @Bindable
     var model = service.model
 
-//    @Bindable
-//    var nav = state.nav
-
     ScrollViewReader { _ in
       ScrollView {
-        LazyVStack {
+        LazyVStack(spacing: 0) {
           if let user = model.user {
-            UserUserView(user: user).padding(.horizontal, 16).padding(.bottom, 8)
+            UserUserView(user: user)
+              .padding(.bottom, AppSettings.Padding.y)
           }
+
+          UserTopicsView(api: state.api, userId: service.userId)
+            .padding(.bottom, AppSettings.Padding.y * 2)
 
           UserMessagesView(service: service, nav: nav)
 
@@ -69,10 +72,6 @@ struct UserMessagesView: View {
     ForEach(model.messages.messageIds, id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
         MessageBubbleView(model: .init(m: message)) { messageId in
-          nav.path.append(AppRoute.message(messageId: messageId))
-        }
-
-        UserMessagesBubbleView(message) { messageId in
           nav.path.append(AppRoute.message(messageId: messageId))
         }
         .padding(.horizontal, AppSettings.Padding.x)
@@ -130,7 +129,7 @@ struct UserUserView: View {
   }
 
   var body: some View {
-    VStack {
+    VStack(spacing: 0) {
       ZStack {
         Rectangle().fill(Color(hex: user.color)).cornerRadius(30)
         Text(user.abbr).font(.system(size: AppSettings.Font.main, weight: .bold))
@@ -142,5 +141,9 @@ struct UserUserView: View {
 }
 
 #Preview {
-  UserView(api: AppState().api, nav: AppNav(), userId: UUID(uuidString: "019c0344-23fc-7682-80d7-521add0d13bd")!)
+  let state = AppState()
+
+  UserView(api: state.api, nav: AppNav(), userId: UUID(uuidString: "019c0348-01dc-7162-b6e0-4d5e76f30fb8")!)
+    .environment(\.locale, .init(identifier: "ru"))
+    .environment(state)
 }

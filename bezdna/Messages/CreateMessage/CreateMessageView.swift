@@ -20,7 +20,7 @@ struct CreateMessageView: View {
         .scrollContentBackground(.hidden)
         .background(.input)
         .cornerRadius(19)
-        .contentMargins(.horizontal, 8, for: .automatic)
+        .contentMargins(.horizontal, AppSettings.Padding.y, for: .automatic)
         .frame(minHeight: 38)
 
       Button {

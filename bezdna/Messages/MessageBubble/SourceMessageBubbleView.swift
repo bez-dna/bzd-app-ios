@@ -2,15 +2,23 @@ import SwiftUI
 
 struct SourceMessageBubbleView: View {
   private let model: MessageBubbleModel
+  private let permissions: MessageBubbleModel.Permissions
 
-  init(model: MessageBubbleModel) {
+  @State
+  private var showTopics: Bool = false
+
+  @Environment(AppState.self)
+  private var state
+
+  init(model: MessageBubbleModel, permissions: MessageBubbleModel.Permissions) {
     self.model = model
+    self.permissions = permissions
   }
 
   var body: some View {
     let user = model.user
 
-    VStack {
+    VStack(spacing: 0) {
       HStack(alignment: .top, spacing: 0) {
         ZStack {
           Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
@@ -30,6 +38,30 @@ struct SourceMessageBubbleView: View {
         }
 
         Spacer()
+      }
+
+      if permissions.topics {
+        HStack(spacing: 0) {
+          Button {
+            showTopics.toggle()
+          } label: {
+            HStack(spacing: 4) {
+              Image(systemName: "tag")
+                .font(.system(size: 16, weight: .semibold))
+                .frame(height: 40)
+                .foregroundStyle(.secondary)
+
+              Text(AppI18n.Message.Bubble.topics)
+                .font(.system(size: AppSettings.Font.s, weight: .semibold))
+                .foregroundStyle(.secondary)
+            }
+          }.buttonStyle(.plain)
+            .sheet(isPresented: $showTopics) {
+              MessageTopicsView(api: state.api, messageId: model.messageId)
+                .presentationDetents([.medium, .large])
+            }
+          Spacer()
+        }.padding(.leading, 40 + AppSettings.Padding.y)
       }
     }
   }
