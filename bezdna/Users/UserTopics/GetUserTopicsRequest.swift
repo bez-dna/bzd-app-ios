@@ -6,6 +6,7 @@ struct GetUserTopicsRequest: ApiRequest {
   var method: HTTPMethod {
     .get
   }
+
   var path: String {
     "/users/\(userId)/topics"
   }

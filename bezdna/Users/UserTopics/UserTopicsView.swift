@@ -30,11 +30,9 @@ struct UserTopicsView: View {
           Image(systemName: "chevron.down.circle")
             .font(.system(size: AppSettings.Font.main))
 
-
           Text(AppI18n.User.Topics.button)
             .font(.system(size: AppSettings.Font.s))
             .padding(.leading, AppSettings.Padding.y)
-
         }
       }
       .buttonStyle(.plain)
@@ -49,10 +47,10 @@ struct UserTopicsView: View {
           .padding(.bottom, AppSettings.Padding.y)
           .padding(.top, AppSettings.Padding.y * 2)
 
-          Text(AppI18n.User.Topics.segments)
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .font(.system(size: AppSettings.Font.s))
-            .padding(.bottom, AppSettings.Padding.y)
+        Text(AppI18n.User.Topics.segments)
+          .frame(maxWidth: .infinity, alignment: .leading)
+          .font(.system(size: AppSettings.Font.s))
+          .padding(.bottom, AppSettings.Padding.y)
 
         UserTopicsListView(service: service)
       }
@@ -67,7 +65,6 @@ struct UserTopicsView: View {
     }
   }
 }
-
 
 struct UserTopicsListView: View {
   @Bindable
