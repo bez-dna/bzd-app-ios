@@ -86,7 +86,6 @@ struct UserView: View {
   }
 }
 
-
 struct UserUserView: View {
   private let user: GetUserResponseModel.User
 

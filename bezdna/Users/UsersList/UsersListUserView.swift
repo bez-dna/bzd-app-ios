@@ -18,31 +18,31 @@ struct UsersListUserView: View {
           Rectangle().fill(Color(hex: user.color)).cornerRadius(25)
           Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
         }.frame(width: 50, height: 50)
-        
+
         VStack(alignment: .leading) {
           Text(user.name).lineLimit(1).font(.system(size: AppSettings.Font.main, weight: .bold))
-          
+
           Text(AppI18n.Users.List.me)
             .lineLimit(1)
             .font(.system(size: AppSettings.Font.s))
             .foregroundStyle(.secondary)
         }
-        
+
         Spacer()
       }
     }.buttonStyle(.plain)
   }
 }
 
-//Button {
+// Button {
 //  onLogout()
-//} label: {
+// } label: {
 //  Text(AppI18n.Users.List.logout)
 //    .colorInvert()
 //    .font(.system(size: AppSettings.Font.button, weight: .bold))
 //    .frame(height: 30)
-//}
-//.buttonStyle(.plain)
-//.padding(.horizontal, AppSettings.Padding.x)
-//.background(.submit)
-//.clipShape(RoundedRectangle(cornerRadius: 15))
+// }
+// .buttonStyle(.plain)
+// .padding(.horizontal, AppSettings.Padding.x)
+// .background(.submit)
+// .clipShape(RoundedRectangle(cornerRadius: 15))
