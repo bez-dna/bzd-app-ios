@@ -21,6 +21,12 @@ struct UserView: View {
     @Bindable
     var model = service.model
 
+    @Bindable
+    var appModel = state.model
+
+    @Bindable
+    var authService = state.authService
+
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
@@ -29,10 +35,37 @@ struct UserView: View {
               .padding(.bottom, AppSettings.Padding.y)
           }
 
-          UserTopicsView(api: state.api, userId: service.userId)
-            .padding(.bottom, AppSettings.Padding.y * 2)
+          VStack {
+            if let appUser = appModel.user {
+              if service.userId != appUser.userId {
+                UserTopicsView(api: state.api, userId: service.userId)
+                  .padding(.bottom, AppSettings.Padding.y * 2)
+              } else {
+                Button {
+                  authService.removeToken()
+                  nav.path.removeLast(nav.path.count)
+                  // В теории должен немного моргнуть UI, ну и ладно :)
+                } label: {
+                  Text(AppI18n.Users.List.logout)
+                    .colorInvert()
+                    .font(.system(size: AppSettings.Font.button, weight: .bold))
+                    .frame(height: 30)
+                }.buttonStyle(.plain)
+                  .padding(.horizontal, AppSettings.Padding.x)
+                  .background(.submit, in: RoundedRectangle(cornerRadius: 15))
+              }
+            }
+          }.padding(.bottom, AppSettings.Padding.y * 2)
 
-          UserMessagesView(service: service, nav: nav)
+          ForEach(model.messages.messageIds, id: \.self) { messageId in
+            if let message = model.messages.messages[messageId] {
+              MessageBubbleView(model: .init(m: message)) { messageId in
+                nav.path.append(AppRoute.message(messageId: messageId))
+              }
+              .padding(.horizontal, AppSettings.Padding.x)
+              .padding(.bottom, AppSettings.Padding.y * 2)
+            }
+          }
 
           Color.clear
             .frame(height: 10)
@@ -53,73 +86,6 @@ struct UserView: View {
   }
 }
 
-struct UserMessagesView: View {
-  @Bindable
-  private var service: UserService
-
-  @Bindable
-  private var nav: AppNav
-
-  init(service: UserService, nav: AppNav) {
-    self.service = service
-    self.nav = nav
-  }
-
-  var body: some View {
-    @Bindable
-    var model = service.model
-
-    ForEach(model.messages.messageIds, id: \.self) { messageId in
-      if let message = model.messages.messages[messageId] {
-        MessageBubbleView(model: .init(m: message)) { messageId in
-          nav.path.append(AppRoute.message(messageId: messageId))
-        }
-        .padding(.horizontal, AppSettings.Padding.x)
-        .padding(.bottom, AppSettings.Padding.y * 2)
-      }
-    }
-  }
-}
-
-struct UserMessagesBubbleView: View {
-  private let message: GetUserMessagesResponseModel.Message
-  private let onPress: (_ messageId: UUID) -> Void
-
-  init(_ message: GetUserMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
-    self.message = message
-    self.onPress = onPress
-  }
-
-  var body: some View {
-    let user = message.user
-
-    Button {
-      onPress(message.messageId)
-    } label: {
-      HStack(alignment: .top, spacing: 0) {
-        ZStack {
-          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
-          Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
-        }
-        .frame(width: 40, height: 40)
-        .padding(.trailing, AppSettings.Padding.y)
-
-        VStack(alignment: .leading, spacing: 0) {
-          Text(user.name)
-            .lineLimit(1)
-            .font(.system(size: AppSettings.Font.s, weight: .bold))
-            .padding(.bottom, 2)
-
-          Text(message.text)
-            .font(.system(size: AppSettings.Font.main))
-        }
-
-        Spacer()
-      }
-    }
-    .buttonStyle(.plain)
-  }
-}
 
 struct UserUserView: View {
   private let user: GetUserResponseModel.User
@@ -143,7 +109,7 @@ struct UserUserView: View {
 #Preview {
   let state = AppState()
 
-  UserView(api: state.api, nav: AppNav(), userId: UUID(uuidString: "019c0348-01dc-7162-b6e0-4d5e76f30fb8")!)
+  UserView(api: state.api, nav: AppNav(), userId: UUID(uuidString: "019c0344-23fc-7682-80d7-521add0d13bd")!)
     .environment(\.locale, .init(identifier: "ru"))
     .environment(state)
 }

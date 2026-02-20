@@ -33,14 +33,16 @@ struct UsersListView: View {
       ScrollView {
         LazyVStack(spacing: 0) {
           if let user = state.model.user {
-            UsersListUserView(user: user) {
-              authService.removeToken()
-              nav.path.removeLast(nav.path.count)
-              // В теории должен немного моргнуть UI, ну и ладно :)
+            UsersListUserView(user: user) { userId in
+              nav.path.append(AppRoute.user(userId: userId))
             }.padding(.horizontal, 16).padding(.bottom, 8)
           }
 
-          UsersList(service: service, nav: nav)
+          ForEach(model.users, id: \.userId) { user in
+            UsersListBubbleView(user) { userId in
+              nav.path.append(AppRoute.user(userId: userId))
+            }.padding(.horizontal, 16).padding(.bottom, 8)
+          }
 
           if model.isInit, !model.isLoading, model.users.isEmpty {
             UsersListEmpty()
@@ -61,57 +63,6 @@ struct UsersListView: View {
         print(error)
       }
     }
-  }
-}
-
-struct UsersList: View {
-  @Bindable
-  private var service: UsersListService
-
-  @Bindable
-  private var nav: AppNav
-
-  init(service: UsersListService, nav: AppNav) {
-    self.service = service
-    self.nav = nav
-  }
-
-  var body: some View {
-    @Bindable
-    var model = service.model
-
-    ForEach(model.users, id: \.userId) { user in
-      UserListBubble(user) { userId in
-        nav.path.append(AppRoute.user(userId: userId))
-      }.padding(.horizontal, 16).padding(.bottom, 8)
-    }
-  }
-}
-
-struct UserListBubble: View {
-  private let user: GetUsersResponseModel.User
-  private let onPress: (_ userId: UUID) -> Void
-
-  init(_ user: GetUsersResponseModel.User, _ onPress: @escaping (_ userId: UUID) -> Void) {
-    self.user = user
-    self.onPress = onPress
-  }
-
-  var body: some View {
-    Button {
-      onPress(user.userId)
-    } label: {
-      HStack {
-        ZStack {
-          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
-          Text(user.abbr).font(.system(size: 14, weight: .bold))
-        }.frame(width: 40, height: 40)
-
-        Text(user.name).lineLimit(1).font(.system(size: 16, weight: .medium))
-
-        Spacer()
-      }
-    }.buttonStyle(.plain)
   }
 }
 
