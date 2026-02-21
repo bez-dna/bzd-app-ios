@@ -32,15 +32,20 @@ struct UserView: View {
         LazyVStack(spacing: 0) {
           if let user = model.user {
             UserUserView(user: user)
-              .padding(.bottom, AppSettings.Padding.y)
+              .padding(.bottom, AppSettings.Padding.y * 2)
           }
 
-          VStack {
-            if let appUser = appModel.user {
-              if service.userId != appUser.userId {
-                UserTopicsView(api: state.api, userId: service.userId)
-                  .padding(.bottom, AppSettings.Padding.y * 2)
-              } else {
+          VStack(spacing: AppSettings.Padding.y * 2) {
+            if let permissions = model.permissions {
+              if permissions.topics {
+                TopicsView(api: state.api)
+              }
+
+              if permissions.topicsUsers {
+                UserTopicsUsersView().background(.red)
+              }
+
+              if permissions.logout {
                 Button {
                   authService.removeToken()
                   nav.path.removeLast(nav.path.count)
@@ -55,6 +60,15 @@ struct UserView: View {
                   .background(.submit, in: RoundedRectangle(cornerRadius: 15))
               }
             }
+
+//            if let appUser = appModel.user {
+//              if service.userId != appUser.userId {
+//                UserTopicsView(api: state.api, userId: service.userId)
+//                  .padding(.bottom, AppSettings.Padding.y * 2)
+//              } else {
+//
+//              }
+//            }
           }.padding(.bottom, AppSettings.Padding.y * 2)
 
           ForEach(model.messages.messageIds, id: \.self) { messageId in

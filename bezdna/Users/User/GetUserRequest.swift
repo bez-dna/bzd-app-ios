@@ -29,11 +29,18 @@ struct GetUserRequest: ApiRequest {
 
 struct GetUserResponseModel: Decodable {
   let user: User
+  let permissions: Permissions
 
   struct User: Decodable {
     let userId: UUID
     let name: String
     let abbr: String
     let color: String
+  }
+
+  struct Permissions: Decodable {
+    let logout: Bool
+    let topics: Bool
+    let topicsUsers: Bool
   }
 }

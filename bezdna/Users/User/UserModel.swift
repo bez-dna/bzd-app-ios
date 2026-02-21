@@ -7,6 +7,7 @@ final class UserModel {
   var lastCursorMessageId: Bool = false
 
   var user: GetUserResponseModel.User?
+  var permissions: GetUserResponseModel.Permissions?
   var messages: MessagesStore = .init()
 
   struct Loading {

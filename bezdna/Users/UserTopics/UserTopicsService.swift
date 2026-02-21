@@ -22,6 +22,7 @@ final class UserTopicsService {
 
     model.topics = res.topics
     model.topicsUsers = res.topicsUsers
+    model.permissions = res.permissions
   }
 
   func createTopicUser(topicId: UUID) async throws {

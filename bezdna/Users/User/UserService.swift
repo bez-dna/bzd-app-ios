@@ -23,6 +23,7 @@ final class UserService {
     let res = try await api.getUser(req: .init(userId: userId))
 
     model.user = res.user
+    model.permissions = res.permissions
   }
 
   func loadMessages() async throws {

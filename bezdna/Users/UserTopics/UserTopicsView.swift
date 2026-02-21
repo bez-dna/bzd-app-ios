@@ -1,6 +1,23 @@
 import SwiftUI
 
-struct UserTopicsView: View {
+struct UserTopicsView : View {
+  @State
+  private var service: UserTopicsService
+
+  init(api: ApiClient, userId: UUID) {
+    let service: UserTopicsService = .init(api: api, userId: userId)
+
+    self.service = service
+  }
+
+  var body: some View {
+    @Bindable
+    var model = service.model
+
+  }
+}
+
+struct UserTopicsView1: View {
   @State
   private var service: UserTopicsService
 
