@@ -350,13 +350,13 @@
         "en" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "it's you ✌️"
+            "value" : "it's your account ✌️"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "это ты ✌️"
+            "value" : "это твой аккаунт ✌️"
           }
         }
       }

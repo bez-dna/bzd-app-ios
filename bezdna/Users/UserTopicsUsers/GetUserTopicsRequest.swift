@@ -35,6 +35,7 @@ struct GetUserTopicsRequestModel: Encodable {
 struct GetUserTopicsResponseModel: Decodable {
   let topics: [Topic]
   let topicsUsers: [TopicUser]
+  let permissions: Permissions
 
   struct Topic: Decodable {
     let topicId: UUID
@@ -45,5 +46,9 @@ struct GetUserTopicsResponseModel: Decodable {
     let topicUserId: UUID
     let topicId: UUID
     let userId: UUID
+  }
+
+  struct Permissions: Decodable {
+    let topicsUsers: Bool
   }
 }

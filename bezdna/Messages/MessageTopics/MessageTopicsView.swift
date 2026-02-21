@@ -56,16 +56,16 @@ struct MessageTopicsView: View {
 
           }.padding(.vertical, AppSettings.Padding.y)
 
-          CreateTopicView(api: state.api) { topicId in
-            print("CREATED \(topicId)")
-            Task {
-              do {
-                try await service.load()
-              } catch {
-                print(error)
-              }
-            }
-          }
+//          CreateTopicView(api: state.api) { topicId in
+//            print("CREATED \(topicId)")
+//            Task {
+//              do {
+//                try await service.load()
+//              } catch {
+//                print(error)
+//              }
+//            }
+//          }
         }.padding(.horizontal, AppSettings.Padding.x)
           .padding(.vertical, AppSettings.Padding.y * 4)
       }
