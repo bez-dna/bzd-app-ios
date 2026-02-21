@@ -1,11 +1,11 @@
 import SwiftUI
 
-struct TopicsView : View {
+struct TopicsView: View {
   @State
   private var showEmojis = false
 
   @State
-  private var service: TopicsService  
+  private var service: TopicsService
 
   init(api: ApiClient) {
     let service: TopicsService = .init(api: api)
@@ -22,12 +22,10 @@ struct TopicsView : View {
     VStack(spacing: 0) {
       LazyVGrid(
         columns: [GridItem(.adaptive(minimum: size, maximum: size))],
-        spacing: AppSettings.Padding.y
+        spacing: AppSettings.Padding.y,
       ) {
-        ForEach(model.topics, id: \.self.topicId) { topic in
-          Button {
-
-          } label: {
+        ForEach(model.topics, id: \.topicId) { topic in
+          Button {} label: {
             Text(topic.title)
               .font(.system(size: AppSettings.Padding.y * 3))
               .frame(
@@ -78,7 +76,7 @@ struct TopicsView : View {
   }
 }
 
-struct TopicsEmojisView : View {
+struct TopicsEmojisView: View {
   @Environment(\.dismiss)
   private var dismiss
 
@@ -92,7 +90,7 @@ struct TopicsEmojisView : View {
 
   var body: some View {
     LazyVGrid(columns: [GridItem(.adaptive(minimum: AppSettings.Padding.y * 8))], spacing: AppSettings.Padding.y) {
-      ForEach(emojis, id: \.self.code) { emoji in
+      ForEach(emojis, id: \.code) { emoji in
         Button {
           onCreate(emoji.title)
           dismiss()

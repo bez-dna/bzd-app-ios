@@ -42,7 +42,7 @@ struct UserView: View {
               }
 
               if permissions.topicsUsers {
-                UserTopicsUsersView().background(.red)
+                UserTopicsUsersView(api: state.api, userId: service.userId)
               }
 
               if permissions.logout {
@@ -60,15 +60,6 @@ struct UserView: View {
                   .background(.submit, in: RoundedRectangle(cornerRadius: 15))
               }
             }
-
-//            if let appUser = appModel.user {
-//              if service.userId != appUser.userId {
-//                UserTopicsView(api: state.api, userId: service.userId)
-//                  .padding(.bottom, AppSettings.Padding.y * 2)
-//              } else {
-//
-//              }
-//            }
           }.padding(.bottom, AppSettings.Padding.y * 2)
 
           ForEach(model.messages.messageIds, id: \.self) { messageId in

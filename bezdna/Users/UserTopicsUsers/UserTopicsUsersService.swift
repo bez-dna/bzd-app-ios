@@ -3,8 +3,8 @@ import Contacts
 import SwiftUI
 
 @Observable
-final class UserTopicsService {
-  var model: UserTopicsModel = .init()
+final class UserTopicsUsersService {
+  var model: UserTopicsUsersModel = .init()
 
   @ObservationIgnored
   let userId: UUID

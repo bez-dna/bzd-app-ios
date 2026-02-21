@@ -49,6 +49,6 @@ struct GetUserTopicsResponseModel: Decodable {
   }
 
   struct Permissions: Decodable {
-    let topics: Bool
+    let topicsUsers: Bool
   }
 }
