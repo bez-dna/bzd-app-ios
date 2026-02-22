@@ -47,26 +47,23 @@ struct UserTopicsUsersView: View {
               .background(.gray, in: RoundedRectangle(cornerRadius: size / 2))
           } else {
             Button {
-              Task {
-                do {
-                  try await service.createTopicUser(topicId: topic.topicId)
-                  try await service.load()
-                } catch {
-                  print(error)
+              if model.canCreateTopicUser {
+                Task {
+                  do {
+                    try await service.createTopicUser(topicId: topic.topicId)
+                    try await service.load()
+                  } catch {
+                    print(error)
+                  }
                 }
+              } else {
+                // TODO: нужно добавить хелпер для анонимов и тех у кого нет прав
               }
             } label: {
               title
             }.buttonStyle(.plain)
               .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: size / 2))
           }
-
-//          Button {
-//
-//          } label: {
-//            title
-//          }.buttonStyle(.plain)
-//            .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: size / 2))
         }
       }
     }.task {
