@@ -20,26 +20,48 @@ struct MessageBubbleTopicsView: View {
         .foregroundStyle(.secondary)
     }
 
+    // TODO: Нужно посплитить, чет нечитаемая простыня какая-то стала
     if model.topics.count > 1 {
       if showTopics {
         HStack(spacing: AppSettings.Padding.y) {
           ForEach(model.topics, id: \.topicId) { topic in
-            Button {
-              Task {
-                do {
-                  try await service.createMessageTopic(topicId: topic.topicId)
-                } catch {
-                  print(error)
+            if let messageTopic = model.messagesTopics.first(where: { messageTopic in
+              messageTopic.topicId == topic.topicId && messageTopic.messageId == model.messageId
+            }) {
+              Button {
+                Task {
+                  do {
+                    try await service.deleteMessageTopic(messageTopicId: messageTopic.messageTopicId)
+                  } catch {
+                    print(error)
+                  }
                 }
-              }
-            } label: {
-              Text(topic.title).font(.system(size: AppSettings.Font.s))
-            }.frame(
-              width: AppSettings.Padding.y * 4,
-              height: AppSettings.Padding.y * 4,
-            )
-            .buttonStyle(.plain)
-            .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: AppSettings.Padding.y * 2))
+              } label: {
+                Text(topic.title).font(.system(size: AppSettings.Font.s))
+              }.frame(
+                width: AppSettings.Padding.y * 4,
+                height: AppSettings.Padding.y * 4,
+              )
+              .buttonStyle(.plain)
+              .background(.gray.opacity(1), in: RoundedRectangle(cornerRadius: AppSettings.Padding.y * 2))
+            } else {
+              Button {
+                Task {
+                  do {
+                    try await service.createMessageTopic(topicId: topic.topicId)
+                  } catch {
+                    print(error)
+                  }
+                }
+              } label: {
+                Text(topic.title).font(.system(size: AppSettings.Font.s))
+              }.frame(
+                width: AppSettings.Padding.y * 4,
+                height: AppSettings.Padding.y * 4,
+              )
+              .buttonStyle(.plain)
+              .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: AppSettings.Padding.y * 2))
+            }
           }
 
           Button {

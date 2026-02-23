@@ -10,6 +10,7 @@ final class MessageModel {
   var messages: MessagesStore = .init()
 
   var topics: [GetMessageMessagesResponseModel.Topic] = []
+  var messagesTopics: [GetMessageMessagesResponseModel.MessageTopic] = []
 
   struct Loading {
     var message: Bool = false

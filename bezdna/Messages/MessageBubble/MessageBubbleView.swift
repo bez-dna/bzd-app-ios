@@ -163,6 +163,7 @@ struct MessageBubbleUsersView: View {
       model: .init(
         m: stub_message(usersCount: 1, messagesCount: 0),
         t: [stub_topic(title: "😬")],
+        mt: [],
       ),
       onPress: { _ in },
     )
@@ -171,6 +172,7 @@ struct MessageBubbleUsersView: View {
       model: .init(
         m: stub_message(usersCount: 4, messagesCount: 1),
         t: [],
+        mt: [],
       ),
       onPress: { _ in },
     )
@@ -179,6 +181,7 @@ struct MessageBubbleUsersView: View {
       model: .init(
         m: stub_message(usersCount: 2, messagesCount: 7),
         t: [stub_topic(title: "😬"), stub_topic(title: "❤️")],
+        mt: [],
       ),
       onPress: { _ in },
     )
@@ -187,6 +190,7 @@ struct MessageBubbleUsersView: View {
       model: .init(
         m: stub_message(usersCount: 5, messagesCount: 10),
         t: [],
+        mt: [],
       ),
       onPress: { _ in },
     )
@@ -195,6 +199,7 @@ struct MessageBubbleUsersView: View {
       model: .init(
         m: stub_message(usersCount: 20, messagesCount: 12),
         t: [],
+        mt: [],
       ),
       onPress: { _ in },
     )

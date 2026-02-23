@@ -40,6 +40,7 @@ struct GetMessageMessagesRequestModel: Encodable {
 struct GetMessageMessagesResponseModel: Decodable {
   let messages: [Message]
   let topics: [Topic]
+  let messagesTopics: [MessageTopic]
   let cursorMessageId: UUID?
 
   struct Message: Decodable {
@@ -72,5 +73,11 @@ struct GetMessageMessagesResponseModel: Decodable {
   struct Topic: Decodable {
     let topicId: UUID
     let title: String
+  }
+
+  struct MessageTopic: Decodable {
+    let messageTopicId: UUID
+    let topicId: UUID
+    let messageId: UUID
   }
 }

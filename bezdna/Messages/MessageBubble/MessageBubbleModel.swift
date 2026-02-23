@@ -7,6 +7,7 @@ final class MessageBubbleModel {
   let user: User
   let stream: Stream?
   let topics: [Topic]
+  let messagesTopics: [MessageTopic]
   let permissions: Permissions
 
   struct Stream {
@@ -29,6 +30,12 @@ final class MessageBubbleModel {
     let title: String
   }
 
+  struct MessageTopic {
+    let messageTopicId: UUID
+    let topicId: UUID
+    let messageId: UUID
+  }
+
   struct Permissions {
     let topics: Bool
   }
@@ -36,6 +43,7 @@ final class MessageBubbleModel {
   init(
     m: GetMessageMessagesResponseModel.Message,
     t: [GetMessageMessagesResponseModel.Topic],
+    mt: [GetMessageMessagesResponseModel.MessageTopic],
   ) {
     messageId = m.messageId
     text = m.text
@@ -67,6 +75,13 @@ final class MessageBubbleModel {
     topics = t.map { topic in
       .init(topicId: topic.topicId, title: topic.title)
     }
+    messagesTopics = mt.map { messageTopic in
+      .init(
+        messageTopicId: messageTopic.messageTopicId,
+        topicId: messageTopic.topicId,
+        messageId: messageTopic.messageId,
+      )
+    }
   }
 
   init(
@@ -84,5 +99,6 @@ final class MessageBubbleModel {
     stream = nil
     permissions = .init(topics: false)
     topics = []
+    messagesTopics = []
   }
 }
