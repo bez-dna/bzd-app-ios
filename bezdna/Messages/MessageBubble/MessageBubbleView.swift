@@ -67,7 +67,7 @@ struct MessageBubbleView: View {
               Text(reply)
                 .font(.system(size: AppSettings.Font.s, weight: .semibold))
                 .foregroundStyle(.secondary)
-            }.background(.pink)
+            }
           }.buttonStyle(.plain)
         }
 
@@ -157,7 +157,7 @@ struct MessageBubbleUsersView: View {
 #Preview {
   let state = AppState()
 
-  Group {
+  ScrollView {
     MessageBubbleView(
       api: state.api,
       model: .init(

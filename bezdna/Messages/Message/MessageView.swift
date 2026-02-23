@@ -81,6 +81,8 @@ struct MessageMessagesView: View {
           ) { messageId in
             nav.path.append(AppRoute.message(messageId: messageId))
           }
+          .padding(.horizontal, AppSettings.Padding.x)
+          .padding(.bottom, AppSettings.Padding.y * 2)
         }
       }
     }
