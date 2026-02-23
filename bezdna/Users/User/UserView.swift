@@ -62,7 +62,7 @@ struct UserView: View {
             if let message = model.messages.messages[messageId] {
               MessageBubbleView(
                 api: state.api,
-                model: .init(m: message, t: model.topics)
+                model: .init(m: message, t: model.topics),
               ) { messageId in
                 nav.path.append(AppRoute.message(messageId: messageId))
               }

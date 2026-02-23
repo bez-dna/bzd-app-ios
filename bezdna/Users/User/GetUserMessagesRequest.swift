@@ -58,6 +58,5 @@ struct GetUserMessagesResponseModel: Decodable {
   struct Topic: Decodable {
     let topicId: UUID
     let title: String
-
   }
 }

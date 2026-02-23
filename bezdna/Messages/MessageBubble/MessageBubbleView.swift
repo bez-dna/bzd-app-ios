@@ -12,7 +12,7 @@ struct MessageBubbleView: View {
   init(
     api: ApiClient,
     model: MessageBubbleModel,
-    onPress: @escaping (UUID) -> Void
+    onPress: @escaping (UUID) -> Void,
   ) {
     let service: MessageBubbleService = .init(api: api, model: model)
 
@@ -162,41 +162,41 @@ struct MessageBubbleUsersView: View {
       api: state.api,
       model: .init(
         m: stub_message(usersCount: 1, messagesCount: 0),
-        t: [stub_topic(title: "😬")]
+        t: [stub_topic(title: "😬")],
       ),
-      onPress: { _ in }
+      onPress: { _ in },
     )
     MessageBubbleView(
       api: state.api,
       model: .init(
         m: stub_message(usersCount: 4, messagesCount: 1),
-        t: []
+        t: [],
       ),
-      onPress: { _ in }
+      onPress: { _ in },
     )
     MessageBubbleView(
       api: state.api,
       model: .init(
         m: stub_message(usersCount: 2, messagesCount: 7),
-        t: [stub_topic(title: "😬"), stub_topic(title: "❤️")]
+        t: [stub_topic(title: "😬"), stub_topic(title: "❤️")],
       ),
-      onPress: { _ in }
+      onPress: { _ in },
     )
     MessageBubbleView(
       api: state.api,
       model: .init(
         m: stub_message(usersCount: 5, messagesCount: 10),
-        t: []
+        t: [],
       ),
-      onPress: { _ in }
+      onPress: { _ in },
     )
     MessageBubbleView(
       api: state.api,
       model: .init(
         m: stub_message(usersCount: 20, messagesCount: 12),
-        t: []
+        t: [],
       ),
-      onPress: { _ in }
+      onPress: { _ in },
     )
   }.padding(.horizontal, AppSettings.Padding.x)
 
@@ -282,5 +282,5 @@ func stub_message(usersCount: Int, messagesCount: Int64) -> GetMessageMessagesRe
 }
 
 func stub_topic(title: String) -> GetMessageMessagesResponseModel.Topic {
-  return .init(topicId: UUID(), title: title)
+  .init(topicId: UUID(), title: title)
 }

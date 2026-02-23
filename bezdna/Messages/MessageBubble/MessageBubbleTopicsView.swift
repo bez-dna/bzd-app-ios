@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct MessageBubbleTopicsView : View {
+struct MessageBubbleTopicsView: View {
   @Bindable
   private(set) var service: MessageBubbleService
 
@@ -30,15 +30,13 @@ struct MessageBubbleTopicsView : View {
       if showTopics {
         HStack(spacing: AppSettings.Padding.y) {
           ForEach(model.topics, id: \.topicId) { topic in
-            Button {
-            } label: {
+            Button {} label: {
               Text(topic.title).font(.system(size: AppSettings.Font.s))
             }.frame(
               width: AppSettings.Padding.y * 4,
-              height: AppSettings.Padding.y * 4
+              height: AppSettings.Padding.y * 4,
             ).background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: AppSettings.Padding.y * 2))
           }.buttonStyle(.plain)
-
         }
       } else {
         Button {

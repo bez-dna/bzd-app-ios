@@ -35,7 +35,7 @@ final class MessageBubbleModel {
 
   init(
     m: GetMessageMessagesResponseModel.Message,
-    t: [GetMessageMessagesResponseModel.Topic]
+    t: [GetMessageMessagesResponseModel.Topic],
   ) {
     messageId = m.messageId
     text = m.text
@@ -65,13 +65,13 @@ final class MessageBubbleModel {
     }
     permissions = .init(topics: m.permissions.topics)
     topics = t.map { topic in
-        .init(topicId: topic.topicId, title: topic.title)
+      .init(topicId: topic.topicId, title: topic.title)
     }
   }
 
   init(
     m: GetUserMessagesResponseModel.Message,
-    t: [GetUserMessagesResponseModel.Topic]
+    t _: [GetUserMessagesResponseModel.Topic],
   ) {
     messageId = m.messageId
     text = m.text

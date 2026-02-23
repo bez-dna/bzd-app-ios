@@ -63,9 +63,8 @@ struct SourceMessageBubbleView: View {
 //              MessageTopicsView(api: state.api, messageId: model.messageId)
 //                .presentationDetents([.medium, .large])
 //            }
-          Spacer()
-        }.padding(.leading, 40 + AppSettings.Padding.y)
-
+        Spacer()
+      }.padding(.leading, 40 + AppSettings.Padding.y)
     }
   }
 }
