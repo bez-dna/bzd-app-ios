@@ -1,21 +1,23 @@
 import SwiftUI
 
 struct SourceMessageBubbleView: View {
-  private let model: MessageBubbleModel
-  private let permissions: MessageBubbleModel.Permissions
-
   @State
-  private var showTopics: Bool = false
+  private var service: MessageBubbleService
 
-  @Environment(AppState.self)
-  private var state
+//  @Environment(AppState.self)
+//  private var state
 
-  init(model: MessageBubbleModel, permissions: MessageBubbleModel.Permissions) {
-    self.model = model
-    self.permissions = permissions
+  init(
+    api: ApiClient,
+    model: MessageBubbleModel,
+  ) {
+    let service: MessageBubbleService = .init(api: api, model: model)
+
+    self.service = service
   }
 
   var body: some View {
+    let model = service.model
     let user = model.user
 
     VStack(spacing: 0) {
@@ -40,29 +42,30 @@ struct SourceMessageBubbleView: View {
         Spacer()
       }
 
-      if permissions.topics {
-        HStack(spacing: 0) {
-          Button {
-            showTopics.toggle()
-          } label: {
-            HStack(spacing: 4) {
-              Image(systemName: "tag")
-                .font(.system(size: 16, weight: .semibold))
-                .frame(height: 40)
-                .foregroundStyle(.secondary)
+      HStack(spacing: 0) {
+        MessageBubbleTopicsView(service: service)
 
-              Text(AppI18n.Message.Bubble.topics)
-                .font(.system(size: AppSettings.Font.s, weight: .semibold))
-                .foregroundStyle(.secondary)
-            }
-          }.buttonStyle(.plain)
-            .sheet(isPresented: $showTopics) {
-              MessageTopicsView(api: state.api, messageId: model.messageId)
-                .presentationDetents([.medium, .large])
-            }
+//          Button {
+//            showTopics.toggle()
+//          } label: {
+//            HStack(spacing: 4) {
+//              Image(systemName: "tag")
+//                .font(.system(size: 16, weight: .semibold))
+//                .frame(height: 40)
+//                .foregroundStyle(.secondary)
+//
+//              Text(AppI18n.Message.Bubble.topics)
+//                .font(.system(size: AppSettings.Font.s, weight: .semibold))
+//                .foregroundStyle(.secondary)
+//            }
+//          }.buttonStyle(.plain)
+//            .sheet(isPresented: $showTopics) {
+//              MessageTopicsView(api: state.api, messageId: model.messageId)
+//                .presentationDetents([.medium, .large])
+//            }
           Spacer()
         }.padding(.leading, 40 + AppSettings.Padding.y)
-      }
+
     }
   }
 }

@@ -41,6 +41,7 @@ final class UserService {
 
     model.messages = model.messages.append(res.messages)
     model.cursorMessageId = res.cursorMessageId
+    model.topics = res.topics
 
     if res.cursorMessageId == nil {
       model.lastCursorMessageId = true

@@ -1,21 +1,30 @@
 import SwiftUI
 
 struct MessageBubbleView: View {
-  private let model: MessageBubbleModel
   private let onPress: (UUID) -> Void
+
+  @State
+  private var service: MessageBubbleService
 
   @State
   private var showStream: Bool = false
 
-  init(model: MessageBubbleModel, onPress: @escaping (UUID) -> Void) {
-    self.model = model
+  init(
+    api: ApiClient,
+    model: MessageBubbleModel,
+    onPress: @escaping (UUID) -> Void
+  ) {
+    let service: MessageBubbleService = .init(api: api, model: model)
+
+    self.service = service
     self.onPress = onPress
   }
 
   var body: some View {
+    let model = service.model
     let user = model.user
 
-    VStack(spacing: 0) {
+    VStack(spacing: AppSettings.Padding.y) {
       HStack(alignment: .top, spacing: 0) {
         ZStack {
           Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
@@ -38,30 +47,29 @@ struct MessageBubbleView: View {
       }
 
       HStack(spacing: 0) {
-        Button {
-          onPress(model.messageId)
-        } label: {
-          HStack(spacing: 4) {
-            Image(systemName: "message")
-              .font(.system(size: 16, weight: .semibold))
-              .frame(height: 40)
-              .foregroundStyle(.secondary)
+        HStack(spacing: AppSettings.Padding.y * 2) {
+          MessageBubbleTopicsView(service: service)
 
-            let reply = if let stream = model.stream {
-              AppI18n.Message.Bubble.replies(stream.messagesCount)
-            } else {
-              AppI18n.Message.Bubble.reply
-            }
-            Text(reply)
-              .font(.system(size: AppSettings.Font.s, weight: .semibold))
-              .foregroundStyle(.secondary)
+          Button {
+            onPress(model.messageId)
+          } label: {
+            HStack(spacing: 4) {
+              Image(systemName: "message")
+                .font(.system(size: 16, weight: .semibold))
+                .frame(height: AppSettings.Padding.y * 4)
+                .foregroundStyle(.secondary)
 
-//            Image(systemName: "chevron.forward.circle")
-//              .font(.system(size: 16))
-//              .frame(height: 40)
-//              .foregroundStyle(.secondary)
-          }
-        }.buttonStyle(.plain)
+              let reply = if let stream = model.stream {
+                AppI18n.Message.Bubble.replies(stream.messagesCount)
+              } else {
+                AppI18n.Message.Bubble.reply
+              }
+              Text(reply)
+                .font(.system(size: AppSettings.Font.s, weight: .semibold))
+                .foregroundStyle(.secondary)
+            }.background(.pink)
+          }.buttonStyle(.plain)
+        }
 
         Spacer()
 
@@ -79,8 +87,8 @@ struct MessageBubbleView: View {
                 .foregroundStyle(.secondary)
             }
             .padding(.horizontal, AppSettings.Padding.y)
-            .frame(height: 30)
-            .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: 8))
+            .frame(height: AppSettings.Padding.y * 4)
+            .background(.gray.opacity(0.1), in: RoundedRectangle(cornerRadius: AppSettings.Padding.y))
           }.buttonStyle(.plain)
         }
       }.padding(.leading, 40 + AppSettings.Padding.y)
@@ -147,18 +155,55 @@ struct MessageBubbleUsersView: View {
 }
 
 #Preview {
+  let state = AppState()
+
   Group {
-    MessageBubbleView(model: stub_message(usersCount: 1, messagesCount: 0), onPress: { _ in })
-    MessageBubbleView(model: stub_message(usersCount: 4, messagesCount: 1), onPress: { _ in })
-    MessageBubbleView(model: stub_message(usersCount: 2, messagesCount: 7), onPress: { _ in })
-    MessageBubbleView(model: stub_message(usersCount: 5, messagesCount: 10), onPress: { _ in })
-    MessageBubbleView(model: stub_message(usersCount: 20, messagesCount: 12), onPress: { _ in })
+    MessageBubbleView(
+      api: state.api,
+      model: .init(
+        m: stub_message(usersCount: 1, messagesCount: 0),
+        t: [stub_topic(title: "😬")]
+      ),
+      onPress: { _ in }
+    )
+    MessageBubbleView(
+      api: state.api,
+      model: .init(
+        m: stub_message(usersCount: 4, messagesCount: 1),
+        t: []
+      ),
+      onPress: { _ in }
+    )
+    MessageBubbleView(
+      api: state.api,
+      model: .init(
+        m: stub_message(usersCount: 2, messagesCount: 7),
+        t: [stub_topic(title: "😬"), stub_topic(title: "❤️")]
+      ),
+      onPress: { _ in }
+    )
+    MessageBubbleView(
+      api: state.api,
+      model: .init(
+        m: stub_message(usersCount: 5, messagesCount: 10),
+        t: []
+      ),
+      onPress: { _ in }
+    )
+    MessageBubbleView(
+      api: state.api,
+      model: .init(
+        m: stub_message(usersCount: 20, messagesCount: 12),
+        t: []
+      ),
+      onPress: { _ in }
+    )
   }.padding(.horizontal, AppSettings.Padding.x)
 
   Spacer()
 }
 
-func stub_message(usersCount: Int, messagesCount: Int64) -> MessageBubbleModel {
+func stub_message(usersCount: Int, messagesCount: Int64) -> GetMessageMessagesResponseModel.Message {
   let users = [
     GetMessageMessagesResponseModel.Message.User(
       userId: UUID(),
@@ -222,17 +267,20 @@ func stub_message(usersCount: Int, messagesCount: Int64) -> MessageBubbleModel {
     nil
   }
 
-  return MessageBubbleModel(
-    m: GetMessageMessagesResponseModel.Message(
-      messageId: UUID(),
-      text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat eget orci ultrices aliquam. Duis maximus tristique elit vulputate tincidunt\nSecond line\nLast row",
-      user: GetMessageMessagesResponseModel.Message.User(
-        userId: UUID(),
-        name: "John Doe",
-        abbr: "JD",
-        color: "#ccf9ff4c",
-      ),
-      stream: stream,
+  return .init(
+    messageId: UUID(),
+    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat eget orci ultrices aliquam. Duis maximus tristique elit vulputate tincidunt\nSecond line\nLast row",
+    user: GetMessageMessagesResponseModel.Message.User(
+      userId: UUID(),
+      name: "John Doe",
+      abbr: "JD",
+      color: "#ccf9ff4c",
     ),
+    stream: stream,
+    permissions: .init(topics: false),
   )
+}
+
+func stub_topic(title: String) -> GetMessageMessagesResponseModel.Topic {
+  return .init(topicId: UUID(), title: title)
 }

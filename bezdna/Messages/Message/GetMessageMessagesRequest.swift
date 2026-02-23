@@ -39,6 +39,7 @@ struct GetMessageMessagesRequestModel: Encodable {
 
 struct GetMessageMessagesResponseModel: Decodable {
   let messages: [Message]
+  let topics: [Topic]
   let cursorMessageId: UUID?
 
   struct Message: Decodable {
@@ -46,6 +47,7 @@ struct GetMessageMessagesResponseModel: Decodable {
     let text: String
     let user: User
     let stream: Stream?
+    let permissions: Permissions
 
     struct User: Decodable {
       let userId: UUID
@@ -61,5 +63,14 @@ struct GetMessageMessagesResponseModel: Decodable {
       let messagesCount: Int64
       let users: [User]
     }
+
+    struct Permissions: Decodable {
+      let topics: Bool
+    }
+  }
+
+  struct Topic: Decodable {
+    let topicId: UUID
+    let title: String
   }
 }
