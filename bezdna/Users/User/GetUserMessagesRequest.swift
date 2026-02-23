@@ -39,6 +39,7 @@ struct GetUserMessagesRequestModel: Encodable {
 
 struct GetUserMessagesResponseModel: Decodable {
   let messages: [Message]
+  let topics: [Topic]
   let cursorMessageId: UUID?
 
   struct Message: Decodable {
@@ -52,5 +53,10 @@ struct GetUserMessagesResponseModel: Decodable {
       let abbr: String
       let color: String
     }
+  }
+
+  struct Topic: Decodable {
+    let topicId: UUID
+    let title: String
   }
 }

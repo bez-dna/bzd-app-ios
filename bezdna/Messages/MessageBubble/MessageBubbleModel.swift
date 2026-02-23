@@ -1,10 +1,14 @@
 import SwiftUI
 
-struct MessageBubbleModel {
+@Observable
+final class MessageBubbleModel {
   let messageId: UUID
   let text: String
   let user: User
   let stream: Stream?
+  let topics: [Topic]
+  let messagesTopics: [MessageTopic]
+  let permissions: Permissions
 
   struct Stream {
     let streamId: UUID
@@ -21,15 +25,26 @@ struct MessageBubbleModel {
     let color: String
   }
 
-  struct Permissions {
-    let topics: Bool
-
-    init(p: GetMessageResponseModel.Message.Permissions) {
-      topics = p.topics
-    }
+  struct Topic {
+    let topicId: UUID
+    let title: String
   }
 
-  init(m: GetMessageMessagesResponseModel.Message) {
+  struct MessageTopic {
+    let messageTopicId: UUID
+    let topicId: UUID
+    let messageId: UUID
+  }
+
+  struct Permissions {
+    let topics: Bool
+  }
+
+  init(
+    m: GetMessageMessagesResponseModel.Message,
+    t: [GetMessageMessagesResponseModel.Topic],
+    mt: [GetMessageMessagesResponseModel.MessageTopic],
+  ) {
     messageId = m.messageId
     text = m.text
     user = User(
@@ -56,9 +71,23 @@ struct MessageBubbleModel {
     } else {
       nil
     }
+    permissions = .init(topics: m.permissions.topics)
+    topics = t.map { topic in
+      .init(topicId: topic.topicId, title: topic.title)
+    }
+    messagesTopics = mt.map { messageTopic in
+      .init(
+        messageTopicId: messageTopic.messageTopicId,
+        topicId: messageTopic.topicId,
+        messageId: messageTopic.messageId,
+      )
+    }
   }
 
-  init(m: GetUserMessagesResponseModel.Message) {
+  init(
+    m: GetUserMessagesResponseModel.Message,
+    t _: [GetUserMessagesResponseModel.Topic],
+  ) {
     messageId = m.messageId
     text = m.text
     user = User(
@@ -68,5 +97,8 @@ struct MessageBubbleModel {
       color: m.user.color,
     )
     stream = nil
+    permissions = .init(topics: false)
+    topics = []
+    messagesTopics = []
   }
 }

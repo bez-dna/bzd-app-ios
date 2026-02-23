@@ -33,10 +33,5 @@ struct GetMessageResponseModel: Decodable {
   struct Message: Decodable {
     let messageId: UUID
     let text: String
-    let permissions: Permissions
-
-    struct Permissions: Decodable {
-      let topics: Bool
-    }
   }
 }

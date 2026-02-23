@@ -18,11 +18,7 @@ struct UserView: View {
   }
 
   var body: some View {
-    @Bindable
-    var model = service.model
-
-    @Bindable
-    var appModel = state.model
+    let model = service.model
 
     @Bindable
     var authService = state.authService
@@ -64,7 +60,10 @@ struct UserView: View {
 
           ForEach(model.messages.messageIds, id: \.self) { messageId in
             if let message = model.messages.messages[messageId] {
-              MessageBubbleView(model: .init(m: message)) { messageId in
+              MessageBubbleView(
+                api: state.api,
+                model: .init(m: message, t: model.topics),
+              ) { messageId in
                 nav.path.append(AppRoute.message(messageId: messageId))
               }
               .padding(.horizontal, AppSettings.Padding.x)

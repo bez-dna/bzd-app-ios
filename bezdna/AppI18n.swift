@@ -13,6 +13,7 @@ enum AppI18n {
   enum Message {
     enum Bubble {
       static let topics: L10nKey = "message.bubble.topics"
+      static let like: L10nKey = "message.bubble.like"
       static let reply: String = .init(localized: "message.bubble.reply")
       static func replies(_ count: Int64) -> String {
         String(

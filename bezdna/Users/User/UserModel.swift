@@ -10,6 +10,8 @@ final class UserModel {
   var permissions: GetUserResponseModel.Permissions?
   var messages: MessagesStore = .init()
 
+  var topics: [GetUserMessagesResponseModel.Topic] = []
+
   struct Loading {
     var user: Bool = false
     var messages: Bool = false

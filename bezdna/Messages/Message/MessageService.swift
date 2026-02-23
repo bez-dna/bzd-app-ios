@@ -39,6 +39,8 @@ final class MessageService {
 
     model.messages = model.messages.append(res.messages)
     model.cursorMessageId = res.cursorMessageId
+    model.topics = res.topics
+    model.messagesTopics = res.messagesTopics
 
     if res.cursorMessageId == nil {
       model.lastCursorMessageId = true
