@@ -6,8 +6,8 @@ final class MessageBubbleModel {
   let text: String
   let user: User
   let stream: Stream?
-  let topics: [Topic]
-  let messagesTopics: [MessageTopic]
+  var topics: [Topic]
+  var messagesTopics: [MessageTopic]
   let permissions: Permissions
 
   struct Stream {

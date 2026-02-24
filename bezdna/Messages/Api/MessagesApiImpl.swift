@@ -22,6 +22,13 @@ class MessagesApiImpl: MessagesApi {
     return try req.decode(data)
   }
 
+  func getMessageMessagesTopics(req: GetMessageMessagesTopicsRequest) async throws
+    -> GetMessageMessagesTopicsResponseModel
+  {
+    let data = try await api.request(req: req)
+    return try req.decode(data)
+  }
+
   func createMessage(req: CreateMessageRequest) async throws -> CreateMessageResponseModel {
     let data = try await api.request(req: req)
     return try req.decode(data)

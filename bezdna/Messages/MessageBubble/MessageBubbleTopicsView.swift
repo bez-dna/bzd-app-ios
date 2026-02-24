@@ -19,7 +19,6 @@ struct MessageBubbleTopicsView: View {
         .font(.system(size: AppSettings.Font.s, weight: .semibold))
         .foregroundStyle(model.hasMessageTopic ? .red : .secondary)
     }
-    
 
     // TODO: Нужно посплитить, чет нечитаемая простыня какая-то стала
     if model.topics.count > 1 {
