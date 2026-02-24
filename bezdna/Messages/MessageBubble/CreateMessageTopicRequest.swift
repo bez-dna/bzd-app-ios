@@ -8,7 +8,7 @@ struct CreateMessageTopicRequest: ApiRequest {
   }
 
   var path: String {
-    "/messages/topics"
+    "/messages/messages-topics"
   }
 
   var queryItems: [URLQueryItem]? {

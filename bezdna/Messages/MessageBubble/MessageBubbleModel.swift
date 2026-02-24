@@ -40,6 +40,12 @@ final class MessageBubbleModel {
     let topics: Bool
   }
 
+  var hasMessageTopic: Bool {
+    messagesTopics.contains { messageTopic in
+      messageTopic.messageId == messageId
+    }
+  }
+
   init(
     m: GetMessageMessagesResponseModel.Message,
     t: [GetMessageMessagesResponseModel.Topic],
