@@ -66,6 +66,7 @@ struct GetMessageMessagesResponseModel: Decodable {
     }
 
     struct Permissions: Decodable {
+      let message: Bool
       let topics: Bool
     }
   }

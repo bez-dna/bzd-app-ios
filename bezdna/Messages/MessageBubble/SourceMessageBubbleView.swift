@@ -18,7 +18,8 @@ struct SourceMessageBubbleView: View {
 
   var body: some View {
     let model = service.model
-    let user = model.user
+    let message = model.message
+    let user = message.user
 
     VStack(spacing: 0) {
       HStack(alignment: .top, spacing: 0) {
@@ -35,7 +36,7 @@ struct SourceMessageBubbleView: View {
             .font(.system(size: AppSettings.Font.s, weight: .bold))
             .padding(.bottom, 2)
 
-          Text(model.text)
+          Text(message.text)
             .font(.system(size: AppSettings.Font.main))
         }
 

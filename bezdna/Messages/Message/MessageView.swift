@@ -70,14 +70,14 @@ struct MessageMessagesView: View {
         if message.messageId == service.messageId {
           SourceMessageBubbleView(
             api: state.api,
-            model: .init(m: message, t: model.topics, mt: model.messagesTopics),
+            model: .init(message: message, topics: model.topics, messagesTopics: model.messagesTopics),
           )
           .padding(.horizontal, AppSettings.Padding.x)
           .padding(.bottom, AppSettings.Padding.y * 2)
         } else {
           MessageBubbleView(
             api: state.api,
-            model: .init(m: message, t: model.topics, mt: model.messagesTopics),
+            model: .init(message: message, topics: model.topics, messagesTopics: model.messagesTopics),
           ) { messageId in
             nav.path.append(AppRoute.message(messageId: messageId))
           }

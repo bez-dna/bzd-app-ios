@@ -2,109 +2,142 @@ import SwiftUI
 
 @Observable
 final class MessageBubbleModel {
-  let messageId: UUID
-  let text: String
-  let user: User
-  let stream: Stream?
+  var message: Message
   var topics: [Topic]
   var messagesTopics: [MessageTopic]
-  let permissions: Permissions
 
-  struct Stream {
-    let streamId: UUID
+  struct Message {
     let messageId: UUID
     let text: String
-    let messagesCount: Int64
-    let users: [User]
-  }
+    let user: User
+    let stream: Stream?
+    let permissions: Permissions
 
-  struct User {
-    let userId: UUID
-    let name: String
-    let abbr: String
-    let color: String
+    struct Stream {
+      let streamId: UUID
+      let messageId: UUID
+      let text: String
+      let messagesCount: Int64
+      let users: [User]
+    }
+
+    struct User {
+      let userId: UUID
+      let name: String
+      let abbr: String
+      let color: String
+    }
+
+    struct Permissions {
+      let message: Bool
+      let topics: Bool
+    }
+
+    init(from m: GetMessageMessagesResponseModel.Message) {
+      let u = m.user
+
+      messageId = m.messageId
+      text = m.text
+      user = User(
+        userId: u.userId,
+        name: u.name,
+        abbr: u.abbr,
+        color: u.color,
+      )
+      stream = if let s = m.stream {
+        Stream(
+          streamId: s.streamId,
+          messageId: s.messageId,
+          text: s.text,
+          messagesCount: s.messagesCount,
+          users: s.users.map { u in
+            User(
+              userId: u.userId,
+              name: u.name,
+              abbr: u.abbr,
+              color: u.color,
+            )
+          },
+        )
+      } else {
+        nil
+      }
+      permissions = .init(
+        message: m.permissions.message,
+        topics: m.permissions.topics
+      )
+    }
+
+    init(from m: GetMessageResponseModel.Message) {
+      let u = m.user
+
+      messageId = m.messageId
+      text = m.text
+      user = User(
+        userId: u.userId,
+        name: u.name,
+        abbr: u.abbr,
+        color: u.color,
+      )
+      stream = nil
+      permissions = .init(
+        message: m.permissions.message,
+        topics: m.permissions.topics
+      )
+    }
   }
+  
 
   struct Topic {
     let topicId: UUID
     let title: String
+
+    init(from t: GetMessageMessagesResponseModel.Topic) {
+      topicId = t.topicId
+      title = t.title
+    }
   }
 
   struct MessageTopic {
     let messageTopicId: UUID
     let topicId: UUID
     let messageId: UUID
+
+    init(from mt: GetMessageMessagesResponseModel.MessageTopic) {
+      messageTopicId = mt.messageTopicId
+      topicId = mt.topicId
+      messageId = mt.messageId
+    }
   }
 
-  struct Permissions {
-    let topics: Bool
+  struct MessagesStore {
+    var messages: [UUID: Message] = [:]
+    var messageIds: [UUID] = []
+
+    func append(_ batchMessages: [Message]) -> Self {
+      var newMessages = messages
+      var newMessageIds = messageIds
+
+      for message in batchMessages {
+        guard newMessages[message.messageId] == nil else { continue }
+
+        newMessages[message.messageId] = message
+        newMessageIds.append(message.messageId)
+      }
+
+      return Self(messages: newMessages, messageIds: newMessageIds)
+    }
   }
 
   var hasMessageTopic: Bool {
     messagesTopics.contains { messageTopic in
-      messageTopic.messageId == messageId
+      messageTopic.messageId == message.messageId
     }
   }
 
-  init(
-    m: GetMessageMessagesResponseModel.Message,
-    t: [GetMessageMessagesResponseModel.Topic],
-    mt: [GetMessageMessagesResponseModel.MessageTopic],
-  ) {
-    messageId = m.messageId
-    text = m.text
-    user = User(
-      userId: m.user.userId,
-      name: m.user.name,
-      abbr: m.user.abbr,
-      color: m.user.color,
-    )
-    stream = if let s = m.stream {
-      Stream(
-        streamId: s.streamId,
-        messageId: s.messageId,
-        text: s.text,
-        messagesCount: s.messagesCount,
-        users: s.users.map { u in
-          User(
-            userId: u.userId,
-            name: u.name,
-            abbr: u.abbr,
-            color: u.color,
-          )
-        },
-      )
-    } else {
-      nil
-    }
-    permissions = .init(topics: m.permissions.topics)
-    topics = t.map { topic in
-      .init(topicId: topic.topicId, title: topic.title)
-    }
-    messagesTopics = mt.map { messageTopic in
-      .init(
-        messageTopicId: messageTopic.messageTopicId,
-        topicId: messageTopic.topicId,
-        messageId: messageTopic.messageId,
-      )
-    }
-  }
-
-  init(
-    m: GetUserMessagesResponseModel.Message,
-    t _: [GetUserMessagesResponseModel.Topic],
-  ) {
-    messageId = m.messageId
-    text = m.text
-    user = User(
-      userId: m.user.userId,
-      name: m.user.name,
-      abbr: m.user.abbr,
-      color: m.user.color,
-    )
-    stream = nil
-    permissions = .init(topics: false)
-    topics = []
-    messagesTopics = []
+  init(message: Message, topics: [Topic], messagesTopics: [MessageTopic]) {
+    self.message = message
+    self.topics = topics
+    self.messagesTopics = messagesTopics
   }
 }
