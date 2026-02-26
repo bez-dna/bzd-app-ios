@@ -17,10 +17,10 @@ final class MessageBubbleService {
 
   func createMessageTopic(topicId: UUID) async throws {
     _ = try await api.createMessageTopic(
-      req: .init(model: .init(topicId: topicId, messageId: model.messageId)),
+      req: .init(model: .init(topicId: topicId, messageId: model.message.messageId)),
     )
 
-    try await getMessageMessagesTopics(messageId: model.messageId)
+    try await getMessageMessagesTopics(messageId: model.message.messageId)
   }
 
   func deleteMessageTopic(messageTopicId: UUID) async throws {
@@ -28,7 +28,7 @@ final class MessageBubbleService {
       req: .init(model: .init(messageTopicId: messageTopicId)),
     )
 
-    try await getMessageMessagesTopics(messageId: model.messageId)
+    try await getMessageMessagesTopics(messageId: model.message.messageId)
   }
 
   func getMessageMessagesTopics(messageId: UUID) async throws {
@@ -37,15 +37,11 @@ final class MessageBubbleService {
     )
 
     model.messagesTopics = res.messagesTopics.map { messageTopic in
-      .init(
-        messageTopicId: messageTopic.messageTopicId,
-        topicId: messageTopic.topicId,
-        messageId: messageTopic.messageId,
-      )
+      .init(from: messageTopic)
     }
 
     model.topics = res.topics.map { topic in
-      .init(topicId: topic.topicId, title: topic.title)
+      .init(from: topic)
     }
   }
 }

@@ -64,7 +64,7 @@ final class MessageBubbleModel {
       }
       permissions = .init(
         message: m.permissions.message,
-        topics: m.permissions.topics
+        topics: m.permissions.topics,
       )
     }
 
@@ -82,17 +82,44 @@ final class MessageBubbleModel {
       stream = nil
       permissions = .init(
         message: m.permissions.message,
-        topics: m.permissions.topics
+        topics: m.permissions.topics,
+      )
+    }
+
+    init(from m: GetUserMessagesResponseModel.Message) {
+      let u = m.user
+
+      messageId = m.messageId
+      text = m.text
+      user = User(
+        userId: u.userId,
+        name: u.name,
+        abbr: u.abbr,
+        color: u.color,
+      )
+      stream = nil
+      permissions = .init(
+        message: m.permissions.message,
+        topics: m.permissions.topics,
       )
     }
   }
-  
 
   struct Topic {
     let topicId: UUID
     let title: String
 
     init(from t: GetMessageMessagesResponseModel.Topic) {
+      topicId = t.topicId
+      title = t.title
+    }
+
+    init(from t: GetMessageMessagesTopicsResponseModel.Topic) {
+      topicId = t.topicId
+      title = t.title
+    }
+
+    init(from t: GetUserMessagesResponseModel.Topic) {
       topicId = t.topicId
       title = t.title
     }
@@ -104,6 +131,12 @@ final class MessageBubbleModel {
     let messageId: UUID
 
     init(from mt: GetMessageMessagesResponseModel.MessageTopic) {
+      messageTopicId = mt.messageTopicId
+      topicId = mt.topicId
+      messageId = mt.messageId
+    }
+
+    init(from mt: GetMessageMessagesTopicsResponseModel.MessageTopic) {
       messageTopicId = mt.messageTopicId
       topicId = mt.topicId
       messageId = mt.messageId

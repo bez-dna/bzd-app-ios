@@ -38,7 +38,7 @@ final class MessageService {
     let res = try await api.getMessageMessages(req: .init(messageId: messageId, model: .init(cursorMessageId: model.cursorMessageId)))
 
     model.cursorMessageId = res.cursorMessageId
-    model.messages = model.messages.append(res.messages.map { message in .init(from: message)})
+    model.messages = model.messages.append(res.messages.map { message in .init(from: message) })
     model.topics = res.topics.map { topic in .init(from: topic) }
     model.messagesTopics = res.messagesTopics.map { messageTopic in .init(from: messageTopic) }
 

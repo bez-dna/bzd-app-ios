@@ -155,7 +155,7 @@ struct MessageBubbleUsersView: View {
   }
 }
 
-//#Preview {
+// #Preview {
 //  let state = AppState()
 //
 //  ScrollView {
@@ -207,9 +207,9 @@ struct MessageBubbleUsersView: View {
 //  }.padding(.horizontal, AppSettings.Padding.x)
 //
 //  Spacer()
-//}
+// }
 //
-//func stub_message(usersCount: Int, messagesCount: Int64) -> GetMessageMessagesResponseModel.Message {
+// func stub_message(usersCount: Int, messagesCount: Int64) -> GetMessageMessagesResponseModel.Message {
 //  let users = [
 //    GetMessageMessagesResponseModel.Message.User(
 //      userId: UUID(),
@@ -285,8 +285,8 @@ struct MessageBubbleUsersView: View {
 //    stream: stream,
 //    permissions: .init(topics: false),
 //  )
-//}
+// }
 //
-//func stub_topic(title: String) -> GetMessageMessagesResponseModel.Topic {
+// func stub_topic(title: String) -> GetMessageMessagesResponseModel.Topic {
 //  .init(topicId: UUID(), title: title)
-//}
+// }

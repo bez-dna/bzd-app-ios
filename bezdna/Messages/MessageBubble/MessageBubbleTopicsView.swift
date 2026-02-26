@@ -26,7 +26,7 @@ struct MessageBubbleTopicsView: View {
         HStack(spacing: AppSettings.Padding.y) {
           ForEach(model.topics, id: \.topicId) { topic in
             if let messageTopic = model.messagesTopics.first(where: { messageTopic in
-              messageTopic.topicId == topic.topicId && messageTopic.messageId == model.messageId
+              messageTopic.topicId == topic.topicId && messageTopic.messageId == model.message.messageId
             }) {
               Button {
                 Task {

@@ -39,9 +39,9 @@ final class UserService {
 
     let res = try await api.getUserMessages(req: .init(userId: userId, model: .init(cursorMessageId: model.cursorMessageId)))
 
-    model.messages = model.messages.append(res.messages)
     model.cursorMessageId = res.cursorMessageId
-    model.topics = res.topics
+    model.messages = model.messages.append(res.messages.map { message in .init(from: message) })
+    model.topics = res.topics.map { topic in .init(from: topic) }
 
     if res.cursorMessageId == nil {
       model.lastCursorMessageId = true

@@ -46,12 +46,18 @@ struct GetUserMessagesResponseModel: Decodable {
     let messageId: UUID
     let text: String
     let user: User
+    let permissions: Permissions
 
     struct User: Decodable {
       let userId: UUID
       let name: String
       let abbr: String
       let color: String
+    }
+
+    struct Permissions: Decodable {
+      let message: Bool
+      let topics: Bool
     }
   }
 
