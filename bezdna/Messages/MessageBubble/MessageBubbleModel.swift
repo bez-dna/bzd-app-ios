@@ -192,9 +192,7 @@ final class MessageBubbleModel {
         var index = newMessageIds.count - 1
         while index >= 0 {
           let currentMessageId = newMessageIds[index]
-          if let currentMessage = newMessages[currentMessageId],
-            currentMessage.order <= message.order
-          {
+          if let currentMessage = newMessages[currentMessageId], currentMessage.order <= message.order {
             break
           }
           index -= 1
