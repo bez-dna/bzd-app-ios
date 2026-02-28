@@ -21,7 +21,7 @@ final class MessageService {
 
     let res = try await api.getMessage(req: .init(messageId: messageId))
 
-    model.message = res.message
+    model.message = .init(from: res.message)
   }
 
   func loadMessages() async throws {
@@ -37,13 +37,19 @@ final class MessageService {
 
     let res = try await api.getMessageMessages(req: .init(messageId: messageId, model: .init(cursorMessageId: model.cursorMessageId)))
 
-    model.messages = model.messages.append(res.messages)
     model.cursorMessageId = res.cursorMessageId
-    model.topics = res.topics
-    model.messagesTopics = res.messagesTopics
+    model.messages = model.messages.append(res.messages.map { message in .init(from: message) })
+    model.topics = res.topics.map { topic in .init(from: topic) }
+    model.messagesTopics = res.messagesTopics.map { messageTopic in .init(from: messageTopic) }
 
     if res.cursorMessageId == nil {
       model.lastCursorMessageId = true
     }
+  }
+
+  func appendMessage(messageId: UUID) async throws {
+    let res = try await api.getMessage(req: .init(messageId: messageId))
+
+    model.messages = model.messages.append([.init(from: res.message)])
   }
 }

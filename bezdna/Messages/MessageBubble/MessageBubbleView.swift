@@ -22,7 +22,8 @@ struct MessageBubbleView: View {
 
   var body: some View {
     let model = service.model
-    let user = model.user
+    let message = model.message
+    let user = message.user
 
     VStack(spacing: AppSettings.Padding.y) {
       HStack(alignment: .top, spacing: 0) {
@@ -39,7 +40,7 @@ struct MessageBubbleView: View {
             .font(.system(size: AppSettings.Font.s, weight: .bold))
             .padding(.bottom, 2)
 
-          Text(model.text)
+          Text(message.text)
             .font(.system(size: AppSettings.Font.main))
         }
 
@@ -51,7 +52,7 @@ struct MessageBubbleView: View {
           MessageBubbleTopicsView(service: service)
 
           Button {
-            onPress(model.messageId)
+            onPress(message.messageId)
           } label: {
             HStack(spacing: 4) {
               Image(systemName: "message")
@@ -59,7 +60,7 @@ struct MessageBubbleView: View {
                 .frame(height: AppSettings.Padding.y * 4)
                 .foregroundStyle(.secondary)
 
-              let reply = if let stream = model.stream {
+              let reply = if let stream = message.stream {
                 AppI18n.Message.Bubble.replies(stream.messagesCount)
               } else {
                 AppI18n.Message.Bubble.reply
@@ -73,7 +74,7 @@ struct MessageBubbleView: View {
 
         Spacer()
 
-        if let stream = model.stream {
+        if let stream = message.stream {
           Button {
             withAnimation {
               showStream.toggle()
@@ -93,7 +94,7 @@ struct MessageBubbleView: View {
         }
       }.padding(.leading, 40 + AppSettings.Padding.y)
 
-      if let stream = model.stream {
+      if let stream = message.stream {
         if showStream {
           HStack(spacing: 0) {
             Text(stream.text)
@@ -108,9 +109,9 @@ struct MessageBubbleView: View {
 }
 
 struct MessageBubbleUsersView: View {
-  private let users: [MessageBubbleModel.User]
+  private let users: [MessageBubbleModel.Message.User]
 
-  init(users: [MessageBubbleModel.User]) {
+  init(users: [MessageBubbleModel.Message.User]) {
     self.users = users
   }
 
@@ -154,138 +155,138 @@ struct MessageBubbleUsersView: View {
   }
 }
 
-#Preview {
-  let state = AppState()
-
-  ScrollView {
-    MessageBubbleView(
-      api: state.api,
-      model: .init(
-        m: stub_message(usersCount: 1, messagesCount: 0),
-        t: [stub_topic(title: "😬")],
-        mt: [],
-      ),
-      onPress: { _ in },
-    )
-    MessageBubbleView(
-      api: state.api,
-      model: .init(
-        m: stub_message(usersCount: 4, messagesCount: 1),
-        t: [],
-        mt: [],
-      ),
-      onPress: { _ in },
-    )
-    MessageBubbleView(
-      api: state.api,
-      model: .init(
-        m: stub_message(usersCount: 2, messagesCount: 7),
-        t: [stub_topic(title: "😬"), stub_topic(title: "❤️")],
-        mt: [],
-      ),
-      onPress: { _ in },
-    )
-    MessageBubbleView(
-      api: state.api,
-      model: .init(
-        m: stub_message(usersCount: 5, messagesCount: 10),
-        t: [],
-        mt: [],
-      ),
-      onPress: { _ in },
-    )
-    MessageBubbleView(
-      api: state.api,
-      model: .init(
-        m: stub_message(usersCount: 20, messagesCount: 12),
-        t: [],
-        mt: [],
-      ),
-      onPress: { _ in },
-    )
-  }.padding(.horizontal, AppSettings.Padding.x)
-
-  Spacer()
-}
-
-func stub_message(usersCount: Int, messagesCount: Int64) -> GetMessageMessagesResponseModel.Message {
-  let users = [
-    GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "AB",
-      color: "#4dba2c4c",
-    ),
-    GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "CD",
-      color: "#8e4ece4c",
-    ),
-    GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "EF",
-      color: "#2ad3ed4c",
-    ),
-    GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "GH",
-      color: "#7c37dd4c",
-    ),
-    GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "PO",
-      color: "#d085fc4c",
-    ),
-    GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "PO",
-      color: "#d085fc4c",
-    ),
-    GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "PO",
-      color: "#d085fc4c",
-    ),
-    GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "PO",
-      color: "#d085fc4c",
-    ),
-  ].prefix(usersCount)
-
-  let stream: GetMessageMessagesResponseModel.Message.Stream? = if messagesCount > 0 {
-    .init(
-      streamId: UUID(),
-      messageId: UUID(),
-      text: "Suspendisse sed mi nec purus pulvinar bibendum nec et ante. Duis varius viverra nunc, eu ultricies eros semper non. Sed quis suscipit odio, scelerisque euismod sem.",
-      messagesCount: messagesCount,
-      users: Array(users),
-    )
-  } else {
-    nil
-  }
-
-  return .init(
-    messageId: UUID(),
-    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat eget orci ultrices aliquam. Duis maximus tristique elit vulputate tincidunt\nSecond line\nLast row",
-    user: GetMessageMessagesResponseModel.Message.User(
-      userId: UUID(),
-      name: "John Doe",
-      abbr: "JD",
-      color: "#ccf9ff4c",
-    ),
-    stream: stream,
-    permissions: .init(topics: false),
-  )
-}
-
-func stub_topic(title: String) -> GetMessageMessagesResponseModel.Topic {
-  .init(topicId: UUID(), title: title)
-}
+// #Preview {
+//  let state = AppState()
+//
+//  ScrollView {
+//    MessageBubbleView(
+//      api: state.api,
+//      model: .init(
+//        m: stub_message(usersCount: 1, messagesCount: 0),
+//        t: [stub_topic(title: "😬")],
+//        mt: [],
+//      ),
+//      onPress: { _ in },
+//    )
+//    MessageBubbleView(
+//      api: state.api,
+//      model: .init(
+//        m: stub_message(usersCount: 4, messagesCount: 1),
+//        t: [],
+//        mt: [],
+//      ),
+//      onPress: { _ in },
+//    )
+//    MessageBubbleView(
+//      api: state.api,
+//      model: .init(
+//        m: stub_message(usersCount: 2, messagesCount: 7),
+//        t: [stub_topic(title: "😬"), stub_topic(title: "❤️")],
+//        mt: [],
+//      ),
+//      onPress: { _ in },
+//    )
+//    MessageBubbleView(
+//      api: state.api,
+//      model: .init(
+//        m: stub_message(usersCount: 5, messagesCount: 10),
+//        t: [],
+//        mt: [],
+//      ),
+//      onPress: { _ in },
+//    )
+//    MessageBubbleView(
+//      api: state.api,
+//      model: .init(
+//        m: stub_message(usersCount: 20, messagesCount: 12),
+//        t: [],
+//        mt: [],
+//      ),
+//      onPress: { _ in },
+//    )
+//  }.padding(.horizontal, AppSettings.Padding.x)
+//
+//  Spacer()
+// }
+//
+// func stub_message(usersCount: Int, messagesCount: Int64) -> GetMessageMessagesResponseModel.Message {
+//  let users = [
+//    GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "AB",
+//      color: "#4dba2c4c",
+//    ),
+//    GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "CD",
+//      color: "#8e4ece4c",
+//    ),
+//    GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "EF",
+//      color: "#2ad3ed4c",
+//    ),
+//    GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "GH",
+//      color: "#7c37dd4c",
+//    ),
+//    GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "PO",
+//      color: "#d085fc4c",
+//    ),
+//    GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "PO",
+//      color: "#d085fc4c",
+//    ),
+//    GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "PO",
+//      color: "#d085fc4c",
+//    ),
+//    GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "PO",
+//      color: "#d085fc4c",
+//    ),
+//  ].prefix(usersCount)
+//
+//  let stream: GetMessageMessagesResponseModel.Message.Stream? = if messagesCount > 0 {
+//    .init(
+//      streamId: UUID(),
+//      messageId: UUID(),
+//      text: "Suspendisse sed mi nec purus pulvinar bibendum nec et ante. Duis varius viverra nunc, eu ultricies eros semper non. Sed quis suscipit odio, scelerisque euismod sem.",
+//      messagesCount: messagesCount,
+//      users: Array(users),
+//    )
+//  } else {
+//    nil
+//  }
+//
+//  return .init(
+//    messageId: UUID(),
+//    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut consequat eget orci ultrices aliquam. Duis maximus tristique elit vulputate tincidunt\nSecond line\nLast row",
+//    user: GetMessageMessagesResponseModel.Message.User(
+//      userId: UUID(),
+//      name: "John Doe",
+//      abbr: "JD",
+//      color: "#ccf9ff4c",
+//    ),
+//    stream: stream,
+//    permissions: .init(topics: false),
+//  )
+// }
+//
+// func stub_topic(title: String) -> GetMessageMessagesResponseModel.Topic {
+//  .init(topicId: UUID(), title: title)
+// }

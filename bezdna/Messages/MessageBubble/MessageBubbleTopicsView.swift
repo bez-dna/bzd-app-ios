@@ -10,14 +10,14 @@ struct MessageBubbleTopicsView: View {
     let model = service.model
 
     let placeholder = HStack(spacing: 4) {
-      Image(systemName: "heart")
+      Image(systemName: model.hasMessageTopic ? "heart.fill" : "heart")
         .font(.system(size: 16, weight: .semibold))
         .frame(height: AppSettings.Padding.y * 4)
-        .foregroundStyle(.secondary)
+        .foregroundStyle(model.hasMessageTopic ? .red : .secondary)
 
       Text(AppI18n.Message.Bubble.like)
         .font(.system(size: AppSettings.Font.s, weight: .semibold))
-        .foregroundStyle(.secondary)
+        .foregroundStyle(model.hasMessageTopic ? .red : .secondary)
     }
 
     // TODO: Нужно посплитить, чет нечитаемая простыня какая-то стала
@@ -26,7 +26,7 @@ struct MessageBubbleTopicsView: View {
         HStack(spacing: AppSettings.Padding.y) {
           ForEach(model.topics, id: \.topicId) { topic in
             if let messageTopic = model.messagesTopics.first(where: { messageTopic in
-              messageTopic.topicId == topic.topicId && messageTopic.messageId == model.messageId
+              messageTopic.topicId == topic.topicId && messageTopic.messageId == model.message.messageId
             }) {
               Button {
                 Task {

@@ -1,22 +1,22 @@
 import Foundation
 
-struct GetUserMessagesRequest: ApiRequest {
-  typealias ApiResponse = GetUserMessagesResponseModel
+class GetMessageMessagesRequest: ApiRequest {
+  typealias ApiResponse = GetMessageMessagesResponseModel
 
-  let userId: UUID
-  let model: GetUserMessagesRequestModel
+  let messageId: UUID
+  let model: GetMessageMessagesRequestModel
   var method: HTTPMethod {
     .get
   }
 
   var path: String {
-    "/users/\(userId)/messages"
+    "/messages/\(messageId)/messages"
   }
 
   var queryItems: [URLQueryItem]?
 
-  init(userId: UUID, model: GetUserMessagesRequestModel) {
-    self.userId = userId
+  init(messageId: UUID, model: GetMessageMessagesRequestModel) {
+    self.messageId = messageId
     self.model = model
 
     if let cursorMessageId = model.cursorMessageId {
@@ -33,13 +33,14 @@ struct GetUserMessagesRequest: ApiRequest {
   }
 }
 
-struct GetUserMessagesRequestModel: Encodable {
+struct GetMessageMessagesRequestModel: Encodable {
   let cursorMessageId: UUID?
 }
 
-struct GetUserMessagesResponseModel: Decodable {
+struct GetMessageMessagesResponseModel: Decodable {
   let messages: [Message]
   let topics: [Topic]
+  let messagesTopics: [MessageTopic]
   let cursorMessageId: UUID?
 
   struct Message: Decodable {
@@ -48,6 +49,7 @@ struct GetUserMessagesResponseModel: Decodable {
     let code: String
     let order: Int64
     let user: User
+    let stream: Stream?
     let permissions: Permissions
 
     struct User: Decodable {
@@ -55,6 +57,14 @@ struct GetUserMessagesResponseModel: Decodable {
       let name: String
       let abbr: String
       let color: String
+    }
+
+    struct Stream: Decodable {
+      let streamId: UUID
+      let messageId: UUID
+      let text: String
+      let messagesCount: Int64
+      let users: [User]
     }
 
     struct Permissions: Decodable {
@@ -66,5 +76,11 @@ struct GetUserMessagesResponseModel: Decodable {
   struct Topic: Decodable {
     let topicId: UUID
     let title: String
+  }
+
+  struct MessageTopic: Decodable {
+    let messageTopicId: UUID
+    let topicId: UUID
+    let messageId: UUID
   }
 }

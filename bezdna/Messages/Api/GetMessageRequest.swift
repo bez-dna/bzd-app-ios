@@ -1,27 +1,21 @@
 import Foundation
 
-class GetMessageMessagesRequest: ApiRequest {
-  typealias ApiResponse = GetMessageMessagesResponseModel
+class GetMessageRequest: ApiRequest {
+  typealias ApiResponse = GetMessageResponseModel
 
   let messageId: UUID
-  let model: GetMessageMessagesRequestModel
   var method: HTTPMethod {
     .get
   }
 
   var path: String {
-    "/messages/\(messageId)/messages"
+    "/messages/\(messageId)"
   }
 
   var queryItems: [URLQueryItem]?
 
-  init(messageId: UUID, model: GetMessageMessagesRequestModel) {
+  init(messageId: UUID) {
     self.messageId = messageId
-    self.model = model
-
-    if let cursorMessageId = model.cursorMessageId {
-      queryItems = [URLQueryItem(name: "cursor_message_id", value: cursorMessageId.uuidString)]
-    }
   }
 
   func encode() throws -> Data? {
@@ -33,21 +27,17 @@ class GetMessageMessagesRequest: ApiRequest {
   }
 }
 
-struct GetMessageMessagesRequestModel: Encodable {
-  let cursorMessageId: UUID?
-}
-
-struct GetMessageMessagesResponseModel: Decodable {
-  let messages: [Message]
+struct GetMessageResponseModel: Decodable {
+  let message: Message
   let topics: [Topic]
   let messagesTopics: [MessageTopic]
-  let cursorMessageId: UUID?
 
   struct Message: Decodable {
     let messageId: UUID
     let text: String
+    let code: String
+    let order: Int64
     let user: User
-    let stream: Stream?
     let permissions: Permissions
 
     struct User: Decodable {
@@ -57,15 +47,8 @@ struct GetMessageMessagesResponseModel: Decodable {
       let color: String
     }
 
-    struct Stream: Decodable {
-      let streamId: UUID
-      let messageId: UUID
-      let text: String
-      let messagesCount: Int64
-      let users: [User]
-    }
-
     struct Permissions: Decodable {
+      let message: Bool
       let topics: Bool
     }
   }

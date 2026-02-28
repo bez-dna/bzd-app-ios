@@ -35,7 +35,10 @@ struct MessageView: View {
           MessageMessagesView(service: service, nav: nav)
 
           Group {
-            CreateMessageView(state: state, messageId: service.messageId) { _ in
+            CreateMessageView(state: state, messageId: service.messageId) { messageId in
+              Task {
+                try await service.appendMessage(messageId: messageId)
+              }
             }
           }.id(BottomAnchor()).padding(.horizontal, 16).padding(.bottom, 16)
         }
@@ -65,19 +68,19 @@ struct MessageMessagesView: View {
   var body: some View {
     let model = service.model
 
-    ForEach(model.messages.messageIds.reversed(), id: \.self) { messageId in
+    ForEach(model.messages.messageIds, id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
         if message.messageId == service.messageId {
           SourceMessageBubbleView(
             api: state.api,
-            model: .init(m: message, t: model.topics, mt: model.messagesTopics),
+            model: .init(message: message, topics: model.topics, messagesTopics: model.messagesTopics),
           )
           .padding(.horizontal, AppSettings.Padding.x)
           .padding(.bottom, AppSettings.Padding.y * 2)
         } else {
           MessageBubbleView(
             api: state.api,
-            model: .init(m: message, t: model.topics, mt: model.messagesTopics),
+            model: .init(message: message, topics: model.topics, messagesTopics: model.messagesTopics),
           ) { messageId in
             nav.path.append(AppRoute.message(messageId: messageId))
           }
