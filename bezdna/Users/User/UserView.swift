@@ -58,7 +58,7 @@ struct UserView: View {
             }
           }.padding(.bottom, AppSettings.Padding.y * 2)
 
-          ForEach(model.messages.messageIds, id: \.self) { messageId in
+          ForEach(model.messages.messageIds.reversed(), id: \.self) { messageId in
             if let message = model.messages.messages[messageId] {
               MessageBubbleView(
                 api: state.api,
@@ -75,7 +75,11 @@ struct UserView: View {
             .frame(height: 10)
             .onAppear {
               Task {
-                try await service.loadMessages()
+                do {
+                  try await service.loadMessages()
+                } catch {
+                  print(error)
+                }
               }
             }
         }
