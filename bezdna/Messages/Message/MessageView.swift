@@ -35,7 +35,10 @@ struct MessageView: View {
           MessageMessagesView(service: service, nav: nav)
 
           Group {
-            CreateMessageView(state: state, messageId: service.messageId) { _ in
+            CreateMessageView(state: state, messageId: service.messageId) { messageId in
+              Task {
+                try await service.appendMessage(messageId: messageId)
+              }
             }
           }.id(BottomAnchor()).padding(.horizontal, 16).padding(.bottom, 16)
         }

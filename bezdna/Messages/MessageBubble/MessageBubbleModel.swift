@@ -9,6 +9,8 @@ final class MessageBubbleModel {
   struct Message {
     let messageId: UUID
     let text: String
+    let code: String
+    let order: Int64
     let user: User
     let stream: Stream?
     let permissions: Permissions
@@ -38,6 +40,8 @@ final class MessageBubbleModel {
 
       messageId = m.messageId
       text = m.text
+      code = m.code
+      order = m.order
       user = User(
         userId: u.userId,
         name: u.name,
@@ -73,6 +77,8 @@ final class MessageBubbleModel {
 
       messageId = m.messageId
       text = m.text
+      code = m.code
+      order = m.order
       user = User(
         userId: u.userId,
         name: u.name,
@@ -91,6 +97,8 @@ final class MessageBubbleModel {
 
       messageId = m.messageId
       text = m.text
+      code = m.code
+      order = m.order
       user = User(
         userId: u.userId,
         name: u.name,
@@ -154,8 +162,45 @@ final class MessageBubbleModel {
       for message in batchMessages {
         guard newMessages[message.messageId] == nil else { continue }
 
+        // всегда сразу добавляем новый элемент
         newMessages[message.messageId] = message
-        newMessageIds.append(message.messageId)
+
+        guard let lastMessageId = newMessageIds.last,
+              let lastMessage = newMessages[lastMessageId]
+        else {
+          newMessageIds.append(message.messageId)
+          continue
+        }
+
+        if message.order >= lastMessage.order {
+          newMessageIds.append(message.messageId)
+          continue
+        }
+
+        guard let firstMessageId = newMessageIds.first,
+              let firstMessage = newMessages[firstMessageId]
+        else {
+          newMessageIds.append(message.messageId)
+          continue
+        }
+
+        if message.order <= firstMessage.order {
+          newMessageIds.insert(message.messageId, at: 0)
+          continue
+        }
+
+        var index = newMessageIds.count - 1
+        while index >= 0 {
+          let currentMessageId = newMessageIds[index]
+          if let currentMessage = newMessages[currentMessageId],
+            currentMessage.order <= message.order
+          {
+            break
+          }
+          index -= 1
+        }
+
+        newMessageIds.insert(message.messageId, at: index + 1)
       }
 
       return Self(messages: newMessages, messageIds: newMessageIds)

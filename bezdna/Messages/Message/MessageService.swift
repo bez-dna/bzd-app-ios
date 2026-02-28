@@ -46,4 +46,10 @@ final class MessageService {
       model.lastCursorMessageId = true
     }
   }
+
+  func appendMessage(messageId: UUID) async throws {
+    let res = try await api.getMessage(req: .init(messageId: messageId))
+
+    model.messages = model.messages.append([.init(from: res.message)])
+  }
 }

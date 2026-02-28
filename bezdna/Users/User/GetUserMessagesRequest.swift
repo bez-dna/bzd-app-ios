@@ -45,6 +45,8 @@ struct GetUserMessagesResponseModel: Decodable {
   struct Message: Decodable {
     let messageId: UUID
     let text: String
+    let code: String
+    let order: Int64
     let user: User
     let permissions: Permissions
 
