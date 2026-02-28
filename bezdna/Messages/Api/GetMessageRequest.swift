@@ -29,6 +29,8 @@ class GetMessageRequest: ApiRequest {
 
 struct GetMessageResponseModel: Decodable {
   let message: Message
+  let topics: [Topic]
+  let messagesTopics: [MessageTopic]
 
   struct Message: Decodable {
     let messageId: UUID
@@ -47,5 +49,16 @@ struct GetMessageResponseModel: Decodable {
       let message: Bool
       let topics: Bool
     }
+  }
+
+  struct Topic: Decodable {
+    let topicId: UUID
+    let title: String
+  }
+
+  struct MessageTopic: Decodable {
+    let messageTopicId: UUID
+    let topicId: UUID
+    let messageId: UUID
   }
 }

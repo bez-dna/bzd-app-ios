@@ -20,7 +20,7 @@ final class MessageBubbleService {
       req: .init(model: .init(topicId: topicId, messageId: model.message.messageId)),
     )
 
-    try await getMessageMessagesTopics(messageId: model.message.messageId)
+    try await getMessage(messageId: model.message.messageId)
   }
 
   func deleteMessageTopic(messageTopicId: UUID) async throws {
@@ -28,11 +28,11 @@ final class MessageBubbleService {
       req: .init(model: .init(messageTopicId: messageTopicId)),
     )
 
-    try await getMessageMessagesTopics(messageId: model.message.messageId)
+    try await getMessage(messageId: model.message.messageId)
   }
 
-  func getMessageMessagesTopics(messageId: UUID) async throws {
-    let res = try await api.getMessageMessagesTopics(
+  func getMessage(messageId: UUID) async throws {
+    let res = try await api.getMessage(
       req: .init(messageId: messageId),
     )
 

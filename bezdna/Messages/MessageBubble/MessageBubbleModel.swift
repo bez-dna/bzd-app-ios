@@ -114,12 +114,12 @@ final class MessageBubbleModel {
       title = t.title
     }
 
-    init(from t: GetMessageMessagesTopicsResponseModel.Topic) {
+    init(from t: GetUserMessagesResponseModel.Topic) {
       topicId = t.topicId
       title = t.title
     }
 
-    init(from t: GetUserMessagesResponseModel.Topic) {
+    init(from t: GetMessageResponseModel.Topic) {
       topicId = t.topicId
       title = t.title
     }
@@ -136,7 +136,7 @@ final class MessageBubbleModel {
       messageId = mt.messageId
     }
 
-    init(from mt: GetMessageMessagesTopicsResponseModel.MessageTopic) {
+    init(from mt: GetMessageResponseModel.MessageTopic) {
       messageTopicId = mt.messageTopicId
       topicId = mt.topicId
       messageId = mt.messageId

@@ -5,8 +5,6 @@ protocol MessagesApi {
 
   func getMessageMessages(req: GetMessageMessagesRequest) async throws -> GetMessageMessagesResponseModel
 
-  func getMessageMessagesTopics(req: GetMessageMessagesTopicsRequest) async throws -> GetMessageMessagesTopicsResponseModel
-
   func createMessage(req: CreateMessageRequest) async throws -> CreateMessageResponseModel
 
   func createMessageTopic(req: CreateMessageTopicRequest) async throws -> CreateMessageTopicResponseModel
