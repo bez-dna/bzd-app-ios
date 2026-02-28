@@ -68,7 +68,7 @@ struct MessageMessagesView: View {
   var body: some View {
     let model = service.model
 
-    ForEach(model.messages.messageIds.reversed(), id: \.self) { messageId in
+    ForEach(model.messages.messageIds, id: \.self) { messageId in
       if let message = model.messages.messages[messageId] {
         if message.messageId == service.messageId {
           SourceMessageBubbleView(
