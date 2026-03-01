@@ -37,12 +37,18 @@ struct GetFeedMessagesRequestModel: Encodable {
 
 struct GetFeedMessagesResponseModel: Decodable {
   let messages: [Message]
+  let topics: [Topic]
+  let messagesTopics: [MessageTopic]
   let cursorMessageId: UUID?
 
   struct Message: Decodable {
     let messageId: UUID
     let text: String
+    let code: String
+    let order: Int64
     let user: User
+    let stream: Stream?
+    let permissions: Permissions
 
     struct User: Decodable {
       let userId: UUID
@@ -50,5 +56,29 @@ struct GetFeedMessagesResponseModel: Decodable {
       let abbr: String
       let color: String
     }
+
+    struct Stream: Decodable {
+      let streamId: UUID
+      let messageId: UUID
+      let text: String
+      let messagesCount: Int64
+      let users: [User]
+    }
+
+    struct Permissions: Decodable {
+      let message: Bool
+      let topics: Bool
+    }
+  }
+
+  struct Topic: Decodable {
+    let topicId: UUID
+    let title: String
+  }
+
+  struct MessageTopic: Decodable {
+    let messageTopicId: UUID
+    let topicId: UUID
+    let messageId: UUID
   }
 }

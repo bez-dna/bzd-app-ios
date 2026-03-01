@@ -70,7 +70,10 @@ struct MessagesList: View {
 
           ForEach(model.messages.messageIds, id: \.self) { messageId in
             if let message = model.messages.messages[messageId] {
-              MessageListBubble(message) { messageId in
+              MessageBubbleView(
+                api: state.api,
+                model: .init(message: message, topics: model.topics, messagesTopics: model.messagesTopics),
+              ) { messageId in
                 nav.path.append(AppRoute.message(messageId: messageId))
               }
               .padding(.horizontal, AppSettings.Padding.x)
@@ -92,52 +95,16 @@ struct MessagesList: View {
             .frame(height: 0)
             .onAppear {
               Task {
-                try await service.load()
+                do {
+                  try await service.load()
+                } catch {
+                  print(error)
+                }
               }
             }
         }
       }
     }
-  }
-}
-
-struct MessageListBubble: View {
-  private let message: GetFeedMessagesResponseModel.Message
-  private let onPress: (_ messageId: UUID) -> Void
-
-  init(_ message: GetFeedMessagesResponseModel.Message, _ onPress: @escaping (_ messageId: UUID) -> Void) {
-    self.message = message
-    self.onPress = onPress
-  }
-
-  var body: some View {
-    let user = message.user
-
-    Button {
-      onPress(message.messageId)
-    } label: {
-      HStack(spacing: 0) {
-        ZStack {
-          Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
-          Text(user.abbr).font(.system(size: AppSettings.Font.s, weight: .bold))
-        }
-        .frame(width: 40, height: 40)
-        .padding(.trailing, AppSettings.Padding.y)
-
-        VStack(alignment: .leading, spacing: 0) {
-          Text(user.name)
-            .lineLimit(1)
-            .font(.system(size: AppSettings.Font.s, weight: .medium))
-            .padding(.bottom, 2)
-
-          Text(message.text)
-            .font(.system(size: AppSettings.Font.main))
-        }
-
-        Spacer()
-      }
-    }
-    .buttonStyle(.plain)
   }
 }
 
