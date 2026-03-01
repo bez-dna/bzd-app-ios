@@ -72,6 +72,43 @@ final class MessageBubbleModel {
       )
     }
 
+    init(from m: GetFeedMessagesResponseModel.Message) {
+      let u = m.user
+
+      messageId = m.messageId
+      text = m.text
+      code = m.code
+      order = m.order
+      user = User(
+        userId: u.userId,
+        name: u.name,
+        abbr: u.abbr,
+        color: u.color,
+      )
+      stream = if let s = m.stream {
+        Stream(
+          streamId: s.streamId,
+          messageId: s.messageId,
+          text: s.text,
+          messagesCount: s.messagesCount,
+          users: s.users.map { u in
+            User(
+              userId: u.userId,
+              name: u.name,
+              abbr: u.abbr,
+              color: u.color,
+            )
+          },
+        )
+      } else {
+        nil
+      }
+      permissions = .init(
+        message: m.permissions.message,
+        topics: m.permissions.topics,
+      )
+    }
+
     init(from m: GetMessageResponseModel.Message) {
       let u = m.user
 
@@ -131,6 +168,11 @@ final class MessageBubbleModel {
       topicId = t.topicId
       title = t.title
     }
+
+    init(from t: GetFeedMessagesResponseModel.Topic) {
+      topicId = t.topicId
+      title = t.title
+    }
   }
 
   struct MessageTopic {
@@ -139,6 +181,12 @@ final class MessageBubbleModel {
     let messageId: UUID
 
     init(from mt: GetMessageMessagesResponseModel.MessageTopic) {
+      messageTopicId = mt.messageTopicId
+      topicId = mt.topicId
+      messageId = mt.messageId
+    }
+
+    init(from mt: GetFeedMessagesResponseModel.MessageTopic) {
       messageTopicId = mt.messageTopicId
       topicId = mt.topicId
       messageId = mt.messageId
