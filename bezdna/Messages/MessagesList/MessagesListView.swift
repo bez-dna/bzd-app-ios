@@ -29,12 +29,6 @@ struct MessagesListView: View {
           onAuth()
         }
       }
-    }.task {
-      do {
-        try await service.load()
-      } catch {
-        print(error)
-      }
     }
   }
 }
