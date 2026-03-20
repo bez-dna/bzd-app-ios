@@ -32,7 +32,7 @@ struct UsersListView: View {
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
-          UsersListHeaderView() {
+          UsersListHeaderView {
             nav.path.removeLast(nav.path.count)
           }.padding(.horizontal, 16).padding(.bottom, 8)
 

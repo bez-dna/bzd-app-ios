@@ -5,6 +5,6 @@ final class UserEditModel {
   var name: String
 
   init(u: GetUserResponseModel.User) {
-    self.name = u.name
+    name = u.name
   }
 }

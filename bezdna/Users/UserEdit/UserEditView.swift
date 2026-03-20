@@ -2,7 +2,7 @@ import SwiftUI
 
 // Это все нужно переписать, начиная с UI, пока сделано чтобы можно было имя сменить
 
-struct UserEditView : View {
+struct UserEditView: View {
   @Environment(\.dismiss)
   private var dismiss
 
@@ -25,32 +25,30 @@ struct UserEditView : View {
     @Bindable
     var model = service.model
 
-
-
     Form {
       TextField(AppI18n.User.Edit.name, text: $model.name)
     }.navigationTitle(AppI18n.User.Edit.title)
       .toolbar {
-          ToolbarItem(placement: .cancellationAction) {
-            Button(AppI18n.User.Edit.cancel) {
+        ToolbarItem(placement: .cancellationAction) {
+          Button(AppI18n.User.Edit.cancel) {
+            dismiss()
+          }
+        }
+        ToolbarItem(placement: .confirmationAction) {
+          Button(AppI18n.User.Edit.save) {
+            Task {
+              try await service.save()
+
+              onSave()
               dismiss()
             }
           }
-          ToolbarItem(placement: .confirmationAction) {
-              Button(AppI18n.User.Edit.save) {
-                Task {
-                  try await service.save()
-
-                  onSave()
-                  dismiss()
-                }
-              }
-          }
+        }
       }
   }
 }
 
-//#Preview {
+// #Preview {
 //  let state = AppState()
 //  let user: GetUserResponseModel.User = .init(
 //    userId: UUID(),
@@ -64,4 +62,4 @@ struct UserEditView : View {
 //    user: user
 //    onSave: <#T##() -> Void#>
 //  ).environment(state)
-//}
+// }

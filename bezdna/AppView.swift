@@ -22,7 +22,8 @@ struct AppView: View {
             .navigationBarBackButtonHidden()
         case let .user(userId):
           UserView(api: state.api, nav: nav, userId: userId)
-            .navigationBarBackButtonHidden()        }
+            .navigationBarBackButtonHidden()
+        }
       }
     }
   }

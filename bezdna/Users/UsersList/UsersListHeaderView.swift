@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UsersListHeaderView : View {
+struct UsersListHeaderView: View {
   private let onPress: () -> Void
 
   init(onPress: @escaping () -> Void) {
@@ -17,7 +17,6 @@ struct UsersListHeaderView : View {
     }
   }
 }
-
 
 struct UsersListHeaderMessagesView: View {
   private let onPress: () -> Void

@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UserHeaderView : View {
+struct UserHeaderView: View {
   private let permissions: GetUserResponseModel.Permissions?
   private let onBackPress: () -> Void
   private let onLogoutPress: () -> Void
@@ -8,7 +8,7 @@ struct UserHeaderView : View {
   init(
     permissions: GetUserResponseModel.Permissions?,
     onBackPress: @escaping () -> Void,
-    onLogoutPress: @escaping () -> Void
+    onLogoutPress: @escaping () -> Void,
   ) {
     self.onBackPress = onBackPress
     self.onLogoutPress = onLogoutPress
@@ -25,12 +25,12 @@ struct UserHeaderView : View {
       }.buttonStyle(.plain)
         .frame(
           width: AppSettings.Padding.y * 4,
-          height: AppSettings.Padding.y * 4
+          height: AppSettings.Padding.y * 4,
         )
 
       Spacer()
 
-      if let permissions = permissions {
+      if let permissions {
         if permissions.logout {
           Button {
             onLogoutPress()

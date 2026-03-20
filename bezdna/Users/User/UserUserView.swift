@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct UserUserView : View {
+struct UserUserView: View {
   @State
   private var showEdit: Bool = false
 
@@ -14,7 +14,7 @@ struct UserUserView : View {
   init(
     user: GetUserResponseModel.User,
     permissions: GetUserResponseModel.Permissions,
-    onUpdate: @escaping () -> Void
+    onUpdate: @escaping () -> Void,
   ) {
     self.user = user
     self.permissions = permissions
@@ -29,7 +29,6 @@ struct UserUserView : View {
       }.frame(width: 60, height: 60)
 
       HStack(alignment: .top) {
-
         // Не уверен что два Spacer() по краям это тру путь, надо перепроверить
         Spacer()
 
@@ -37,31 +36,29 @@ struct UserUserView : View {
           .font(.system(size: AppSettings.Font.middle, weight: .bold))
           .multilineTextAlignment(.center)
 
-
-          if permissions.edit {
-            Button {
-              showEdit.toggle()
-            } label: {
-              Image(systemName: "ellipsis.circle")
-                .font(.system(size: AppSettings.Font.middle))
-            }.buttonStyle(.plain)
-              .foregroundStyle(.secondary)
-              .frame(
-                width: AppSettings.Padding.y * 4,
-                height: AppSettings.Padding.y * 4
-              )
-              .sheet(isPresented: $showEdit) {
-                NavigationStack {
-                  UserEditView(api: state.api, user: user){
-                    onUpdate()
-                  }.presentationDetents([.medium])
-                }
+        if permissions.edit {
+          Button {
+            showEdit.toggle()
+          } label: {
+            Image(systemName: "ellipsis.circle")
+              .font(.system(size: AppSettings.Font.middle))
+          }.buttonStyle(.plain)
+            .foregroundStyle(.secondary)
+            .frame(
+              width: AppSettings.Padding.y * 4,
+              height: AppSettings.Padding.y * 4,
+            )
+            .sheet(isPresented: $showEdit) {
+              NavigationStack {
+                UserEditView(api: state.api, user: user) {
+                  onUpdate()
+                }.presentationDetents([.medium])
               }
-          }
+            }
+        }
 
         Spacer()
       }
     }
   }
 }
-
