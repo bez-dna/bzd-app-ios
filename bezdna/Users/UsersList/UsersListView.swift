@@ -32,6 +32,10 @@ struct UsersListView: View {
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
+          UsersListHeaderView() {
+            nav.path.removeLast(nav.path.count)
+          }.padding(.horizontal, 16).padding(.bottom, 8)
+
           if let user = state.model.user {
             UsersListUserView(user: user) { userId in
               nav.path.append(AppRoute.user(userId: userId))

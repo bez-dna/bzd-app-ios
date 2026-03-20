@@ -36,6 +36,16 @@ enum AppI18n {
       static let desc: L10nKey = "user.topics.desc"
       static let segments: L10nKey = "user.topics.segments"
     }
+
+    enum Edit {
+      static let title = String(localized: "user.edit.title")
+      static let name = String(localized: "user.edit.name")
+      static let cancel = String(localized: "user.edit.cancel")
+      static let save = String(localized: "user.edit.save")
+    }
+
+    static let logout = String(localized: "user.logout")
+    static let edit = String(localized: "user.edit")
   }
 
   enum Users {
@@ -48,7 +58,6 @@ enum AppI18n {
     enum List {
       static let empty = String(localized: "users.list.empty")
       static let me = String(localized: "users.list.me")
-      static let logout = String(localized: "users.list.logout")
     }
   }
 

@@ -26,12 +26,28 @@ struct UserView: View {
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
-          if let user = model.user {
-            UserUserView(user: user)
-              .padding(.bottom, AppSettings.Padding.y * 2)
+          UserHeaderView(permissions: model.permissions) {
+            nav.path.removeLast()
+          } onLogoutPress: {
+            // В теории должен немного моргнуть UI, ну и ладно :)
+            authService.removeToken()
+            nav.path.removeLast(nav.path.count)
+          }
+          .padding(.horizontal, AppSettings.Padding.x)
+          .padding(.bottom, AppSettings.Padding.y)
+
+          if let user = model.user, let permissions = model.permissions {
+            UserUserView(user: user, permissions: permissions) {
+              Task {
+                try await authService.loadUser()
+                try await service.loadUser()
+              }
+            }
+            .padding(.horizontal, AppSettings.Padding.x)
+            .padding(.bottom, AppSettings.Padding.y * 2)
           }
 
-          VStack(spacing: AppSettings.Padding.y * 2) {
+          VStack(spacing: 0) {
             if let permissions = model.permissions {
               if permissions.topics {
                 TopicsView(api: state.api)
@@ -39,21 +55,6 @@ struct UserView: View {
 
               if permissions.topicsUsers {
                 UserTopicsUsersView(api: state.api, userId: service.userId)
-              }
-
-              if permissions.logout {
-                Button {
-                  authService.removeToken()
-                  nav.path.removeLast(nav.path.count)
-                  // В теории должен немного моргнуть UI, ну и ладно :)
-                } label: {
-                  Text(AppI18n.Users.List.logout)
-                    .colorInvert()
-                    .font(.system(size: AppSettings.Font.button, weight: .bold))
-                    .frame(height: 30)
-                }.buttonStyle(.plain)
-                  .padding(.horizontal, AppSettings.Padding.x)
-                  .background(.submit, in: RoundedRectangle(cornerRadius: 15))
               }
             }
           }.padding(.bottom, AppSettings.Padding.y * 2)
@@ -90,25 +91,6 @@ struct UserView: View {
       } catch {
         print(error)
       }
-    }
-  }
-}
-
-struct UserUserView: View {
-  private let user: GetUserResponseModel.User
-
-  init(user: GetUserResponseModel.User) {
-    self.user = user
-  }
-
-  var body: some View {
-    VStack(spacing: 0) {
-      ZStack {
-        Rectangle().fill(Color(hex: user.color)).cornerRadius(30)
-        Text(user.abbr).font(.system(size: AppSettings.Font.main, weight: .bold))
-      }.frame(width: 60, height: 60)
-
-      Text(user.name).lineLimit(1).font(.system(size: AppSettings.Font.middle, weight: .bold))
     }
   }
 }

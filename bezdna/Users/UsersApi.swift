@@ -5,6 +5,8 @@ protocol UsersApi {
 
   func getUser(req: GetUserRequest) async throws -> GetUserResponseModel
 
+  func updateUser(req: UpdateUserRequest) async throws -> UpdateUserResponseModel
+
   func getUserMessages(req: GetUserMessagesRequest) async throws -> GetUserMessagesResponseModel
 
   func getUserTopics(req: GetUserTopicsRequest) async throws -> GetUserTopicsResponseModel
