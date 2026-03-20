@@ -24,6 +24,11 @@ final class UsersApiImpl: UsersApi {
     return try req.decode(data)
   }
 
+  func updateUser(req: UpdateUserRequest) async throws -> UpdateUserResponseModel {
+    let data = try await api.request(req: req)
+    return try req.decode(data)
+  }
+
   func getUserMessages(req: GetUserMessagesRequest) async throws -> GetUserMessagesResponseModel {
     let data = try await api.request(req: req)
     return try req.decode(data)

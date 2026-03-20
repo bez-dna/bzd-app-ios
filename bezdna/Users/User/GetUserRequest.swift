@@ -31,7 +31,7 @@ struct GetUserResponseModel: Decodable {
   let user: User
   let permissions: Permissions
 
-  struct User: Decodable {
+  struct User: Decodable, Hashable {
     let userId: UUID
     let name: String
     let abbr: String
@@ -40,6 +40,7 @@ struct GetUserResponseModel: Decodable {
 
   struct Permissions: Decodable {
     let logout: Bool
+    let edit: Bool
     let topics: Bool
     let topicsUsers: Bool
   }

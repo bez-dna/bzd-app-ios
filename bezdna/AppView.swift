@@ -19,8 +19,10 @@ struct AppView: View {
           MessageView(api: state.api, nav: nav, messageId: messageId)
         case .users:
           UsersListView(api: state.api, nav: nav, authService: state.authService)
+            .navigationBarBackButtonHidden()
         case let .user(userId):
           UserView(api: state.api, nav: nav, userId: userId)
+            .navigationBarBackButtonHidden()
         }
       }
     }
