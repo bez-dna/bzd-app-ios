@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct MessagesListView: View {
-  private let onAuth: () -> Void
+  private let onAuthPress: () -> Void
 
   @Environment(AppState.self)
   private var state
@@ -12,12 +12,12 @@ struct MessagesListView: View {
   @Bindable
   var nav: AppNav
 
-  init(api: ApiClient, nav: AppNav, onAuth: @escaping () -> Void) {
+  init(api: ApiClient, nav: AppNav, onAuthPress: @escaping () -> Void) {
     let service: MessagesListService = .init(api: api)
 
     self.service = service
     self.nav = nav
-    self.onAuth = onAuth
+    self.onAuthPress = onAuthPress
   }
 
   var body: some View {
@@ -25,8 +25,8 @@ struct MessagesListView: View {
       if state.isAuth() {
         MessagesList(service: service, nav: nav)
       } else {
-        Button("AUTH PLEASE") {
-          onAuth()
+        MessageListAuthView {
+          onAuthPress()
         }
       }
     }
@@ -80,7 +80,7 @@ struct MessagesList: View {
           }
 
           if model.isInit, !model.isLoading, model.messages.messageIds.isEmpty {
-            MessageListEmpty {
+            MessageListEmptyView {
               nav.path.append(AppRoute.users)
             }
           }
@@ -102,7 +102,7 @@ struct MessagesList: View {
   }
 }
 
-struct MessageListEmpty: View {
+struct MessageListEmptyView: View {
   private let onPress: () -> Void
 
   init(onPress: @escaping () -> Void) {
@@ -132,12 +132,60 @@ struct MessageListEmpty: View {
     }.buttonStyle(.plain)
       .padding(.leading, AppSettings.Padding.x)
       .padding(.trailing, AppSettings.Padding.y)
-      .background(.submit)
-      .frame(height: 30)
-      .clipShape(RoundedRectangle(cornerRadius: 15))
+      .frame(height: AppSettings.Padding.y * 5)
+      .background(.submit, in: RoundedRectangle(cornerRadius: AppSettings.Padding.y * 2.5))
   }
 }
 
-// #Preview {
-//  MessagesListView(state: AppState())
-// }
+struct MessageListAuthView: View {
+  private let onPress: () -> Void
+
+  init(onPress: @escaping () -> Void) {
+    self.onPress = onPress
+  }
+
+  var body: some View {
+    VStack(spacing: 0) {
+      Text(AppI18n.Messages.Auth.title)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .font(.system(size: AppSettings.Font.middle, weight: .bold))
+        .padding(.bottom, AppSettings.Padding.y * 2)
+
+      Text(AppI18n.Messages.Auth.desc)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .font(.system(size: AppSettings.Font.middle))
+        .padding(.bottom, AppSettings.Padding.y * 4)
+
+      Button {
+        onPress()
+      } label: {
+        Text(AppI18n.Messages.Auth.button)
+          .colorInvert()
+          .font(.system(size: AppSettings.Font.button, weight: .bold))
+          .frame(height: AppSettings.Padding.y * 5)
+      }.buttonStyle(.plain)
+        .padding(.horizontal, AppSettings.Padding.x)
+        .background(.submit, in: RoundedRectangle(cornerRadius: AppSettings.Padding.y * 2.5))
+    }.padding(.horizontal, AppSettings.Padding.x * 2)
+  }
+}
+
+#Preview {
+  let state = AppState()
+
+  MessagesListView(
+    api: state.api,
+    nav: AppNav(),
+    onAuthPress: {},
+  ).environment(state)
+}
+
+#Preview("MessagesListView RU") {
+  let state = AppState()
+
+  MessagesListView(
+    api: state.api,
+    nav: AppNav(),
+    onAuthPress: {},
+  ).environment(state).environment(\.locale, .init(identifier: "ru"))
+}

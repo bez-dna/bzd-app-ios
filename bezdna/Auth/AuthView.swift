@@ -3,9 +3,6 @@ import SwiftUI
 struct AuthView: View {
   private let onComplete: () -> Void
 
-  @State
-  private var flow: AuthFlow = .join
-
   @Environment(AppState.self)
   private var state
 
@@ -14,22 +11,19 @@ struct AuthView: View {
   }
 
   var body: some View {
-    Group {
-      switch flow {
-      case .join:
-        JoinView(api: state.api) { verificationId in
-          flow = .complete(verificationId)
-        }
-
-      case let .complete(verificationId):
-        CompleteView(api: state.api, authService: state.authService, verificationId: verificationId) {
-          onComplete()
-        }
-      }
+    JoinView(api: state.api, authService: state.authService) {
+      onComplete()
     }
   }
 }
 
 #Preview {
-  AuthView {}.environment(AppState())
+  AuthView {}
+    .environment(AppState())
+}
+
+#Preview("AuthView RU") {
+  AuthView {}
+    .environment(AppState())
+    .environment(\.locale, .init(identifier: "ru"))
 }

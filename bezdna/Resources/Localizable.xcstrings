@@ -1,6 +1,97 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "+%@" : {
+      "shouldTranslate" : false
+    },
+    "auth.join.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Login"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Войти"
+          }
+        }
+      }
+    },
+    "auth.join.code" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verification Code"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Код подтверждения"
+          }
+        }
+      }
+    },
+    "auth.join.complete" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Continue"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Продолжить"
+          }
+        }
+      }
+    },
+    "auth.join.phone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Phone Number"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Номер телефона"
+          }
+        }
+      }
+    },
+    "BZD" : {
+      "shouldTranslate" : false
+    },
+    "error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Something went wrong.."
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Что-то пошло не так.."
+          }
+        }
+      }
+    },
     "message.bubble.like" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -140,6 +231,57 @@
         }
       }
     },
+    "messages.auth.button" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sign in"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Попасть в бездну"
+          }
+        }
+      }
+    },
+    "messages.auth.desc" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "TBD: Sign in with phone number to start using bezdna"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Пока анонимно бездной пользоваться нельзя, поэтому нужно войти"
+          }
+        }
+      }
+    },
+    "messages.auth.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bezdna Account"
+          }
+        },
+        "ru" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Аккаунт бездны"
+          }
+        }
+      }
+    },
     "messages.list.contacts" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -169,7 +311,7 @@
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Пока в ленте пусто, ты можешь начать постить ☝️\nили найти своих друзей через контакты 👇"
+            "value" : "Пока в ленте пусто, найди свои контакты 👇"
           }
         }
       }

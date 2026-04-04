@@ -38,3 +38,9 @@ enum AppRoute: Hashable {
 #Preview {
   AppView {}.environment(AppState())
 }
+
+#Preview("AppView RU") {
+  AppView {}
+    .environment(AppState())
+    .environment(\.locale, .init(identifier: "ru"))
+}
