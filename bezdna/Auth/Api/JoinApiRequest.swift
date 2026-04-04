@@ -25,12 +25,11 @@ struct JoinApiRequest: ApiRequest {
 }
 
 struct JoinRequestModel: Encodable {
-  let phoneNumber: String
+  let phone: String
 }
 
 struct JoinResponseModel: Decodable {
   let verification: Verification
-  let isNew: Bool
 
   struct Verification: Decodable {
     let verificationId: UUID
