@@ -23,7 +23,7 @@ struct MessagesListUserView: View {
             .frame(height: AppSettings.Padding.y * 4)
 
           Text(user.name).colorInvert().font(.system(size: AppSettings.Font.button, weight: .bold))
-            .frame(maxWidth: 120)
+            .frame(maxWidth: 100)
             .lineLimit(1)
         }.fixedSize()
       }.buttonStyle(.plain)
