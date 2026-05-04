@@ -2,9 +2,10 @@ import SwiftUI
 
 @Observable
 final class UsersContactsModel {
-  var status: ContactStoreStatus
+  var status: ContactsStoreStatus
+  var error: AppError?
 
-  init(status: ContactStoreStatus) {
+  init(status: ContactsStoreStatus) {
     self.status = status
   }
 }

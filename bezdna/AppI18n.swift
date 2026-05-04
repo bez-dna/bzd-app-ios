@@ -3,6 +3,8 @@ import SwiftUI
 typealias L10nKey = LocalizedStringKey
 
 enum AppI18n {
+  static let error: L10nKey = "error"
+
   enum Auth {
     enum Join {
       static let phone: L10nKey = "auth.join.phone"
@@ -66,14 +68,18 @@ enum AppI18n {
 
   enum Users {
     enum Contacts {
-      static let new = String(localized: "users.contacts.new")
-      static let button = String(localized: "users.contacts.button")
-      static let denied = String(localized: "users.contacts.denied")
+      static let empty: L10nKey = "users.contacts.empty"
+      static let new: L10nKey = "users.contacts.new"
+      static let button: L10nKey = "users.contacts.button"
+      static let denied: L10nKey = "users.contacts.denied"
+//      static let new = String(localized: "users.contacts.new")
+//      static let button = String(localized: "users.contacts.button")
+//      static let denied = String(localized: "users.contacts.denied")
     }
 
     enum List {
-      static let empty = String(localized: "users.list.empty")
-      static let me = String(localized: "users.list.me")
+      ///      static let empty = String(localized: "users.list.empty")
+      static let me: L10nKey = "users.list.me"
     }
   }
 

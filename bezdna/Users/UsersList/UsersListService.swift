@@ -3,6 +3,7 @@ import SwiftUI
 @Observable
 final class UsersListService {
   var model: UsersListModel = .init()
+  var phase: AppPhase = .idle
 
   @ObservationIgnored
   private let api: UsersApi
@@ -11,15 +12,16 @@ final class UsersListService {
     self.api = UsersApiImpl(with: api)
   }
 
-  func load() async throws {
-    model.isLoading = true
-    defer {
-      model.isLoading = false
-      model.isInit = true
+  func load() async {
+    phase = .loading
+
+    do {
+      let res = try await api.getUsers(req: .init())
+
+      model.users = res.users
+      phase = .loaded
+    } catch {
+      phase = .failed(AppError(error: AppI18n.error))
     }
-
-    let res = try await api.getUsers(req: .init())
-
-    model.users = res.users
   }
 }

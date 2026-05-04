@@ -29,7 +29,7 @@ struct CreateContactsRequestModel: Encodable {
 
   struct Contact: Encodable {
     let name: String
-    let phoneNumber: String
+    let phone: String
     let deviceContactId: String
   }
 }
