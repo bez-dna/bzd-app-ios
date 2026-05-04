@@ -7,7 +7,7 @@ struct UsersContactsView: View {
   private var service: UsersContactsService
 
   init(api: ApiClient, onComplete: @escaping () -> Void) {
-    self.service = .init(api: api)
+    service = .init(api: api)
     self.onComplete = onComplete
   }
 

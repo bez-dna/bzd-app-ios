@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct ErrorView : View {
+struct ErrorView: View {
   let error: AppError
 
   var body: some View {
@@ -13,4 +13,3 @@ struct ErrorView : View {
 #Preview {
   ErrorView(error: AppError(error: AppI18n.error))
 }
-
