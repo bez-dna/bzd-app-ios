@@ -62,38 +62,39 @@ struct MessagesList: View {
           .padding(.horizontal, AppSettings.Padding.x)
           .padding(.bottom, 16)
 
-          ForEach(model.messages.messageIds, id: \.self) { messageId in
-            if let message = model.messages.messages[messageId] {
-              MessageBubbleView(
-                api: state.api,
-                model: .init(message: message, topics: model.topics, messagesTopics: model.messagesTopics),
-              ) { messageId in
-                nav.path.append(AppRoute.message(messageId: messageId))
-              }
-              .padding(.horizontal, AppSettings.Padding.x)
-              .padding(.bottom, AppSettings.Padding.y * 2)
-            }
-          }
-
-          if model.isLoading {
+          switch service.phase {
+          case .idle, .loading:
             ProgressView().padding(.top, 16)
-          }
 
-          if model.isInit, !model.isLoading, model.messages.messageIds.isEmpty {
-            MessageListEmptyView {
-              nav.path.append(AppRoute.users)
+          case .loaded:
+            ForEach(model.messages.messageIds.reversed(), id: \.self) { messageId in
+              if let message = model.messages.messages[messageId] {
+                MessageBubbleView(
+                  api: state.api,
+                  model: .init(message: message, topics: model.topics, messagesTopics: model.messagesTopics),
+                ) { messageId in
+                  nav.path.append(AppRoute.message(messageId: messageId))
+                }
+                .padding(.horizontal, AppSettings.Padding.x)
+                .padding(.bottom, AppSettings.Padding.y * 2)
+              }
             }
+
+            if model.isEmpty {
+              MessageListEmptyView {
+                nav.path.append(AppRoute.users)
+              }
+            }
+
+          case let .failed(error):
+            ErrorView(error: error)
           }
 
           Color.clear
             .frame(height: 0)
             .onAppear {
               Task {
-                do {
-                  try await service.load()
-                } catch {
-                  print(error)
-                }
+                await service.load()
               }
             }
         }
@@ -110,30 +111,29 @@ struct MessageListEmptyView: View {
   }
 
   var body: some View {
-    HStack {
+    VStack(spacing: AppSettings.Padding.y * 2) {
       Text(AppI18n.Messages.List.empty)
         .multilineTextAlignment(.center)
         .font(.system(size: AppSettings.Font.middle))
-        .padding(.vertical, AppSettings.Padding.y * 4)
-        .padding(.horizontal, AppSettings.Padding.x * 2)
-    }
 
-    Button {
-      onPress()
-    } label: {
-      HStack {
-        Text(AppI18n.Messages.List.contacts).colorInvert().font(.system(size: AppSettings.Font.button, weight: .bold))
+      Button {
+        onPress()
+      } label: {
+        HStack {
+          Text(AppI18n.Messages.List.contacts).colorInvert().font(.system(size: AppSettings.Font.button, weight: .bold))
 
-        Image(systemName: "person.2.fill")
-          .font(.system(size: 16))
-          .colorInvert()
-          .frame(height: 30)
-      }
-    }.buttonStyle(.plain)
-      .padding(.leading, AppSettings.Padding.x)
-      .padding(.trailing, AppSettings.Padding.y)
-      .frame(height: AppSettings.Padding.y * 5)
-      .background(.submit, in: RoundedRectangle(cornerRadius: AppSettings.Padding.y * 2.5))
+          Image(systemName: "person.2.fill")
+            .font(.system(size: 16))
+            .colorInvert()
+            .frame(height: 30)
+        }
+      }.buttonStyle(.plain)
+        .padding(.leading, AppSettings.Padding.x)
+        .padding(.trailing, AppSettings.Padding.y)
+        .frame(height: AppSettings.Padding.y * 5)
+        .background(.submit, in: RoundedRectangle(cornerRadius: AppSettings.Padding.y * 2.5))
+    }.padding(.vertical, AppSettings.Padding.y * 4)
+      .padding(.horizontal, AppSettings.Padding.x * 2)
   }
 }
 
