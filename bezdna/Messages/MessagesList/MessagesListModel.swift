@@ -2,8 +2,6 @@ import SwiftUI
 
 @Observable
 final class MessagesListModel {
-  var isInit: Bool = false
-  var isLoading: Bool = false
   var cursorMessageId: UUID?
   var lastCursorMessageId: Bool = false
 
@@ -11,4 +9,8 @@ final class MessagesListModel {
 
   var topics: [MessageBubbleModel.Topic] = []
   var messagesTopics: [MessageBubbleModel.MessageTopic] = []
+
+  var isEmpty: Bool {
+    messages.messages.isEmpty && lastCursorMessageId
+  }
 }
