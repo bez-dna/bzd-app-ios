@@ -56,14 +56,14 @@ enum AppI18n {
     }
 
     enum Edit {
-      static let title = String(localized: "user.edit.title")
-      static let name = String(localized: "user.edit.name")
-      static let cancel = String(localized: "user.edit.cancel")
-      static let save = String(localized: "user.edit.save")
+      static let title: L10nKey = "user.edit.title"
+      static let name: L10nKey = "user.edit.name"
+      static let cancel: L10nKey = "user.edit.cancel"
+      static let save: L10nKey = "user.edit.save"
     }
 
-    static let logout = String(localized: "user.logout")
-    static let edit = String(localized: "user.edit")
+    static let logout: L10nKey = "user.logout"
+    static let edit: L10nKey = "user.edit"
   }
 
   enum Users {

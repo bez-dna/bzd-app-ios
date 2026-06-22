@@ -52,6 +52,10 @@ struct MessageView: View {
       } catch {
         print(error)
       }
+    }.toolbar {
+      ToolbarItem(placement: .topBarLeading) {
+        NavBackView(nav: nav)
+      }
     }
   }
 }

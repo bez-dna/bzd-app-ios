@@ -13,7 +13,7 @@ struct UsersListBubbleView: View {
     Button {
       onPress(user.userId)
     } label: {
-      HStack {
+      HStack(spacing: AppSettings.Padding.y) {
         ZStack {
           Rectangle().fill(Color(hex: user.color)).cornerRadius(20)
           Text(user.abbr).font(.system(size: 14, weight: .bold))
