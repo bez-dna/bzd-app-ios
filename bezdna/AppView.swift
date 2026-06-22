@@ -17,12 +17,16 @@ struct AppView: View {
         switch route {
         case let .message(messageId):
           MessageView(api: state.api, nav: nav, messageId: messageId)
+            .navigationBarBackButtonHidden()
+            .toolbarBackground(.hidden, for: .navigationBar)
         case .users:
           UsersListView(api: state.api, nav: nav, authService: state.authService)
             .navigationBarBackButtonHidden()
+            .toolbarBackground(.hidden, for: .navigationBar)
         case let .user(userId):
           UserView(api: state.api, nav: nav, userId: userId)
             .navigationBarBackButtonHidden()
+            .toolbarBackground(.hidden, for: .navigationBar)
         }
       }
     }

@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+      "shouldTranslate" : false
+    },
     "+%@" : {
       "shouldTranslate" : false
     },
@@ -71,9 +74,6 @@
           }
         }
       }
-    },
-    "BZD" : {
-      "shouldTranslate" : false
     },
     "error" : {
       "extractionState" : "manual",

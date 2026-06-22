@@ -10,6 +10,9 @@ struct UserView: View {
   @Bindable
   private var nav: AppNav
 
+  @State
+  private var showEdit: Bool = false
+
   init(api: ApiClient, nav: AppNav, userId: UUID) {
     let service: UserService = .init(api: api, userId: userId)
 
@@ -26,25 +29,10 @@ struct UserView: View {
     ScrollViewReader { _ in
       ScrollView {
         LazyVStack(spacing: 0) {
-          UserHeaderView(permissions: model.permissions) {
-            nav.path.removeLast()
-          } onLogoutPress: {
-            // В теории должен немного моргнуть UI, ну и ладно :)
-            authService.removeToken()
-            nav.path.removeLast(nav.path.count)
-          }
-          .padding(.horizontal, AppSettings.Padding.x)
-          .padding(.bottom, AppSettings.Padding.y)
-
-          if let user = model.user, let permissions = model.permissions {
-            UserUserView(user: user, permissions: permissions) {
-              Task {
-                try await authService.loadUser()
-                try await service.loadUser()
-              }
-            }
-            .padding(.horizontal, AppSettings.Padding.x)
-            .padding(.bottom, AppSettings.Padding.y * 2)
+          if let user = model.user {
+            UserUserView(user: user)
+              .padding(.horizontal, AppSettings.Padding.x)
+              .padding(.bottom, AppSettings.Padding.y * 2)
           }
 
           VStack(spacing: 0) {
@@ -90,6 +78,41 @@ struct UserView: View {
         try await service.loadUser()
       } catch {
         print(error)
+      }
+    }.toolbar {
+      ToolbarItem(placement: .topBarLeading) {
+        NavBackView(nav: nav)
+      }
+
+      if let user = model.user, let permissions = model.permissions {
+        ToolbarItemGroup(placement: .topBarTrailing) {
+          if permissions.edit {
+            Button {
+              showEdit.toggle()
+            } label: {
+              Text(AppI18n.User.edit)
+            }
+            .sheet(isPresented: $showEdit) {
+              NavigationStack {
+                UserEditView(api: state.api, user: user) {
+                  Task {
+                    try await authService.loadUser()
+                    try await service.loadUser()
+                  }
+                }.presentationDetents([.medium])
+              }
+            }
+          }
+
+          if permissions.logout {
+            Button {
+              authService.removeToken()
+              nav.path.removeLast(nav.path.count)
+            } label: {
+              Text(AppI18n.User.logout)
+            }
+          }
+        }
       }
     }
   }
